@@ -1,0 +1,118 @@
+## k-NN Project 3: Handwritten recognition
+
+We would like to let the machine recognize handwritten digits. The dataset comes from the [UCI dataset repository](https://archive.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits). Now we apply kNN algrotithm to it. 
+
+### Dataset description
+Every digit is stored as a $8\times8$ picture. This is a $8\times8$ matrix. Every entry represents a gray value of the corresponding pixel, whose value is from 0 to 16. The label of each matrix is the digit it represents. Note that the dataset provided is already splitted into a training set and a test set.
+
+
+
+```{python}
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+
+X = datasets.load_digits().images
+y = datasets.load_digits().target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.15)
+```
+
+
+Let us play with these data first. 
+
+
+```{python}
+X_train.shape
+```
+
+```{python}
+y_train.shape
+```
+
+```{python}
+X_test.shape
+```
+
+```{python}
+y_test.shape
+```
+
+```{python}
+type(X_train)
+```
+
+
+```{python}
+#| echo: false
+#| output: false
+tr0 = X_train.shape[0]
+te0 = X_test.shape[0]
+yt0 = y_train[0]
+```
+
+From these information we can see that the training set contains `{python} tr0` digits and the test set contains `{python} te0` digits. Each digit is represented by a $8\times8$ numpy array. Let us load one and display the digit by `matplotlib.pyplot.imshow`.
+
+
+```{python}
+digit = X_train[0]
+
+import matplotlib.pyplot as plt
+plt.imshow(digit, cmap='gray')
+
+```
+This image represents a handwritten digit. Could you recognize it? We could check our guess by looking at the label. The following shows that it is a `{python} yt0`.
+
+
+```{python}
+y_train[0]
+```
+Now we need to reshape these digits from $8\times8$ numpy arraies to $64$ numpy arraies. Similar to previous examples, we will also normalize the dataset.
+
+
+```{python}
+X_train = X_train.reshape((X_train.shape[0], X_train.shape[1]*X_train.shape[2]))
+X_test = X_test.reshape((X_test.shape[0], X_test.shape[1]*X_test.shape[2]))
+
+X_train_norm, parameters = encodeNorm(X_train)
+X_test_norm, _ = encodeNorm(X_test, parameters=parameters)
+```
+
+
+
+
+### Apply k-NN
+Like the previous two examples, we now try to apply the k-NN algorithm to classify these handwritten digits. 
+
+
+
+```{python}
+import numpy as np
+
+n_neighbors = 10
+X_test_sample = X_test_norm
+y_test_sample = y_test
+y_pred = np.array([classify_kNN(row, X_train_norm, y_train, k=n_neighbors)
+                   for row in X_test_sample])
+
+acc = np.mean(y_pred == y_test_sample)
+acc
+```
+
+
+Now let us try to apply `sklearn` package. Note that we could run the code over the whole test set (which contains 10000 digits) and the speed is much faster comparing to our codes. To save time we won't grid search `k` here. The code is the same anyway.
+
+
+```{python}
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+steps = [('scaler', MinMaxScaler()),
+         ('knn', KNeighborsClassifier(n_neighbors, weights="uniform",
+                                      metric="euclidean", algorithm='brute'))]
+pipe = Pipeline(steps=steps)
+pipe.fit(X_train, y_train)
+y_pipe = pipe.predict(X_test)
+accuracy_score(y_pipe, y_test)
+```
