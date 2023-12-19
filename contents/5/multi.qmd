@@ -93,7 +93,7 @@ To apply `keras` package, we should first change `y` into one-hot vectors. Here 
 
 ```{python}
 #| output: false
-import keras_core as keras
+# import keras_core as keras
 from keras.utils import to_categorical
 from keras import models, layers
 

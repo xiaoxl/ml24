@@ -69,7 +69,7 @@ Finally we could train the model. The argument is straightforward.
 
 ```{python}
 #| output: false
-import keras_core as keras
+# import keras_core as keras
 from keras import models, layers
 model = models.Sequential()
 

@@ -36,7 +36,7 @@ Now we build a neural network. This is a 2-layer model, with 1 hidden layer with
 ```{python}
 #| output: false
 #| warning: false
-import keras_core as keras
+# import keras_core as keras
 from keras import models, layers, Input
 model = models.Sequential()
 
@@ -78,7 +78,7 @@ Let us add the layer to the model and retrain it.
 ```{python}
 #| output: false
 #| warning: false
-import keras_core as keras
+# import keras_core as keras
 from keras import regularizers
 model = models.Sequential()
 
@@ -116,7 +116,7 @@ The code of a `Dropout` layer is listed below. Note that the number represents t
 
 ```{python}
 #| output: false
-import keras_core as keras
+# import keras_core as keras
 from keras import regularizers
 model = models.Sequential()
 
@@ -152,7 +152,7 @@ After playing with different hyperparameters, the overfitting issues seem to be 
 
 ```{python}
 #| output: false
-import keras_core as keras
+# import keras_core as keras
 from keras import regularizers
 model = models.Sequential()
 

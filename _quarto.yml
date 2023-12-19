@@ -15,7 +15,6 @@ crossref:
 
 execute:
   freeze: auto
-  cache: true
 
 knitr:
   opts_chunk:
