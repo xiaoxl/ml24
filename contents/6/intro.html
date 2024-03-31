@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.530">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -329,7 +329,7 @@ a^{(k)}_q&amp;\text{ for }r=q,
 <li>Backwards: <span class="math inline">\(\delta^k=\left[(\Theta^k)^T\delta^{k+1}\right]\circ \sigma'(\mathbf{z}^k)\)</span>, and <span class="math inline">\(\partial^k J=\left[\delta^{k+1}, \delta^{k+1}(\mathbf{a}^k)^T\right]\)</span> .</li>
 </ol>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.1 </strong></span>Consider there are 3 layers: input, hidden and output. There are <span class="math inline">\(m+1\)</span> nodes in the input layer, <span class="math inline">\(n+1\)</span> nodes in the hidden layer and <span class="math inline">\(k\)</span> in the output layer. Therefore</p>
+<p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider there are 3 layers: input, hidden and output. There are <span class="math inline">\(m+1\)</span> nodes in the input layer, <span class="math inline">\(n+1\)</span> nodes in the hidden layer and <span class="math inline">\(k\)</span> in the output layer. Therefore</p>
 <ul>
 <li><span class="math inline">\(a^{(1)}\)</span> and <span class="math inline">\(\delta^1\)</span> are <span class="math inline">\(m\)</span>-dim column vectors.</li>
 <li><span class="math inline">\(z^{(2)}\)</span>, <span class="math inline">\(a^{(2)}\)</span> and <span class="math inline">\(\delta^2\)</span> are <span class="math inline">\(n\)</span>-dim column vectors.</li>
@@ -529,10 +529,10 @@ a^{(k)}_q&amp;\text{ for }r=q,
 <section id="exercises-and-projects" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="exercises-and-projects"><span class="header-section-number">6.3</span> Exercises and Projects</h2>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 6.1 </strong></span>Please hand write a report about the details of back propagation.</p>
+<p><span class="theorem-title"><strong>Exercise 6.1</strong></span> Please hand write a report about the details of back propagation.</p>
 </div>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 6.2 </strong></span>CHOOSE ONE: Please use netural network to one of the following datasets. - the <code>iris</code> dataset. - the dating dataset. - the <code>titanic</code> dataset.</p>
+<p><span class="theorem-title"><strong>Exercise 6.2</strong></span> CHOOSE ONE: Please use netural network to one of the following datasets. - the <code>iris</code> dataset. - the dating dataset. - the <code>titanic</code> dataset.</p>
 <p>Please in addition answer the following questions.</p>
 <ol type="1">
 <li>What is your accuracy score?</li>
@@ -708,7 +708,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {

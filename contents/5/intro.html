@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.530">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -246,13 +246,19 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#regularization-2" id="toc-regularization-2" class="nav-link" data-scroll-target="#regularization-2"><span class="header-section-number">5.3.1</span> Regularization</a></li>
   </ul></li>
-  <li><a href="#multi-class-case" id="toc-multi-class-case" class="nav-link" data-scroll-target="#multi-class-case"><span class="header-section-number">5.4</span> Multi class case</a>
+  <li><a href="#pytorch-crash-course" id="toc-pytorch-crash-course" class="nav-link" data-scroll-target="#pytorch-crash-course"><span class="header-section-number">5.4</span> Pytorch crash course</a>
   <ul class="collapse">
-  <li><a href="#naive-idea-one-vs-all" id="toc-naive-idea-one-vs-all" class="nav-link" data-scroll-target="#naive-idea-one-vs-all"><span class="header-section-number">5.4.1</span> Naive idea (one-vs-all)</a></li>
-  <li><a href="#softmax-function" id="toc-softmax-function" class="nav-link" data-scroll-target="#softmax-function"><span class="header-section-number">5.4.2</span> <code>Softmax</code> function</a></li>
-  <li><a href="#codes-1" id="toc-codes-1" class="nav-link" data-scroll-target="#codes-1"><span class="header-section-number">5.4.3</span> Codes</a></li>
+  <li><a href="#tensor" id="toc-tensor" class="nav-link" data-scroll-target="#tensor"><span class="header-section-number">5.4.1</span> Tensor</a></li>
+  <li><a href="#gradient-descent-1" id="toc-gradient-descent-1" class="nav-link" data-scroll-target="#gradient-descent-1"><span class="header-section-number">5.4.2</span> Gradient descent</a></li>
+  <li><a href="#mini-batch" id="toc-mini-batch" class="nav-link" data-scroll-target="#mini-batch"><span class="header-section-number">5.4.3</span> Mini-batch</a></li>
   </ul></li>
-  <li><a href="#exercises-and-projects" id="toc-exercises-and-projects" class="nav-link" data-scroll-target="#exercises-and-projects"><span class="header-section-number">5.5</span> Exercises and Projects</a></li>
+  <li><a href="#multi-class-case" id="toc-multi-class-case" class="nav-link" data-scroll-target="#multi-class-case"><span class="header-section-number">5.5</span> Multi class case</a>
+  <ul class="collapse">
+  <li><a href="#naive-idea-one-vs-all" id="toc-naive-idea-one-vs-all" class="nav-link" data-scroll-target="#naive-idea-one-vs-all"><span class="header-section-number">5.5.1</span> Naive idea (one-vs-all)</a></li>
+  <li><a href="#softmax-function" id="toc-softmax-function" class="nav-link" data-scroll-target="#softmax-function"><span class="header-section-number">5.5.2</span> <code>Softmax</code> function</a></li>
+  <li><a href="#codes-1" id="toc-codes-1" class="nav-link" data-scroll-target="#codes-1"><span class="header-section-number">5.5.3</span> Codes</a></li>
+  </ul></li>
+  <li><a href="#exercises-and-projects" id="toc-exercises-and-projects" class="nav-link" data-scroll-target="#exercises-and-projects"><span class="header-section-number">5.6</span> Exercises and Projects</a></li>
   </ul>
 </nav>
     </div>
@@ -302,7 +308,7 @@ p=\sigma(L(x))=\sigma\left(\theta_0+\sum_{j=1}^n\theta_jx_j\right)=\sigma\left(\
 <p><span class="math display">\[
 \sigma(z)=\frac{1}{1+\mathrm{e}^{-z}}.
 \]</span> The graph of the function is shown below.</p>
-<div id="413e0d95" class="cell" data-execution_count="1">
+<div id="1e1ef280" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -313,7 +319,7 @@ p=\sigma(L(x))=\sigma\left(\theta_0+\sum_{j=1}^n\theta_jx_j\right)=\sigma\left(\
 </div>
 <p>The main properties of <span class="math inline">\(\sigma\)</span> are listed below as a Lemma.</p>
 <div id="lem-sig" class="theorem lemma">
-<p><span class="theorem-title"><strong>Lemma 5.1 </strong></span>The Sigmoid function <span class="math inline">\(\sigma(z)\)</span> satisfies the following properties.</p>
+<p><span class="theorem-title"><strong>Lemma 5.1</strong></span> The Sigmoid function <span class="math inline">\(\sigma(z)\)</span> satisfies the following properties.</p>
 <ol type="1">
 <li><span class="math inline">\(\sigma(z)\rightarrow \infty\)</span> when <span class="math inline">\(z\mapsto \infty\)</span>.</li>
 <li><span class="math inline">\(\sigma(z)\rightarrow -\infty\)</span> when <span class="math inline">\(z\mapsto -\infty\)</span>.</li>
@@ -360,7 +366,7 @@ Note
 <section id="the-formulas" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="the-formulas"><span class="header-section-number">5.1.3</span> The Formulas</h3>
 <div id="thm-reggrad" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 5.1 </strong></span>The gradient of <span class="math inline">\(J\)</span> is computed by</p>
+<p><span class="theorem-title"><strong>Theorem 5.1</strong></span> The gradient of <span class="math inline">\(J\)</span> is computed by</p>
 <p><span id="eq-nablaJ"><span class="math display">\[
 \nabla J =\frac1m(\textbf{p}-\textbf{y})^T\hat{\textbf{X}}.
 \tag{5.1}\]</span></span></p>
@@ -416,7 +422,7 @@ p(1-p)x_k&amp;\text{ otherwise}.
 <p>We will only talk about using packages. <code>sklearn</code> provides two methods to implement the Logistic regression. The API interface is very similar to other models.</p>
 <p>Note that Logistic regression is very sensitive to the scale of features. Therefore we need to normalize the features before throwing them into the model.</p>
 <p>Let’s still take <code>iris</code> as an example.</p>
-<div id="3ee14f9f" class="cell" data-execution_count="2">
+<div id="27fd8460" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
@@ -426,7 +432,7 @@ p(1-p)x_k&amp;\text{ otherwise}.
 <span id="cb1-7"><a href="#cb1-7"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The first method is <code>sklearn.linear_model.LogisticRegression</code>.</p>
-<div id="29a1dde1" class="cell" data-execution_count="3">
+<div id="9e4ebed2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
@@ -438,12 +444,12 @@ p(1-p)x_k&amp;\text{ otherwise}.
 <span id="cb2-9"><a href="#cb2-9"></a>log_reg.fit(X_train, y_train)</span>
 <span id="cb2-10"><a href="#cb2-10"></a>log_reg.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>0.9565217391304348</code></pre>
+<pre><code>0.9130434782608695</code></pre>
 </div>
 </div>
 <p>Note that this method has an option <code>solver</code> that will set the way to solve the Logistic regression problem, and there is no “stochastic gradient descent” provided. The default solver for this <code>LogsiticRegression</code> is <code>lbfgs</code> which will NOT be discussed in lectures.</p>
 <p>The second method is <code>sklearn.linear_model.SGDClassifier</code>.</p>
-<div id="88e04917" class="cell" data-execution_count="4">
+<div id="aa1e797c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> SGDClassifier</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
@@ -455,7 +461,7 @@ p(1-p)x_k&amp;\text{ otherwise}.
 <span id="cb4-9"><a href="#cb4-9"></a>sgd_clf.fit(X_train, y_train)</span>
 <span id="cb4-10"><a href="#cb4-10"></a>sgd_clf.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>0.782608695652174</code></pre>
+<pre><code>0.8695652173913043</code></pre>
 </div>
 </div>
 <p>This method is the one we discussed in lectures. The <code>log_loss</code> loss function is the binary entropy function we mentioned in lectures. If you change to other loss functions it will become other models.</p>
@@ -521,7 +527,7 @@ Note
 <p>When fit a model to data, it is highly possible that the model is underfit or overfit.</p>
 <p>Roughly speaking, <strong>underfit</strong> means the model is not sufficient to fit the training samples, and <strong>overfit</strong> means that the models learns too many noise from the data. In many cases, high bias is related to underfit, and high variance is related to overfit.</p>
 <p>The following example is from <a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py">the <code>sklearn</code> guide</a>. Although it is a polynomial regression example, it grasps the key idea of underfit and overfit.</p>
-<div id="c8a4ddcf" class="cell page-columns page-full" data-execution_count="5">
+<div id="bf20852d" class="cell page-columns page-full" data-execution_count="5">
 <div class="cell-output cell-output-display page-columns page-full">
 <div class="page-columns page-full">
 <figure class="figure page-columns page-full">
@@ -540,7 +546,7 @@ Note
 <p>The output contains three pieces. The first is <code>train_sizes_abs</code> which is the number of elements in each training set. This output is mainly for reference. The difference between the output and the input <code>train_sizes</code> is that the input can be float which represents the percentagy. The output is always the exact number of elements.</p>
 <p>The second output is <code>train_scores</code> and the third is <code>test_scores</code>, both of which are the scores we get from the training and testing process. Note that both are 2D <code>numpy</code> arrays, of the size <code>(number of different sizes, cv)</code>. Each row is a 1D <code>numpy</code> array representing the cross-validation scores, which is corresponding to a train size. If we want the mean as the cross-validation score, we could use <code>train_scores.mean(axis=1)</code>.</p>
 <p>After understanding the input and output, we could plot the learning curve. We still use the <code>horse colic</code> as the example. The details about the dataset can be found <a href="https://xiaoxl.github.io/Datasets/contents/horse_colic.html">here</a>.</p>
-<div id="ba1dcd81" class="cell" data-execution_count="6">
+<div id="b645092c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-3"><a href="#cb6-3"></a></span>
@@ -558,7 +564,7 @@ Note
 <span id="cb6-15"><a href="#cb6-15"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We use the model <code>LogisticRegression</code>. The following code plot the learning curve for this model.</p>
-<div id="b04a362e" class="cell" data-execution_count="7">
+<div id="daa8c2ff" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
@@ -598,7 +604,7 @@ Note
 <section id="the-math-of-regularization" class="level4" data-number="5.2.4.1">
 <h4 data-number="5.2.4.1" class="anchored" data-anchor-id="the-math-of-regularization"><span class="header-section-number">5.2.4.1</span> The math of regularization</h4>
 <div id="thm-ridgegrad" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 5.2 </strong></span>The gradient of the ridge regression cost function is</p>
+<p><span class="theorem-title"><strong>Theorem 5.2</strong></span> The gradient of the ridge regression cost function is</p>
 <p><span class="math display">\[
 \nabla J=\frac1m(\textbf{p}-\textbf{y})^T\hat{\textbf{X}}+\frac{\alpha}{m}\Theta.
 \]</span></p>
@@ -614,7 +620,7 @@ Note
 <li>In <code>SGDClassifier</code>, the regularization is given by the argument <code>penalty</code> and <code>alpha</code>. <code>penalty</code> is the same as that in <code>LogisticRegression</code>, and <code>alpha</code> is the regularization strength, whose default value is <code>0.0001</code>.</li>
 </ul>
 <p>Let us see the above example.</p>
-<div id="7e2ad2ac" class="cell" data-execution_count="8">
+<div id="2e913bdc" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>clf <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, C<span class="op">=</span><span class="fl">0.1</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a>steps <span class="op">=</span> [(<span class="st">'scalar'</span>, MinMaxScaler()),</span>
 <span id="cb8-3"><a href="#cb8-3"></a>         (<span class="st">'log'</span>, clf)]</span>
@@ -650,7 +656,7 @@ Note
 <p>You may follow the instructions for <a href="https://www.tensorflow.org/install"><code>tensforflow</code></a> and <a href="https://github.com/keras-team/keras"><code>keras</code></a> for more details.</p>
 <p>To use <code>keras</code> to implement logistic regression, we need the following modules: a <code>Sequential</code> model, a <code>Dense</code> layer. The model is organized as follows.</p>
 <p>We still use the horse colic dataset as an example.</p>
-<div id="369f226b" class="cell" data-execution_count="9">
+<div id="84447006" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-3"><a href="#cb11-3"></a></span>
@@ -668,7 +674,7 @@ Note
 <span id="cb11-15"><a href="#cb11-15"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that we need to perform normalization before throwing the data into the model. Here we use the <code>MinMaxScaler()</code> from <code>sklearn</code> package. The normalization layer in keras is a little bit more complicated and doesn’t fit into situation.</p>
-<div id="b16dbe35" class="cell" data-execution_count="10">
+<div id="b31ce161" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
 <span id="cb12-3"><a href="#cb12-3"></a>mms <span class="op">=</span> MinMaxScaler()</span>
@@ -685,7 +691,7 @@ Note
 <p>After building the basic architectal of the model, we need to speicify a few more arguments. In the <code>model.compile()</code> step, we have to input the <code>optimizer</code>, the loss function (which is the <code>binary_crossentropy</code> in our case) and the metrics to test the performance of the model (which is accuracy in our case).</p>
 <p>The <code>optimizer</code> is how the parameters are updated. The best choice in general is <code>adam</code>. The default setting is <code>RMSprop</code> and the optimizer discussed in our lecture is <code>sgd</code>. We will use <code>adam</code> here, since the learning curve it produces looks better (for illustration).</p>
 <p>Finally we could train the model. The argument is straightforward.</p>
-<div id="a56aa6ef" class="cell" data-execution_count="11">
+<div id="d17ee599" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># import keras_core as keras</span></span>
 <span id="cb13-2"><a href="#cb13-2"></a><span class="im">from</span> keras <span class="im">import</span> models, layers</span>
 <span id="cb13-3"><a href="#cb13-3"></a>model <span class="op">=</span> models.Sequential()</span>
@@ -696,7 +702,7 @@ Note
 <span id="cb13-8"><a href="#cb13-8"></a>hist <span class="op">=</span> model.fit(X_train, y_train, epochs<span class="op">=</span><span class="dv">400</span>, batch_size<span class="op">=</span><span class="dv">30</span>, validation_data<span class="op">=</span>(X_test, y_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that we assign the output of <code>model.fit()</code> to a variable <code>hist</code>. The infomation about this training process is recorded inside. We will extract those information.</p>
-<div id="da9af96b" class="cell" data-execution_count="12">
+<div id="7c7a802d" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>loss_train <span class="op">=</span> hist.history[<span class="st">'loss'</span>]</span>
 <span id="cb14-2"><a href="#cb14-2"></a>loss_val <span class="op">=</span> hist.history[<span class="st">'val_loss'</span>]</span>
 <span id="cb14-3"><a href="#cb14-3"></a></span>
@@ -704,7 +710,7 @@ Note
 <span id="cb14-5"><a href="#cb14-5"></a>acc_val <span class="op">=</span> hist.history[<span class="st">'val_accuracy'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We now could plot the learning curve (loss vs epochs) and the learning curve (accuracy vs epochs).</p>
-<div id="a3e760c1" class="cell" data-execution_count="13">
+<div id="2a85dc1a" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb15-2"><a href="#cb15-2"></a>plt.plot(loss_train, label<span class="op">=</span><span class="st">'train_loss'</span>)</span>
 <span id="cb15-3"><a href="#cb15-3"></a>plt.plot(loss_val, label<span class="op">=</span><span class="st">'val_loss'</span>)</span>
@@ -712,19 +718,19 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="intro_files/figure-html/cell-14-output-1.png" width="579" height="411" class="figure-img"></p>
+<p><img src="intro_files/figure-html/cell-14-output-1.png" width="571" height="412" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="e55d0a69" class="cell" data-execution_count="14">
+<div id="d5c1895b" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>plt.plot(acc_train, label<span class="op">=</span><span class="st">'train_acc'</span>)</span>
 <span id="cb16-2"><a href="#cb16-2"></a>plt.plot(acc_val, label<span class="op">=</span><span class="st">'val_acc'</span>)</span>
 <span id="cb16-3"><a href="#cb16-3"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="intro_files/figure-html/cell-15-output-1.png" width="579" height="411" class="figure-img"></p>
+<p><img src="intro_files/figure-html/cell-15-output-1.png" width="571" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -732,7 +738,7 @@ Note
 <section id="regularization-2" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="regularization-2"><span class="header-section-number">5.3.1</span> Regularization</h3>
 <p>To apply regularization, we just need to modify the layer we added to the model. The argument is <code>kernel_regularizer</code>. We would like to set it to be <code>keras.regularizers.L2(alpha)</code>, where <code>alpha</code> is the regularization strength.</p>
-<div id="4e299b86" class="cell" data-execution_count="15">
+<div id="5c6dadb7" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="im">from</span> keras <span class="im">import</span> models, layers, regularizers</span>
 <span id="cb17-2"><a href="#cb17-2"></a></span>
 <span id="cb17-3"><a href="#cb17-3"></a>model <span class="op">=</span> models.Sequential()</span>
@@ -744,7 +750,7 @@ Note
 <span id="cb17-9"><a href="#cb17-9"></a>hist <span class="op">=</span> model.fit(X_train, y_train, epochs<span class="op">=</span><span class="dv">400</span>, batch_size<span class="op">=</span><span class="dv">30</span>,</span>
 <span id="cb17-10"><a href="#cb17-10"></a>                 validation_data<span class="op">=</span>(X_test, y_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="bd97892b" class="cell" data-execution_count="16">
+<div id="96edad67" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>loss_train <span class="op">=</span> hist.history[<span class="st">'loss'</span>]</span>
 <span id="cb18-2"><a href="#cb18-2"></a>loss_val <span class="op">=</span> hist.history[<span class="st">'val_loss'</span>]</span>
 <span id="cb18-3"><a href="#cb18-3"></a></span>
@@ -757,19 +763,19 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="intro_files/figure-html/cell-17-output-1.png" width="571" height="415" class="figure-img"></p>
+<p><img src="intro_files/figure-html/cell-17-output-1.png" width="571" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="c770117b" class="cell" data-execution_count="17">
+<div id="77b67d88" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>plt.plot(acc_train, label<span class="op">=</span><span class="st">'train_acc'</span>)</span>
 <span id="cb19-2"><a href="#cb19-2"></a>plt.plot(acc_val, label<span class="op">=</span><span class="st">'val_acc'</span>)</span>
 <span id="cb19-3"><a href="#cb19-3"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="intro_files/figure-html/cell-18-output-1.png" width="579" height="411" class="figure-img"></p>
+<p><img src="intro_files/figure-html/cell-18-output-1.png" width="571" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -777,15 +783,182 @@ Note
 <p>You may compare what we get here with the codes we get before.</p>
 </section>
 </section>
-<section id="multi-class-case" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="multi-class-case"><span class="header-section-number">5.4</span> Multi class case</h2>
-<section id="naive-idea-one-vs-all" class="level3" data-number="5.4.1">
-<h3 data-number="5.4.1" class="anchored" data-anchor-id="naive-idea-one-vs-all"><span class="header-section-number">5.4.1</span> Naive idea (one-vs-all)</h3>
+<section id="pytorch-crash-course" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="pytorch-crash-course"><span class="header-section-number">5.4</span> Pytorch crash course</h2>
+<section id="tensor" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="tensor"><span class="header-section-number">5.4.1</span> Tensor</h3>
+<p>This is the basic data structure. It is very similar to <code>numpy.ndarray</code>, but with many more features. There are a few things that we need to mention at the beginning.</p>
+<ol type="1">
+<li>A tensor with only one item is mathematically equal to a number. In Pytorch, you may use <code>.item()</code> to extract the number from a tensor with only one item.</li>
+</ol>
+<div id="711cfb6c" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="im">import</span> torch</span>
+<span id="cb20-2"><a href="#cb20-2"></a></span>
+<span id="cb20-3"><a href="#cb20-3"></a>a <span class="op">=</span> torch.tensor([<span class="dv">1</span>])</span>
+<span id="cb20-4"><a href="#cb20-4"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>tensor([1])</code></pre>
+</div>
+</div>
+<div id="2d8bb387" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>a.item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>1</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>It is type sensitive. Pytorch expect you to assign the exact data type to each tensor, and it won’t automatically guess it in most cases. You may specify data type when you create a tensor.</li>
+</ol>
+<div id="06ae917f" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>b <span class="op">=</span> torch.tensor([<span class="dv">1</span>], dtype<span class="op">=</span>torch.float64)</span>
+<span id="cb24-2"><a href="#cb24-2"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>tensor([1.], dtype=torch.float64)</code></pre>
+</div>
+</div>
+<p>If you want to convert data type, you could use <code>.to()</code>.</p>
+<div id="d023b43f" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>b <span class="op">=</span> torch.tensor([<span class="dv">1</span>], dtype<span class="op">=</span>torch.float64)</span>
+<span id="cb26-2"><a href="#cb26-2"></a>b <span class="op">=</span> b.to(torch.<span class="bu">int</span>)</span>
+<span id="cb26-3"><a href="#cb26-3"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>tensor([1], dtype=torch.int32)</code></pre>
+</div>
+</div>
+<p>Tensor data structure has many other features that will be introduced later.</p>
+</section>
+<section id="gradient-descent-1" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="gradient-descent-1"><span class="header-section-number">5.4.2</span> Gradient descent</h3>
+<p>To implement the gradient descent algorithm for the neural network, there would be a series of computations:</p>
+<ol type="1">
+<li>From the input, feedforward the network to get the output <code>y_pred</code>.</li>
+<li>Based on the real output <code>y_true</code>, compute the loss function <code>loss = loss_fn(y_true, y_pred)</code>.</li>
+<li>Compute the gradient based on the information provided. For this step many data are needed. You may look up the gradient descent formula (backprop).</li>
+<li>Based on the gradient computed in Step 3, weights are updated, according to the optimizer we choose.</li>
+</ol>
+<p>In Pytorch, the above steps are implemented as follows.</p>
+<ol type="1">
+<li>You have to define a <code>model</code> function to indicate how to feedforward the network to get an output. Here for a lot of reasons, the typical way is to define a <code>model</code> class, which contains a <code>forward</code> method that can compute the output of the model. Let us consider the following example: the dataset is as follows:</li>
+</ol>
+<div id="388b2ff3" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>x <span class="op">=</span> torch.tensor([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">0</span>, <span class="dv">1</span>]], dtype<span class="op">=</span>torch.<span class="bu">float</span>)</span>
+<span id="cb28-2"><a href="#cb28-2"></a>y <span class="op">=</span> torch.tensor([[<span class="dv">3</span>], [<span class="dv">7</span>], [<span class="dv">1</span>]], dtype<span class="op">=</span>torch.<span class="bu">float</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The model is defined as follows.</p>
+<div id="30bce35c" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb29-2"><a href="#cb29-2"></a></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="kw">class</span> MyModel(nn.Module):</span>
+<span id="cb29-4"><a href="#cb29-4"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb29-5"><a href="#cb29-5"></a>        <span class="bu">super</span>(MyModel, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb29-6"><a href="#cb29-6"></a></span>
+<span id="cb29-7"><a href="#cb29-7"></a>        <span class="va">self</span>.fc <span class="op">=</span> nn.Linear(in_features<span class="op">=</span><span class="dv">2</span>, out_features<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb29-8"><a href="#cb29-8"></a>    </span>
+<span id="cb29-9"><a href="#cb29-9"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb29-10"><a href="#cb29-10"></a>        x <span class="op">=</span> <span class="va">self</span>.fc(x)</span>
+<span id="cb29-11"><a href="#cb29-11"></a>        <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this example, we define a 2-input linear regression model. Pytorch doesn’t need the class to work. Actually the minimal working example of the above code is as follows. To put things into a class can make it easier in larger models.</p>
+<div id="0e33e432" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="kw">def</span> model(x):</span>
+<span id="cb30-2"><a href="#cb30-2"></a>    <span class="cf">return</span> nn.Linear(in_features<span class="op">=</span><span class="dv">2</span>, out_features<span class="op">=</span><span class="dv">1</span>)(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The reason the model can be written in a very simple way is because the information about computing gradients is recorded in the parameter tensors, on the level of tensors, instead of on the level of the model class. Therefore it is important to get access to the parameters of the model.</p>
+<div id="7f7fed56" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>model <span class="op">=</span> MyModel()</span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="bu">list</span>(model.parameters())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>[Parameter containing:
+ tensor([[-0.7063,  0.5948]], requires_grad=True),
+ Parameter containing:
+ tensor([-0.6278], requires_grad=True)]</code></pre>
+</div>
+</div>
+<p>Note that the parameters we get here is a iterator. So to look at it we need to convert it inot a list. In this example, there are two sets of tensors: the first is the coefficients, and the second is the bias term. This bias term can be turned on/off by setting the argument <code>bias=True</code> or <code>False</code> when using <code>nn.Linear()</code> to create fully connected layers. The default is <code>True</code>.</p>
+<p>To evaluate the model, we just directly apply the model to the input tensor.</p>
+<div id="d8805bad" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>y_pred <span class="op">=</span> model(x)</span>
+<span id="cb33-2"><a href="#cb33-2"></a>y_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>tensor([[-0.1445],
+        [-0.3675],
+        [-0.0330]], grad_fn=&lt;AddmmBackward0&gt;)</code></pre>
+</div>
+</div>
+<p>You may use the coefficients provided above to validate the resutl.</p>
+<p>Note that, although we define the <code>.forward()</code> method, we don’t use it explicitly. The reason is that <code>model(x)</code> will not only excute <code>.forward(x)</code> method, but many other operations, like recording many intermediate results that can be used for debugging, visualization and modifying gradients.</p>
+<ol start="2" type="1">
+<li>We may define the loss function. We mannually define the MSE loss function.</li>
+</ol>
+<div id="3970433d" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">def</span> loss_fn(y_true, y_pred):</span>
+<span id="cb35-2"><a href="#cb35-2"></a>    <span class="cf">return</span> ((y_true<span class="op">-</span>y_pred)<span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb35-3"><a href="#cb35-3"></a></span>
+<span id="cb35-4"><a href="#cb35-4"></a>loss <span class="op">=</span> loss_fn(y, y_pred)</span>
+<span id="cb35-5"><a href="#cb35-5"></a>loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>tensor(21.7448, grad_fn=&lt;MeanBackward0&gt;)</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Now we need to do gradient descent. The manual way to <code>loss.backward()</code>. What it does is to</li>
+</ol>
+<div id="b5a6f1dd" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a><span class="bu">print</span>(<span class="bu">list</span>(model.parameters()))</span>
+<span id="cb37-2"><a href="#cb37-2"></a><span class="bu">print</span>(<span class="bu">list</span>(model.parameters())[<span class="dv">0</span>].grad)</span>
+<span id="cb37-3"><a href="#cb37-3"></a><span class="bu">print</span>(<span class="bu">list</span>(model.parameters())[<span class="dv">1</span>].grad)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[Parameter containing:
+tensor([[-0.7063,  0.5948]], requires_grad=True), Parameter containing:
+tensor([-0.6278], requires_grad=True)]
+None
+None</code></pre>
+</div>
+</div>
+<div id="a8a00863" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb39-2"><a href="#cb39-2"></a>optimizer <span class="op">=</span> optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">1e-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="0805b968" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>loss.backward()</span>
+<span id="cb40-2"><a href="#cb40-2"></a>optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="39d69dab" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb41-2"><a href="#cb41-2"></a>    optimizer.zero_grad()</span>
+<span id="cb41-3"><a href="#cb41-3"></a>    <span class="co"># print(optimizer.param_groups)</span></span>
+<span id="cb41-4"><a href="#cb41-4"></a></span>
+<span id="cb41-5"><a href="#cb41-5"></a>    y_pred <span class="op">=</span> model(x)</span>
+<span id="cb41-6"><a href="#cb41-6"></a>    loss <span class="op">=</span> loss_fn(y_pred, y)</span>
+<span id="cb41-7"><a href="#cb41-7"></a></span>
+<span id="cb41-8"><a href="#cb41-8"></a>    <span class="co"># print(optimizer.param_groups)</span></span>
+<span id="cb41-9"><a href="#cb41-9"></a></span>
+<span id="cb41-10"><a href="#cb41-10"></a>    loss.backward()</span>
+<span id="cb41-11"><a href="#cb41-11"></a>    optimizer.step()</span>
+<span id="cb41-12"><a href="#cb41-12"></a></span>
+<span id="cb41-13"><a href="#cb41-13"></a>    <span class="co"># print(optimizer.param_groups)</span></span>
+<span id="cb41-14"><a href="#cb41-14"></a></span>
+<span id="cb41-15"><a href="#cb41-15"></a>    <span class="co"># print(list(model.parameters()))</span></span>
+<span id="cb41-16"><a href="#cb41-16"></a>    <span class="co"># print(list(model.parameters())[0].grad)</span></span>
+<span id="cb41-17"><a href="#cb41-17"></a>    <span class="co"># print(list(model.parameters())[1].grad)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="1">
+<li>Update the parameters by <code>optim</code> or manually done.</li>
+</ol>
+</section>
+<section id="mini-batch" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="mini-batch"><span class="header-section-number">5.4.3</span> Mini-batch</h3>
+</section>
+</section>
+<section id="multi-class-case" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="multi-class-case"><span class="header-section-number">5.5</span> Multi class case</h2>
+<section id="naive-idea-one-vs-all" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="naive-idea-one-vs-all"><span class="header-section-number">5.5.1</span> Naive idea (one-vs-all)</h3>
 <p>Assume that there are <span class="math inline">\(N\)</span> classes. The naive idea is to decompose this <span class="math inline">\(N\)</span>-class classification problem into <span class="math inline">\(N\)</span> binary classification problems. The model will contains <span class="math inline">\(N\)</span> classifiers. The <span class="math inline">\(i\)</span>th classifer is used to classify whehter the given features has the label <code>i</code> or not.</p>
 <p>For example, asusme we are dealing with the <code>iris</code> dataset. There are 3 classes. By the naive idea, we will modify the labels into <code>Setosa</code> and <code>not Setosa</code>, and use it to train the first classifier. Similarly we can have two more classifiers to tell <code>Versicolour</code>/<code>not Versicolour</code> and <code>Virginica</code>/<code>not Virginica</code>. Then we combine all three classifiers to get a final classifier to put the data into one of the three classes.</p>
 </section>
-<section id="softmax-function" class="level3" data-number="5.4.2">
-<h3 data-number="5.4.2" class="anchored" data-anchor-id="softmax-function"><span class="header-section-number">5.4.2</span> <code>Softmax</code> function</h3>
+<section id="softmax-function" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="softmax-function"><span class="header-section-number">5.5.2</span> <code>Softmax</code> function</h3>
 <p>A better method is mimic the sigmoid function. Recall that in binary classification problem, after</p>
 <p><span class="math display">\[
 z=L(x)=\theta_0+\sum_{i=1}^n\theta_ix_i,
@@ -825,77 +998,77 @@ Note
 </div>
 </div>
 </section>
-<section id="codes-1" class="level3" data-number="5.4.3">
-<h3 data-number="5.4.3" class="anchored" data-anchor-id="codes-1"><span class="header-section-number">5.4.3</span> Codes</h3>
+<section id="codes-1" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="codes-1"><span class="header-section-number">5.5.3</span> Codes</h3>
 <ul>
 <li>Both <code>LogisticRegression()</code> and <code>SGDClassifier()</code> by default uses the one-vs-all naive idea.</li>
 <li>Using <code>kears</code>, <code>softmax</code> can be implemented. The key configuration is the loss function <code>loss='categorical_crossentropy'</code> and the activation function <code>softmax</code>. Note that in this case the labels should be translated into one-hot vectors.</li>
 </ul>
 <p>We use <code>make_classification</code> as an example. To save time we won’t carefully tune the hyperparameters here.</p>
-<div id="cbbd67cf" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb20-3"><a href="#cb20-3"></a></span>
-<span id="cb20-4"><a href="#cb20-4"></a>X, y <span class="op">=</span> make_classification(n_samples<span class="op">=</span><span class="dv">1000</span>, n_features<span class="op">=</span><span class="dv">10</span>, n_informative<span class="op">=</span><span class="dv">2</span>, n_redundant<span class="op">=</span><span class="dv">2</span>, n_repeated<span class="op">=</span><span class="dv">2</span>, n_classes<span class="op">=</span><span class="dv">3</span>, n_clusters_per_class<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-5"><a href="#cb20-5"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="332b12b4" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb42-3"><a href="#cb42-3"></a></span>
+<span id="cb42-4"><a href="#cb42-4"></a>X, y <span class="op">=</span> make_classification(n_samples<span class="op">=</span><span class="dv">1000</span>, n_features<span class="op">=</span><span class="dv">10</span>, n_informative<span class="op">=</span><span class="dv">2</span>, n_redundant<span class="op">=</span><span class="dv">2</span>, n_repeated<span class="op">=</span><span class="dv">2</span>, n_classes<span class="op">=</span><span class="dv">3</span>, n_clusters_per_class<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb42-5"><a href="#cb42-5"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Although there are totally 10 features, the dataset can be visualized using the informative features. By description, the informative features are the first two.</p>
-<div id="bab872ef" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb21-2"><a href="#cb21-2"></a>plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="eabd176c" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb43-2"><a href="#cb43-2"></a>plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="intro_files/figure-html/cell-20-output-1.png" width="582" height="411" class="figure-img"></p>
+<p><img src="intro_files/figure-html/cell-34-output-1.png" width="582" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="5d7aa7d1" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
-<span id="cb22-2"><a href="#cb22-2"></a></span>
-<span id="cb22-3"><a href="#cb22-3"></a>clf <span class="op">=</span> LogisticRegression()</span>
-<span id="cb22-4"><a href="#cb22-4"></a>clf.fit(X_train, y_train)</span>
-<span id="cb22-5"><a href="#cb22-5"></a>clf.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div id="9b5e19c4" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb44-2"><a href="#cb44-2"></a></span>
+<span id="cb44-3"><a href="#cb44-3"></a>clf <span class="op">=</span> LogisticRegression()</span>
+<span id="cb44-4"><a href="#cb44-4"></a>clf.fit(X_train, y_train)</span>
+<span id="cb44-5"><a href="#cb44-5"></a>clf.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
 <pre><code>0.8466666666666667</code></pre>
 </div>
 </div>
-<div id="f6eca684" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> SGDClassifier</span>
-<span id="cb24-2"><a href="#cb24-2"></a></span>
-<span id="cb24-3"><a href="#cb24-3"></a>clf <span class="op">=</span> SGDClassifier()</span>
-<span id="cb24-4"><a href="#cb24-4"></a>clf.fit(X_train, y_train)</span>
-<span id="cb24-5"><a href="#cb24-5"></a>clf.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="8578a642" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> SGDClassifier</span>
+<span id="cb46-2"><a href="#cb46-2"></a></span>
+<span id="cb46-3"><a href="#cb46-3"></a>clf <span class="op">=</span> SGDClassifier()</span>
+<span id="cb46-4"><a href="#cb46-4"></a>clf.fit(X_train, y_train)</span>
+<span id="cb46-5"><a href="#cb46-5"></a>clf.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
 <pre><code>0.8266666666666667</code></pre>
 </div>
 </div>
 <p>To apply <code>keras</code> package, we should first change <code>y</code> into one-hot vectors. Here we use the function provided by <code>keras</code>.</p>
-<div id="9b43dbd6" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># import keras_core as keras</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="im">from</span> keras.utils <span class="im">import</span> to_categorical</span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="im">from</span> keras <span class="im">import</span> models, layers</span>
-<span id="cb26-4"><a href="#cb26-4"></a></span>
-<span id="cb26-5"><a href="#cb26-5"></a>vy_train <span class="op">=</span> to_categorical(y_train, num_classes<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb26-6"><a href="#cb26-6"></a>vy_test <span class="op">=</span> to_categorical(y_test, num_classes<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb26-7"><a href="#cb26-7"></a></span>
-<span id="cb26-8"><a href="#cb26-8"></a>model <span class="op">=</span> models.Sequential()</span>
-<span id="cb26-9"><a href="#cb26-9"></a>model.add(layers.Dense(<span class="dv">3</span>, activation<span class="op">=</span><span class="st">'softmax'</span>, input_dim<span class="op">=</span><span class="dv">10</span>))</span>
-<span id="cb26-10"><a href="#cb26-10"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
-<span id="cb26-11"><a href="#cb26-11"></a></span>
-<span id="cb26-12"><a href="#cb26-12"></a>model.fit(X_train, vy_train, epochs<span class="op">=</span><span class="dv">50</span>, batch_size<span class="op">=</span><span class="dv">50</span>, verbose<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb26-13"><a href="#cb26-13"></a>_ <span class="op">=</span> model.evaluate(X_test, vy_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="34df17ea" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a><span class="co"># import keras_core as keras</span></span>
+<span id="cb48-2"><a href="#cb48-2"></a><span class="im">from</span> keras.utils <span class="im">import</span> to_categorical</span>
+<span id="cb48-3"><a href="#cb48-3"></a><span class="im">from</span> keras <span class="im">import</span> models, layers</span>
+<span id="cb48-4"><a href="#cb48-4"></a></span>
+<span id="cb48-5"><a href="#cb48-5"></a>vy_train <span class="op">=</span> to_categorical(y_train, num_classes<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb48-6"><a href="#cb48-6"></a>vy_test <span class="op">=</span> to_categorical(y_test, num_classes<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb48-7"><a href="#cb48-7"></a></span>
+<span id="cb48-8"><a href="#cb48-8"></a>model <span class="op">=</span> models.Sequential()</span>
+<span id="cb48-9"><a href="#cb48-9"></a>model.add(layers.Dense(<span class="dv">3</span>, activation<span class="op">=</span><span class="st">'softmax'</span>, input_dim<span class="op">=</span><span class="dv">10</span>))</span>
+<span id="cb48-10"><a href="#cb48-10"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb48-11"><a href="#cb48-11"></a></span>
+<span id="cb48-12"><a href="#cb48-12"></a>model.fit(X_train, vy_train, epochs<span class="op">=</span><span class="dv">50</span>, batch_size<span class="op">=</span><span class="dv">50</span>, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb48-13"><a href="#cb48-13"></a>_ <span class="op">=</span> model.evaluate(X_test, vy_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="exercises-and-projects" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="exercises-and-projects"><span class="header-section-number">5.5</span> Exercises and Projects</h2>
+<section id="exercises-and-projects" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="exercises-and-projects"><span class="header-section-number">5.6</span> Exercises and Projects</h2>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.1 </strong></span>Please hand write a report about the details of the math formulas for Logistic regression.</p>
+<p><span class="theorem-title"><strong>Exercise 5.1</strong></span> Please hand write a report about the details of the math formulas for Logistic regression.</p>
 </div>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.2 </strong></span>CHOOSE ONE: Please use <code>sklearn</code> to apply the LogisticRegression to one of the following datasets. You may either use <code>LogisticRegression</code> or <code>SGDClassifier</code>.</p>
+<p><span class="theorem-title"><strong>Exercise 5.2</strong></span> CHOOSE ONE: Please use <code>sklearn</code> to apply the LogisticRegression to one of the following datasets. You may either use <code>LogisticRegression</code> or <code>SGDClassifier</code>.</p>
 <ul>
 <li>the <code>iris</code> dataset.</li>
 <li>the dating dataset.</li>
@@ -909,7 +1082,7 @@ Note
 </ol>
 </div>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.3 </strong></span>CHOOSE ONE: Please use <code>keras</code> to apply the LogisticRegression to one of the following datasets.</p>
+<p><span class="theorem-title"><strong>Exercise 5.3</strong></span> CHOOSE ONE: Please use <code>keras</code> to apply the LogisticRegression to one of the following datasets.</p>
 <ul>
 <li>the <code>iris</code> dataset.</li>
 <li>the dating dataset.</li>
@@ -1090,7 +1263,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {

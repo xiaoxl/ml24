@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.530">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -298,20 +298,20 @@ p_i(1-p_i).
 \]</span></p>
 <p>This is the definition formula for the <em>Gini impurity</em>.</p>
 <div id="def-gini" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.1 </strong></span>The <strong>Gini impurity</strong> is calculated using the following formula</p>
+<p><span class="theorem-title"><strong>Definition 3.1</strong></span> The <strong>Gini impurity</strong> is calculated using the following formula</p>
 <p><span class="math display">\[
 Gini = \sum_{i=1}^kp_i(1-p_i)=\sum_{i=1}^kp_i-\sum_{i=1}^kp_i^2=1-\sum_{i=1}^kp_i^2,
 \]</span> where <span class="math inline">\(p_i\)</span> is the probability of class <span class="math inline">\(i\)</span>.</p>
 </div>
 <p>The way to understand Gini impurity is to consider some extreme examples.</p>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.1 </strong></span>Assume that we only have one class. Therefore <span class="math inline">\(k=1\)</span>, and <span class="math inline">\(p_1=1\)</span>. Then the Gini impurity is</p>
+<p><span class="theorem-title"><strong>Example 3.1</strong></span> Assume that we only have one class. Therefore <span class="math inline">\(k=1\)</span>, and <span class="math inline">\(p_1=1\)</span>. Then the Gini impurity is</p>
 <p><span class="math display">\[
 Gini = 1-1^2=0.
 \]</span> This is the minimum possible Gini impurity. It means that the dataset is <strong>pure</strong>: all the objects contained are of one unique class. In this case, we won’t make any mistakes if we randomly guess the label.</p>
 </div>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.2 </strong></span>Assume that we have two classes. Therefore <span class="math inline">\(k=2\)</span>. Consider the distribution <span class="math inline">\(p_1\)</span> and <span class="math inline">\(p_2\)</span>. We know that <span class="math inline">\(p_1+p_2=1\)</span>. Therefore <span class="math inline">\(p_2=1-p_1\)</span>. Then the Gini impurity is</p>
+<p><span class="theorem-title"><strong>Example 3.2</strong></span> Assume that we have two classes. Therefore <span class="math inline">\(k=2\)</span>. Consider the distribution <span class="math inline">\(p_1\)</span> and <span class="math inline">\(p_2\)</span>. We know that <span class="math inline">\(p_1+p_2=1\)</span>. Therefore <span class="math inline">\(p_2=1-p_1\)</span>. Then the Gini impurity is</p>
 <p><span class="math display">\[
 Gini(p_1) = 1-p_1^2-p_2^2=1-p_1^2-(1-p_1)^2=2p_1-2p_1^2.
 \]</span> When <span class="math inline">\(0\leq p_1\leq 1\)</span>, this function <span class="math inline">\(Gini(p_1)\)</span> is between <span class="math inline">\(0\)</span> and <span class="math inline">\(0.5\)</span>. - It gets <span class="math inline">\(0\)</span> when <span class="math inline">\(p_1=0\)</span> or <span class="math inline">\(1\)</span>. In these two cases, the dataset is still a one-class set since the size of one class is <span class="math inline">\(0\)</span>. - It gets <span class="math inline">\(0.5\)</span> when <span class="math inline">\(p_1=0.5\)</span>. This means that the Gini impurity is maximized when the size of different classes are balanced.</p>
@@ -654,16 +654,16 @@ The right subset's Gini impurity is 0.04,  and its label counts is {2.0: 45, 1.0
 </div>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;display: flex;">
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="assests/img/20220809120531.png" class="img-fluid figure-img"></p>
 <figcaption>From our code</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;display: flex;">
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="assests/img/20220809122643.png" class="img-fluid figure-img"></p>
 <figcaption>From <code>sklearn</code></figcaption>
@@ -874,7 +874,7 @@ note-random_state
 <section id="exercises-and-projects" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="exercises-and-projects"><span class="header-section-number">3.5</span> Exercises and Projects</h2>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.1 </strong></span>The dataset and its scattering plot is given below.</p>
+<p><span class="theorem-title"><strong>Exercise 3.1</strong></span> The dataset and its scattering plot is given below.</p>
 <ol type="1">
 <li>Please calculate the Gini impurity of the whole set by hand.</li>
 <li>Please apply CART to create the decision tree by hand.</li>
@@ -897,7 +897,7 @@ note-random_state
 </div>
 </div>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.2 </strong></span>CHOOSE ONE: Please apply the Decision Tree to one of the following datasets.</p>
+<p><span class="theorem-title"><strong>Exercise 3.2</strong></span> CHOOSE ONE: Please apply the Decision Tree to one of the following datasets.</p>
 <ul>
 <li>dating dataset (in Chpater 2).</li>
 <li>the <code>titanic</code> dataset.</li>
@@ -1076,7 +1076,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
