@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.530">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -1083,7 +1083,7 @@ X_{original} = X_{norm} \times ranges + minVal.
 <section id="exercises-and-projects" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="exercises-and-projects"><span class="header-section-number">2.5</span> Exercises and Projects</h2>
 <div id="exr-ex2handwritten" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.1 </strong></span>Handwritten example :label: ex2handwritten Consider the 1-dimensional data set shown below.</p>
+<p><span class="theorem-title"><strong>Exercise 2.1</strong></span> Handwritten example :label: ex2handwritten Consider the 1-dimensional data set shown below.</p>
 <div id="6d8231d4" class="cell" data-execution_count="39">
 <div class="cell-output cell-output-display" data-execution_count="36">
 <style type="text/css">
@@ -1126,7 +1126,7 @@ X_{original} = X_{norm} \times ranges + minVal.
 <p>Please use the data to compute the class of <span class="math inline">\(x=5.5\)</span> according to <span class="math inline">\(k=1\)</span>, <span class="math inline">\(3\)</span>, <span class="math inline">\(6\)</span> and <span class="math inline">\(9\)</span>. Please compute everything by hand.</p>
 </div>
 <div id="exr-ex2titanic" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.2 (Titanic) </strong></span>Please download the titanic dataset from <a href="./assests/datasets/titanic.csv">here</a>. This is the same dataset from what you dealt with in Chapter 1 Exercises. Therefore you may use the same way to prepare the data.</p>
+<p><span class="theorem-title"><strong>Exercise 2.2 (Titanic)</strong></span> Please download the titanic dataset from <a href="./assests/datasets/titanic.csv">here</a>. This is the same dataset from what you dealt with in Chapter 1 Exercises. Therefore you may use the same way to prepare the data.</p>
 <p>Please analyze the dataset and build a k-NN model to predict whether someone is survived or not. Note that you have to pick <code>k</code> at the end.</p>
 </div>
 
@@ -1300,7 +1300,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {

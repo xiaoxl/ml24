@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.530">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -680,7 +680,7 @@ Extremely Randomized Trees: 1.4413414001464844</code></pre>
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="weighted-dataset"><span class="header-section-number">4.3.1</span> Weighted dataset</h3>
 <p>We firstly talk about training a Decision Tree on a weighted dataset. The idea is very simple. When building a Decision Tree, we use some method to determine the split. In this course the Gini impurity is used. There are at least two other methods: cross-entropy and misclassified rate. For all three, the count of the elemnts in some classes is the essnetial part. To train the model over the weighted dataset, we just need to upgrade the count of the elements by the weighted count.</p>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.1 </strong></span>Consider the following data:</p>
+<p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider the following data:</p>
 <div id="6b27757e" class="cell" data-execution_count="24">
 <div class="cell-output cell-output-display" data-execution_count="24">
 <style type="text/css">
@@ -837,7 +837,7 @@ Note
 <section id="exercises" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.4</span> Exercises</h2>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.1 </strong></span>CHOOSE ONE: Please apply the random forest to one of the following datasets.</p>
+<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> CHOOSE ONE: Please apply the random forest to one of the following datasets.</p>
 <ul>
 <li>the <code>iris</code> dataset.</li>
 <li>the dating dataset.</li>
@@ -851,7 +851,7 @@ Note
 </ol>
 </div>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.2 </strong></span>Please use the following code to get the <code>mgq</code> dataset.</p>
+<p><span class="theorem-title"><strong>Exercise 4.2</strong></span> Please use the following code to get the <code>mgq</code> dataset.</p>
 <div id="8e10275a" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_gaussian_quantiles</span>
 <span id="cb44-2"><a href="#cb44-2"></a></span>
@@ -865,7 +865,7 @@ Note
 <p>Please build an <code>AdaBoost</code> model.</p>
 </div>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.3 </strong></span>Please use <code>RandomForestClassifier</code>, <code>ExtraTreesClassifier</code> and <code>KNeighbourClassifier</code> to form a voting classifier, and apply to the <code>MNIST</code> dataset.</p>
+<p><span class="theorem-title"><strong>Exercise 4.3</strong></span> Please use <code>RandomForestClassifier</code>, <code>ExtraTreesClassifier</code> and <code>KNeighbourClassifier</code> to form a voting classifier, and apply to the <code>MNIST</code> dataset.</p>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1057,7 +1057,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {

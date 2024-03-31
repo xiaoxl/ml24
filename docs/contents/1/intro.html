@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.530">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -368,9 +368,9 @@ Note
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="input-and-output-data-structure"><span class="header-section-number">1.3.1</span> Input and output data structure</h3>
 <p>Since we are dealing with Supervised Classification problems, the desired solutions are given. These desired solutions in Classification problems are also called <em>labels</em>. The properties that the data are used to describe are called <em>features</em>. Both features and labels are usually organized as row vectors.</p>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Example 1.1 </strong></span>The example is extracted from <span class="citation" data-cites="Har2012">[<a href="../../index.html#ref-Har2012" role="doc-biblioref">3</a>]</span>. There are some sample data shown in the following table. We would like to use these information to classify bird species.</p>
+<p><span class="theorem-title"><strong>Example 1.1</strong></span> The example is extracted from <span class="citation" data-cites="Har2012">[<a href="../../index.html#ref-Har2012" role="doc-biblioref">3</a>]</span>. There are some sample data shown in the following table. We would like to use these information to classify bird species.</p>
 <div class="cell" data-execution_count="1">
-<div id="tbl-table" class="cell anchored" data-execution_count="1">
+<div id="tbl-table" class="cell quarto-float anchored" data-execution_count="1">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1.1: Bird species classification based on four features
@@ -386,7 +386,7 @@ Table&nbsp;1.1: Bird species classification based on four features
 }
 </style>
 
-<table id="T_7ac85" class="cell table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_7ac85" class="do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th id="T_7ac85_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Weight (g)</th>
@@ -448,7 +448,7 @@ Table&nbsp;1.1: Bird species classification based on four features
 </div>
 <p>The first four columns are features, and the last column is the label. The first two features are numeric and can take on decimal values. The third feature is binary that can only be <span class="math inline">\(1\)</span> (Yes) or <span class="math inline">\(0\)</span> (No). The fourth feature is an enumeration over the color palette. You may either treat it as categorical data or numeric data, depending on how you want to build the model and what you want to get out of the data. In this example we will use it as categorical data that we only choose it from a list of colors (<span class="math inline">\(1\)</span> — Brown, <span class="math inline">\(2\)</span> — Gray, <span class="math inline">\(3\)</span> — Black, <span class="math inline">\(4\)</span> — Green).</p>
 <p>Then we are able to transform the above data into the following form:</p>
-<div id="tbl-vectorized" class="anchored">
+<div id="tbl-vectorized" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vectorized-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1.2: Vectorized Bird species data
@@ -589,18 +589,18 @@ JupyterLite contains a few popular packages. Therefore it is totally ok if you w
 <span id="cb2-12"><a href="#cb2-12"></a><span class="bu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-layout-panel" data-layout-nrow="2">
 <div class="quarto-layout-row">
-<div id="05806764" class="cell quarto-layout-cell" data-execution_count="2" style="flex-basis: 50.0%;justify-content: flex-start;display: flex;">
+<div id="05806764" class="cell quarto-layout-cell" data-execution_count="2" style="flex-basis: 50.0%;justify-content: flex-start;">
 
 </div>
-<div id="ace55af3" class="cell quarto-layout-cell" data-execution_count="3" style="flex-basis: 50.0%;justify-content: flex-start;display: flex;">
+<div id="ace55af3" class="cell quarto-layout-cell" data-execution_count="3" style="flex-basis: 50.0%;justify-content: flex-start;">
 
 </div>
 </div>
 <div class="quarto-layout-row">
-<div id="1f4209e7" class="cell quarto-layout-cell" data-execution_count="4" style="flex-basis: 50.0%;justify-content: flex-start;display: flex;">
+<div id="1f4209e7" class="cell quarto-layout-cell" data-execution_count="4" style="flex-basis: 50.0%;justify-content: flex-start;">
 
 </div>
-<div id="314f0510" class="cell quarto-layout-cell" data-execution_count="5" style="flex-basis: 50.0%;justify-content: flex-start;display: flex;">
+<div id="314f0510" class="cell quarto-layout-cell" data-execution_count="5" style="flex-basis: 50.0%;justify-content: flex-start;">
 
 </div>
 </div>
@@ -685,7 +685,7 @@ three
 <h4 data-number="1.4.2.6" class="anchored" data-anchor-id="relative-paths"><span class="header-section-number">1.4.2.6</span> Relative paths</h4>
 <p>In this course, when reading and writing files, please keep all the files using relative paths. That is, only write the path starting from the working directory.</p>
 <div id="exm-" class="theorem example">
-<p><span class="theorem-title"><strong>Example 1.2 </strong></span>Consider the following tasks:</p>
+<p><span class="theorem-title"><strong>Example 1.2</strong></span> Consider the following tasks:</p>
 <ol type="1">
 <li>Your working directory is <code>C:/Users/Xinli/projects/</code>.</li>
 <li>Want to read a file <code>D:/Files/example.csv</code>.</li>
@@ -768,16 +768,16 @@ three
 <section id="python-notebook-1" class="level3" data-number="1.5.1">
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="python-notebook-1"><span class="header-section-number">1.5.1</span> Python Notebook</h3>
 <div id="exr-helloworld" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.1 (Hello World!) </strong></span>Please set up a Python Notebook environment and type <code>print('Hello World!')</code>.</p>
+<p><span class="theorem-title"><strong>Exercise 1.1 (Hello World!)</strong></span> Please set up a Python Notebook environment and type <code>print('Hello World!')</code>.</p>
 </div>
 <div id="exr-" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.2 </strong></span>Please set up a Python Notebook and start a new virtual environment and type <code>print('Hello World!')</code>.</p>
+<p><span class="theorem-title"><strong>Exercise 1.2</strong></span> Please set up a Python Notebook and start a new virtual environment and type <code>print('Hello World!')</code>.</p>
 </div>
 </section>
 <section id="basic-python" class="level3" data-number="1.5.2">
 <h3 data-number="1.5.2" class="anchored" data-anchor-id="basic-python"><span class="header-section-number">1.5.2</span> Basic Python</h3>
 <div id="exr-ex1helloworld" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.3 (Play with lists) </strong></span>Please complete the following tasks.</p>
+<p><span class="theorem-title"><strong>Exercise 1.3 (Play with lists)</strong></span> Please complete the following tasks.</p>
 <ul>
 <li>Write a <code>for</code> loop to print values from 0 to 4.</li>
 <li>Combine two lists <code>['apple', 'orange']</code> and <code>['banana']</code> using <code>+</code>.</li>
@@ -785,10 +785,10 @@ three
 </ul>
 </div>
 <!-- 
-````aqyknzkejx ex1helloworld
+````evfeffmjyx ex1helloworld
 :class: dropdown
 
-```brkvcaxzntxw python
+```bqwhlexizhkw python
 for i in range(5):
     print(i)
 
@@ -800,7 +800,7 @@ sorted(['apple', 'orange', 'banana'])
 Please be careful about the last line. `sorted()` doesn't change the original list. It create a new list. There are some Python functions which change the inputed object in-place. Please read documents on all packages you use to get the desired results.
 ```` -->
 <div id="exr-ex1list" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.4 (Play with list, dict and pandas.) </strong></span>Please complete the following tasks.</p>
+<p><span class="theorem-title"><strong>Exercise 1.4 (Play with list, dict and pandas.)</strong></span> Please complete the following tasks.</p>
 <ul>
 <li>Create a new dictionary <code>people</code> with two keys <code>name</code> and <code>age</code>. The values are all empty list.</li>
 <li>Add <code>Tony</code> to the <code>name</code> list in <code>people</code>.</li>
@@ -813,7 +813,7 @@ Please be careful about the last line. `sorted()` doesn't change the original li
 </div>
 <!-- ````{solution} ex1list
 :class: dropdown
-```brkvcaxzntxw python
+```bqwhlexizhkw python
 import pandas as pd
 
 people = {'name': list(), 'age': list()}
@@ -828,7 +828,7 @@ df = pd.DataFrame(people)
 ```
 ```` -->
 <div id="exr-ex1iris" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.5 (The dataset iris) </strong></span>&nbsp;</p>
+<p><span class="theorem-title"><strong>Exercise 1.5 (The dataset iris)</strong></span> &nbsp;</p>
 <div id="058ad369" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
 <span id="cb14-2"><a href="#cb14-2"></a>iris <span class="op">=</span> load_iris()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -844,7 +844,7 @@ df = pd.DataFrame(people)
 <!-- ````{solution} ex1iris
 :class: dropdown
 We first find that `iris` is a dictionary. Then we can look at all the keys by `iris.keys()`. The interesting keys are `data`, `target`, `target_names` and `feature_names`. We can also read the description of the dataset by looking at `DESCR`. 
-```brkvcaxzntxw python
+```bqwhlexizhkw python
 X = iris['data']
 print(iris['feature_names'])
 y = iris['target']
@@ -853,7 +853,7 @@ print(iris['target'])
 Since the data is already saved as numpy arrays, we don't need to do anything to change its type.
 ```` -->
 <div id="exr-ex1pandastitanic" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.6 (Play with Pandas) </strong></span>Please download the Titanic data file from <a href="./assests/datasets/titanic.csv">here</a>. Then follow the instructions to perform the required tasks.</p>
+<p><span class="theorem-title"><strong>Exercise 1.6 (Play with Pandas)</strong></span> Please download the Titanic data file from <a href="./assests/datasets/titanic.csv">here</a>. Then follow the instructions to perform the required tasks.</p>
 <ul>
 <li>Use <code>pandas.read_csv</code> to read the dataset and save it as a dataframe object <code>df</code>.</li>
 <li>Change the values of the <code>Sex</code> column that <code>male</code> is <code>0</code> and <code>female</code> is <code>1</code>.</li>
@@ -1047,7 +1047,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      return note.innerHTML;
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
