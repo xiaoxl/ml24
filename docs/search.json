@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Machine Learning Fall 2024",
     "section": "",
-    "text": "Preface\nThis is the lecture notes for STAT 4803/5803 Machine Learning Fall 2023 at ATU. If you have any comments/suggetions/concers about the notes please contact us at xxiao@atu.edu.\n\n\nReferences\n\n\n[1] Chollet, F.\n(2021). Deep\nlearning with python, second edition. MANNING PUBN.\n\n\n[2] Géron, A.\n(2019). Hands-on machine learning with scikit-learn, keras, and\nTensorFlow concepts, tools, and techniques to build intelligent systems:\nConcepts, tools, and techniques to build intelligent systems.\nO’Reilly Media.\n\n\n[3] Harrington, P.\n(2012). Machine\nlearning in action. Manning Publications.\n\n\n[4] Klosterman, S.\n(2021). Data\nscience projects with python: A case study approach to gaining valuable\ninsights from real data with machine learning. Packt\nPublishing, Limited.",
+    "text": "Preface\nThis is the lecture notes for STAT 4803/5803 Machine Learning Fall 2024 at ATU. If you have any comments/suggetions/concers about the notes please contact us at xxiao@atu.edu.\n\n\nReferences\n\n\n[1] Godoy, D. V.\n(2022). Deep learning with\nPyTorch step-by-step: A beginner’s guide.\nhttps://leanpub.com/pytorch.\n\n\n[2] Chollet, F.\n(2021). Deep\nlearning with python, second edition. MANNING PUBN.\n\n\n[3] Géron, A.\n(2019). Hands-on machine learning with scikit-learn, keras, and\nTensorFlow concepts, tools, and techniques to build intelligent systems:\nConcepts, tools, and techniques to build intelligent systems.\nO’Reilly Media.\n\n\n[4] Harrington, P.\n(2012). Machine\nlearning in action. Manning Publications.\n\n\n[5] Klosterman, S.\n(2021). Data\nscience projects with python: A case study approach to gaining valuable\ninsights from real data with machine learning. Packt\nPublishing, Limited.",
     "crumbs": [
       "Preface"
     ]
@@ -347,6 +347,76 @@
     "text": "6.3 Exercises and Projects\n\nExercise 6.1 Please hand write a report about the details of back propagation.\n\n\nExercise 6.2 CHOOSE ONE: Please use netural network to one of the following datasets. - the iris dataset. - the dating dataset. - the titanic dataset.\nPlease in addition answer the following questions.\n\nWhat is your accuracy score?\nHow many epochs do you use?\nWhat is the batch size do you use?\nPlot the learning curve (loss vs epochs, accuracy vs epochs).\nAnalyze the bias / variance status.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Netural networks</span>"
+    ]
+  },
+  {
+    "objectID": "contents/intro2pt/intro.html",
+    "href": "contents/intro2pt/intro.html",
+    "title": "5  Intro to Pytorch",
+    "section": "",
+    "text": "5.1 Linear regression (math)\nWe only consider the simplest case: simple linear regression (SLR). The idea is very simple. The dataset contains two variables (the independent variable \\(x\\) and the response variable \\(y\\).) The goal is to find the relation between \\(x\\) and \\(y\\) with the given dataset. We assume their relation is \\(y=b+wx\\). How do we find \\(b\\) and \\(w\\)?\nLet us first see an example. We would like to find the red line (which is the best fitted curve) shown below.\nThe key here is to understand the idea of “parameter space”. Since we already know that the function we are looking for has a formula \\(y=b+wx\\), we could use the pair \\((b, w)\\) to denote different candidates of our answer. For example, the following plot show some possibilities in green dashed lines, while each possiblity is denoted by \\((b, w)\\).\nNow we would like to find the best pair such that it fit the data best. This “best” is ususall defined",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Intro to Pytorch</span>"
+    ]
+  },
+  {
+    "objectID": "contents/intro2pt/intro.html#linear-regression-pytorch-version",
+    "href": "contents/intro2pt/intro.html#linear-regression-pytorch-version",
+    "title": "5  Intro to Pytorch",
+    "section": "5.3 Linear regression (Pytorch version)",
+    "text": "5.3 Linear regression (Pytorch version)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Intro to Pytorch</span>"
+    ]
+  },
+  {
+    "objectID": "contents/intro2pt/intro.html#exercises",
+    "href": "contents/intro2pt/intro.html#exercises",
+    "title": "5  Intro to Pytorch",
+    "section": "5.5 Exercises",
+    "text": "5.5 Exercises\n\ndsf\n\n\n\n\n\n[1] Godoy, D. V. (2022). Deep learning with PyTorch step-by-step: A beginner’s guide. https://leanpub.com/pytorch.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Intro to Pytorch</span>"
+    ]
+  },
+  {
+    "objectID": "contents/intro2pt/intro.html#linear-regression-numpy-version",
+    "href": "contents/intro2pt/intro.html#linear-regression-numpy-version",
+    "title": "5  Intro to Pytorch",
+    "section": "5.2 Linear regression (numpy version)",
+    "text": "5.2 Linear regression (numpy version)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Intro to Pytorch</span>"
+    ]
+  },
+  {
+    "objectID": "contents/intro2pt/intro.html#rewrite-in-classes",
+    "href": "contents/intro2pt/intro.html#rewrite-in-classes",
+    "title": "5  Intro to Pytorch",
+    "section": "5.4 Rewrite in classes",
+    "text": "5.4 Rewrite in classes\ns",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Intro to Pytorch</span>"
+    ]
+  },
+  {
+    "objectID": "contents/intro2pt/intro.html#linear-regression-numpy",
+    "href": "contents/intro2pt/intro.html#linear-regression-numpy",
+    "title": "5  Intro to Pytorch",
+    "section": "5.2 Linear regression (numpy)",
+    "text": "5.2 Linear regression (numpy)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Intro to Pytorch</span>"
+    ]
+  },
+  {
+    "objectID": "contents/intro2pt/intro.html#linear-regression-pytorch",
+    "href": "contents/intro2pt/intro.html#linear-regression-pytorch",
+    "title": "5  Intro to Pytorch",
+    "section": "5.3 Linear regression (PyTorch)",
+    "text": "5.3 Linear regression (PyTorch)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Intro to Pytorch</span>"
     ]
   }
 ]

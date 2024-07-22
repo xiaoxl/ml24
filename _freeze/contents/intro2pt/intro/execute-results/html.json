@@ -1,0 +1,12 @@
+{
+  "hash": "30ff26624ce5070e8a7a57f022ee9fc2",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "# Intro to Pytorch\n\n\nMost materials are based on @Godoy2022.\n\n\n\n## Linear regression (math)\n\nWe only consider the simplest case: simple linear regression (SLR). The idea is very simple. The dataset contains two variables (the independent variable $x$ and the response variable $y$.) The goal is to find the relation between $x$ and $y$ with the given dataset. We assume their relation is $y=b+wx$. How do we find $b$ and $w$?\n\nLet us first see an example. We would like to find the red line (which is the best fitted curve) shown below.\n\n::: {#8bd216cc .cell execution_count=1}\n\n::: {.cell-output .cell-output-display}\n![](intro_files/figure-html/cell-2-output-1.png){width=573 height=421}\n:::\n:::\n\n\nThe key here is to understand the idea of \"parameter space\". Since we already know that the function we are looking for has a formula $y=b+wx$, we could use the pair $(b, w)$ to denote different candidates of our answer. For example, the following plot show some possibilities in green dashed lines, while each possiblity is denoted by $(b, w)$.\n\n::: {#90fbaa36 .cell execution_count=2}\n\n::: {.cell-output .cell-output-display}\n![](intro_files/figure-html/cell-3-output-1.png){width=573 height=421}\n:::\n:::\n\n\nNow we would like to find the best pair such that it fit the data best. This \"best\" is ususall defined \n\n\n## Linear regression (`numpy`)\n\n\n## Linear regression (`PyTorch`)\n\n\n## Rewrite in classes\n\ns\n\n\n## Exercises\n\n\n\n::: {exr-}\ndsf\n:::\n\n",
+    "supporting": [
+      "intro_files\\figure-html"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
