@@ -1,1 +1,96 @@
 ## Linear regression (`numpy`)
+
+
+{{< include ../math.qmd >}}
+
+
+We will translate everything from the previous sections into codes.
+
+### Prepare the dataset
+We first randomly generate a dataset `(X, y)` for the linear regression problem. 
+
+```{python}
+import numpy as np
+
+RANDOMSEED = 42
+np.random.seed(RANDOMSEED)
+X = np.random.rand(100)
+y = 2.3 + 1.2 * X + np.random.randn(100) * 0.1
+```
+We set the seed to be 42 for reproducing the results. We will also split the dataset into training and test sets.
+
+
+```{python}
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.15,
+                                                    random_state=RANDOMSEED)
+```
+We will only focus only on the training set in this Chapter. 
+
+
+### Compute gradient
+The cost function is 
+
+$$
+J(b,w)=\frac1N\sum_{i=1}^N(y_i-b-wx_i)^2.
+$$
+
+So the graident is 
+$$
+\begin{aligned}
+\pdv{J}{b}&=\frac1N\sum_{i=1}^N2(y_i-b-wx_i)(-1),\\
+\pdv{J}{w}&=\frac1N\sum_{i=1}^N2(y_i-b-wx_i)(-x_i).
+\end{aligned}
+$$
+
+
+```{python}
+def J(parameters, X, y):    
+    b = parameters[0]
+    w = parameters[1]
+    return ((y-b-w*X)**2).mean().item()
+
+def dJ(parameters, X, y):
+    b = parameters[0]
+    w = parameters[1]
+    db = (2*(y-b-w*X)*(-1)).mean()
+    dw = (2*(y-b-w*X)*(-X)).mean()
+    return np.array([db, dw])
+```
+
+### Gradient descent {#sec-gradeientdescent_numpy_example}
+
+In general we need to random select a starting point. Here for the purpose of comparing to what we get from previous section, we will use a manual selected starting point $(1, 1.5)$. We then follow the path and move for a few steps. Here we will use $\eta=0.2$ as the learning rate. 
+```{python}
+p = np.array([1.0, 1.5])
+eta = 0.2
+
+plist = []
+Jlist = []
+dJlist = []
+for _ in range(10):
+    J_i = J(p, X_train, y_train)
+    dJ_i = dJ(p, X_train, y_train)
+    plist.append(p)
+    Jlist.append(J_i)
+    dJlist.append(dJ_i)
+
+    p = p - eta * dJ_i
+plist = np.array(plist)
+Jlist = np.array(Jlist)
+dJlist = np.array(dJlist)
+plist
+```
+
+```{python}
+Jlist
+```
+
+
+```{python}
+dJlist
+```
+You may compare the answer with the `PyTorch` implementation in @sec-gradientdescent_pytorch_example.
+
+### Mini-batch and optimizers

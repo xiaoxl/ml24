@@ -10,13 +10,17 @@ Let us first see an example. We would like to find the red line (which is the be
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
 
 sns.set_theme()
-np.random.seed(42)
-x = np.random.rand(100)
-y = 2.3 + 1.2 * x + np.random.randn(100) * 0.1
+RANDOMSEED = 42
+np.random.seed(RANDOMSEED)
+X = np.random.rand(100)
+y = 2.3 + 1.2 * X + np.random.randn(100) * 0.1
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.15,
+                                                    random_state=RANDOMSEED)
 
-plt.scatter(x, y)
+plt.scatter(X_train, y_train)
 plt.plot(np.array([0,1]), np.array([2.3, 3.5]), 'r-')
 plt.gca().set_ylim(2.2, 3.6)
 ```
@@ -28,16 +32,7 @@ The key here is to understand the idea of "parameter space". Since we already kn
 ```{python}
 #| echo: false
 
-# import numpy as np
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-
-# sns.set_theme()
-# np.random.seed(42)
-# x = np.random.rand(100)
-# y = 2.3 + 1.2 * x + np.random.randn(100) * 0.1
-
-plt.scatter(x, y)
+plt.scatter(X_train, y_train)
 b = 2
 plt.plot(np.array([0,1]), np.array([2.3, 2.3+b]), 'g--')
 _ = plt.annotate(f'(2.3, {b})', [0.6, 3.4], color='green')
@@ -87,7 +82,7 @@ def f(b, w, x, y):
 b = np.linspace(0, 3, 301)
 w = np.linspace(0, 3, 301)
 bg, wg = np.meshgrid(b, w)
-z = f(bg, wg, x, y)
+z = f(bg, wg, X_train, y_train)
 
 cs = plt.contour(bg, wg, z,
                  levels=[0.01, 0.1, 0.2, 0.3, 0.4, 0.5]
@@ -106,26 +101,11 @@ We use a technique called "gradient descent" to find the global minimal of $J$. 
 ```{python}
 #| echo: false
 
-def f(b, w, x, y):
-    m, n = b.shape
-    res = np.zeros((m, n))
-
-    for i in range(m):
-        for j in range(n):
-            res[i, j]= ((y-(b[i,j]+w[i,j]*x))**2).mean()
-
-    return res
-
 def df(p, x, y):
     b, w = p
     resb = ((y-b-w*x)*(-1)).mean()
     resw = ((y-b-w*x)*(-x)).mean()
     return np.array([resb, resw])
-
-b = np.linspace(0, 3, 301)
-w = np.linspace(0, 3, 301)
-bg, wg = np.meshgrid(b, w)
-z = f(bg, wg, x, y)
 
 cs = plt.contour(bg, wg, z,
                  levels=[0.01, 0.1, 0.2, 0.3, 0.4, 0.5]
@@ -138,15 +118,15 @@ ax.set_ylabel('w')
 eta = 0.2
 p = np.array([1, 1.5])
 
-costJ = [f(np.array([[p[0]]]), np.array([[p[1]]]), x, y)[0,0]]
+costJ = [f(np.array([[p[0]]]), np.array([[p[1]]]), X_train, y_train)[0,0]]
 
 for _ in range(200):
-    d = -df(p, x, y)*eta
+    d = -df(p, X_train, y_train)*eta
     ax.plot(p[0], p[1], 'bo')
     ax.arrow(p[0], p[1], d[0]*.5, d[1]*.5,
             head_width=0.05, head_length=0.05, fc='k', ec='k')
     p = p + d
-    costJ.append(f(np.array([[p[0]]]), np.array([[p[1]]]), x, y)[0,0])
+    costJ.append(f(np.array([[p[0]]]), np.array([[p[1]]]), X_train, y_train)[0,0])
 
 bestp = p
 ```
@@ -164,36 +144,31 @@ Generally speaking, larger $\eta$ will move faster to the global minimal, but mi
 
 fig, axs = plt.subplots(1, 2)
 axs[0].contour(bg, wg, z, levels=[0.01, 0.1, 0.2, 0.3, 0.4, 0.5])
-# axs[0].colorbar()
-# axs[0].set_xlabel('b')
-# axs[0].set_ylabel('w')
 axs[1].contour(bg, wg, z, levels=[0.01, 0.1, 0.2, 0.3, 0.4, 0.5])
-# axs[1].colorbar()
-# axs[1].set_xlabel('b')
-# axs[1].set_ylabel('w')
 
 eta = 0.01
 p = np.array([1, 1.5])
 
 for _ in range(200):
-    d = -df(p, x, y)*eta
+    d = -df(p, X_train, y_train)*eta
     axs[0].plot(p[0], p[1], 'bo')
     axs[0].arrow(p[0], p[1], d[0]*.5, d[1]*.5,
             head_width=0.05, head_length=0.05, fc='k', ec='k')
     p = p + d
 
-axs[0].set_title('learning rate $\eta$ = 0.01')
+axs[0].set_title('learning rate $\\eta$ = 0.01')
 
 eta = 1.6
 p = np.array([1, 1.5])
 
 for _ in range(200):
-    d = -df(p, x, y)*eta
+    d = -df(p, X_train, y_train)*eta
     axs[1].plot(p[0], p[1], 'bo')
     axs[1].arrow(p[0], p[1], d[0]*.9, d[1]*.9,
             head_width=0.05, head_length=0.05, fc='k', ec='k')
     p = p + d
-_ = axs[1].set_title('learning rate $\eta$ = 1.6')
+
+_ = axs[1].set_title('learning rate $\\eta$ = 1.6')
 ```
 In the first example, $\eta$ is too small, that after 200 iterations it is not very close to the minimal. In the second example, $\eta$ becomes large. Although it gets to somewhere near the minimal, the path is very jumpy. It is able to converge only because the problem is indeed an easy one.
 :::
@@ -210,7 +185,7 @@ _ = plt.gca().set_ylabel("cost")
 
 print(f"After 200 iterations, the parameters are ({bestp[0]}, {bestp[1]}).")
 ```
-The cost is close to $0$ after 200 iterations and seems to be convergent. Therefore we believe that we are close to the minimal point. The point we get is `{python} (bestp[0].item(), bestp[1].item())`.
+The cost is close to $0$ after 200 iterations and seems to be convergent. Therefore we believe that we are close to the minimal point. The point we get is `{python} (bestp[0], bestp[1])`.
 
 
 

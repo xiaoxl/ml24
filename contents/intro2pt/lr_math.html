@@ -93,7 +93,7 @@ window.Quarto = {
 
 <p>We only consider the simplest case: simple linear regression (SLR). The idea is very simple. The dataset contains two variables (the independent variable <span class="math inline">\(x\)</span> and the response variable <span class="math inline">\(y\)</span>.) The goal is to find the relation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with the given dataset. We assume their relation is <span class="math inline">\(y=b+wx\)</span>. How do we find <span class="math inline">\(b\)</span> and <span class="math inline">\(w\)</span>?</p>
 <p>Let us first see an example. We would like to find the red line (which is the best fitted curve) shown below.</p>
-<div id="713f7179" class="cell" data-execution_count="1">
+<div id="2d15be4d" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -105,7 +105,7 @@ window.Quarto = {
 <section id="parameter-space" class="level3">
 <h3 class="anchored" data-anchor-id="parameter-space">Parameter space</h3>
 <p>The key here is to understand the idea of “parameter space”. Since we already know that the function we are looking for has a formula <span class="math inline">\(y=b+wx\)</span>, we could use the pair <span class="math inline">\((b, w)\)</span> to denote different candidates of our answer. For example, the following plot show some possibilities in green dashed lines, while each possiblity is denoted by <span class="math inline">\((b, w)\)</span>. Then the problem is reworded as to find the best pair <span class="math inline">\((b, w)\)</span>.</p>
-<div id="505f7fd8" class="cell" data-execution_count="2">
+<div id="a52a8a8a" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -121,8 +121,8 @@ window.Quarto = {
 <p><span class="math display">\[
 J_{\{(x_i,y_i)\}}(b,w)=\frac1N\sum_{i=1}^N(y_i-\hat{y_i})^2=\frac1N\sum_{i=1}^N(y_i-b-wx_i)^2
 \]</span> and we are expected to find the <span class="math inline">\((b,w)\)</span> such that the loss function is minimized. The contour map of <span class="math inline">\(J\)</span> is shown below.</p>
-<div id="7a3e7f90" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="31b3ce01" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>Text(0, 0.5, 'w')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -137,7 +137,7 @@ J_{\{(x_i,y_i)\}}(b,w)=\frac1N\sum_{i=1}^N(y_i-\hat{y_i})^2=\frac1N\sum_{i=1}^N(
 <section id="gradient-descent" class="level3">
 <h3 class="anchored" data-anchor-id="gradient-descent">Gradient Descent</h3>
 <p>We use a technique called “gradient descent” to find the global minimal of <span class="math inline">\(J\)</span>. We start from a random point. For example <span class="math inline">\((1.0, 1.5)\)</span>. Then we find a direction where the cost <span class="math inline">\(J\)</span> reduces the most, and move in that direction. This direction is computed by the gradient of the cost <span class="math inline">\(J\)</span>, and this is the reason why the algorithm is called “gradient descent”. After we get to a new point, we evaluate the new gradient and move in the new direction. The process is repeated and we are expected to get close to the minimal point after several iterations. Just like shown in the following plot.</p>
-<div id="30dfe043" class="cell" data-execution_count="4">
+<div id="90fa4cbd" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -160,7 +160,7 @@ Learning rate <span class="math inline">\(\eta\)</span>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Generally speaking, larger <span class="math inline">\(\eta\)</span> will move faster to the global minimal, but might be jumpy which cause it harder to converge. On the other side, smaller <span class="math inline">\(\eta\)</span> moves in a more stable fashion, but may take a long time to converge. See the following examples.</p>
-<div id="634ae9d2" class="cell" data-execution_count="5">
+<div id="0525bfed" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -174,19 +174,19 @@ Learning rate <span class="math inline">\(\eta\)</span>
 </div>
 </div>
 <p>We may record the curve of the cost function.</p>
-<div id="a455f580" class="cell" data-execution_count="6">
+<div id="ba958200" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
-<pre><code>After 200 iterations, the parameters are (2.297896055403118, 1.2006904171404507).</code></pre>
+<pre><code>After 200 iterations, the parameters are (2.291241352364798, 1.203587494484257).</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lr_math_files/figure-html/cell-7-output-2.png" width="593" height="435" class="figure-img"></p>
+<p><img src="lr_math_files/figure-html/cell-7-output-2.png" width="593" height="436" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The cost is close to <span class="math inline">\(0\)</span> after 200 iterations and seems to be convergent. Therefore we believe that we are close to the minimal point. The point we get is (2.297896055403118, 1.2006904171404507).</p>
+<p>The cost is close to <span class="math inline">\(0\)</span> after 200 iterations and seems to be convergent. Therefore we believe that we are close to the minimal point. The point we get is (2.291241352364798, 1.203587494484257).</p>
 </section>
 <section id="summary" class="level3">
 <h3 class="anchored" data-anchor-id="summary">Summary</h3>

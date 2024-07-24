@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -225,8 +259,19 @@ window.Quarto = {
   <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent"><span class="header-section-number">5.1.3</span> Gradient Descent</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.1.4</span> Summary</a></li>
   </ul></li>
-  <li><a href="#linear-regression-numpy" id="toc-linear-regression-numpy" class="nav-link" data-scroll-target="#linear-regression-numpy"><span class="header-section-number">5.2</span> Linear regression (<code>numpy</code>)</a></li>
-  <li><a href="#linear-regression-pytorch" id="toc-linear-regression-pytorch" class="nav-link" data-scroll-target="#linear-regression-pytorch"><span class="header-section-number">5.3</span> Linear regression (<code>PyTorch</code>)</a></li>
+  <li><a href="#linear-regression-numpy" id="toc-linear-regression-numpy" class="nav-link" data-scroll-target="#linear-regression-numpy"><span class="header-section-number">5.2</span> Linear regression (<code>numpy</code>)</a>
+  <ul class="collapse">
+  <li><a href="#prepare-the-dataset" id="toc-prepare-the-dataset" class="nav-link" data-scroll-target="#prepare-the-dataset"><span class="header-section-number">5.2.1</span> Prepare the dataset</a></li>
+  <li><a href="#compute-gradient" id="toc-compute-gradient" class="nav-link" data-scroll-target="#compute-gradient"><span class="header-section-number">5.2.2</span> Compute gradient</a></li>
+  <li><a href="#sec-gradeientdescent_numpy_example" id="toc-sec-gradeientdescent_numpy_example" class="nav-link" data-scroll-target="#sec-gradeientdescent_numpy_example"><span class="header-section-number">5.2.3</span> Gradient descent</a></li>
+  <li><a href="#mini-batch" id="toc-mini-batch" class="nav-link" data-scroll-target="#mini-batch"><span class="header-section-number">5.2.4</span> Mini-batch</a></li>
+  </ul></li>
+  <li><a href="#linear-regression-pytorch" id="toc-linear-regression-pytorch" class="nav-link" data-scroll-target="#linear-regression-pytorch"><span class="header-section-number">5.3</span> Linear regression (<code>PyTorch</code>)</a>
+  <ul class="collapse">
+  <li><a href="#construct-torch.tensor" id="toc-construct-torch.tensor" class="nav-link" data-scroll-target="#construct-torch.tensor"><span class="header-section-number">5.3.1</span> Construct <code>torch.Tensor</code></a></li>
+  <li><a href="#devices" id="toc-devices" class="nav-link" data-scroll-target="#devices"><span class="header-section-number">5.3.2</span> devices</a></li>
+  <li><a href="#sec-gradientdescent_pytorch_example" id="toc-sec-gradientdescent_pytorch_example" class="nav-link" data-scroll-target="#sec-gradientdescent_pytorch_example"><span class="header-section-number">5.3.3</span> Gradient</a></li>
+  </ul></li>
   <li><a href="#rewrite-in-classes" id="toc-rewrite-in-classes" class="nav-link" data-scroll-target="#rewrite-in-classes"><span class="header-section-number">5.4</span> Rewrite in classes</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.5</span> Exercises</a></li>
   </ul>
@@ -259,7 +304,7 @@ window.Quarto = {
 <h2 data-number="5.1" class="anchored" data-anchor-id="sec-linearregression_math"><span class="header-section-number">5.1</span> Linear regression (math)</h2>
 <p>We only consider the simplest case: simple linear regression (SLR). The idea is very simple. The dataset contains two variables (the independent variable <span class="math inline">\(x\)</span> and the response variable <span class="math inline">\(y\)</span>.) The goal is to find the relation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> with the given dataset. We assume their relation is <span class="math inline">\(y=b+wx\)</span>. How do we find <span class="math inline">\(b\)</span> and <span class="math inline">\(w\)</span>?</p>
 <p>Let us first see an example. We would like to find the red line (which is the best fitted curve) shown below.</p>
-<div id="ca075719" class="cell" data-execution_count="1">
+<div id="d32a167c" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -271,7 +316,7 @@ window.Quarto = {
 <section id="parameter-space" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="parameter-space"><span class="header-section-number">5.1.1</span> Parameter space</h3>
 <p>The key here is to understand the idea of “parameter space”. Since we already know that the function we are looking for has a formula <span class="math inline">\(y=b+wx\)</span>, we could use the pair <span class="math inline">\((b, w)\)</span> to denote different candidates of our answer. For example, the following plot show some possibilities in green dashed lines, while each possiblity is denoted by <span class="math inline">\((b, w)\)</span>. Then the problem is reworded as to find the best pair <span class="math inline">\((b, w)\)</span>.</p>
-<div id="ee17edca" class="cell" data-execution_count="2">
+<div id="d4b3ae45" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -287,7 +332,7 @@ window.Quarto = {
 <p><span class="math display">\[
 J_{\{(x_i,y_i)\}}(b,w)=\frac1N\sum_{i=1}^N(y_i-\hat{y_i})^2=\frac1N\sum_{i=1}^N(y_i-b-wx_i)^2
 \]</span> and we are expected to find the <span class="math inline">\((b,w)\)</span> such that the loss function is minimized. The contour map of <span class="math inline">\(J\)</span> is shown below.</p>
-<div id="f17b34dc" class="cell" data-execution_count="3">
+<div id="06015841" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>Text(0, 0.5, 'w')</code></pre>
 </div>
@@ -303,7 +348,7 @@ J_{\{(x_i,y_i)\}}(b,w)=\frac1N\sum_{i=1}^N(y_i-\hat{y_i})^2=\frac1N\sum_{i=1}^N(
 <section id="gradient-descent" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="gradient-descent"><span class="header-section-number">5.1.3</span> Gradient Descent</h3>
 <p>We use a technique called “gradient descent” to find the global minimal of <span class="math inline">\(J\)</span>. We start from a random point. For example <span class="math inline">\((1.0, 1.5)\)</span>. Then we find a direction where the cost <span class="math inline">\(J\)</span> reduces the most, and move in that direction. This direction is computed by the gradient of the cost <span class="math inline">\(J\)</span>, and this is the reason why the algorithm is called “gradient descent”. After we get to a new point, we evaluate the new gradient and move in the new direction. The process is repeated and we are expected to get close to the minimal point after several iterations. Just like shown in the following plot.</p>
-<div id="8a478eff" class="cell" data-execution_count="4">
+<div id="79c15c51" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -326,7 +371,7 @@ Learning rate <span class="math inline">\(\eta\)</span>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Generally speaking, larger <span class="math inline">\(\eta\)</span> will move faster to the global minimal, but might be jumpy which cause it harder to converge. On the other side, smaller <span class="math inline">\(\eta\)</span> moves in a more stable fashion, but may take a long time to converge. See the following examples.</p>
-<div id="b1838c19" class="cell" data-execution_count="5">
+<div id="75c3f9c8" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -340,19 +385,19 @@ Learning rate <span class="math inline">\(\eta\)</span>
 </div>
 </div>
 <p>We may record the curve of the cost function.</p>
-<div id="fd6ad1d7" class="cell" data-execution_count="6">
+<div id="5a853bb1" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
-<pre><code>After 200 iterations, the parameters are (2.297896055403118, 1.2006904171404507).</code></pre>
+<pre><code>After 200 iterations, the parameters are (2.291241352364798, 1.203587494484257).</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="intro_files/figure-html/cell-7-output-2.png" width="593" height="435" class="figure-img"></p>
+<p><img src="intro_files/figure-html/cell-7-output-2.png" width="593" height="436" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The cost is close to <span class="math inline">\(0\)</span> after 200 iterations and seems to be convergent. Therefore we believe that we are close to the minimal point. The point we get is (2.297896055403118, 1.2006904171404507).</p>
+<p>The cost is close to <span class="math inline">\(0\)</span> after 200 iterations and seems to be convergent. Therefore we believe that we are close to the minimal point. The point we get is (2.291241352364798, 1.203587494484257).</p>
 </section>
 <section id="summary" class="level3" data-number="5.1.4">
 <h3 data-number="5.1.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.1.4</span> Summary</h3>
@@ -391,9 +436,326 @@ Note
 </section>
 <section id="linear-regression-numpy" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="linear-regression-numpy"><span class="header-section-number">5.2</span> Linear regression (<code>numpy</code>)</h2>
+<div class="hidden">
+<!-- Constants and basic symbols -->
+<p><span class="math display">\[
+\require{physics}
+\require{braket}
+\]</span></p>
+<p><span class="math display">\[
+\newcommand{\dl}[1]{{\hspace{#1mu}\mathrm d}}
+\newcommand{\me}{{\mathrm e}}
+\]</span></p>
+<!-- Probability -->
+<p><span class="math display">\[
+\newcommand{\Exp}{\operatorname{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Mode}{\operatorname{mode}}
+\]</span></p>
+<!-- Distributions pdf -->
+<p><span class="math display">\[
+\newcommand{\pdfbinom}{{\tt binom}}
+\newcommand{\pdfbeta}{{\tt beta}}
+\newcommand{\pdfpois}{{\tt poisson}}
+\newcommand{\pdfgamma}{{\tt gamma}}
+\newcommand{\pdfnormal}{{\tt norm}}
+  \newcommand{\pdfexp}{{\tt expon}}
+\]</span></p>
+<!-- Distributions -->
+<p><span class="math display">\[
+\newcommand{\distbinom}{\operatorname{B}}
+\newcommand{\distbeta}{\operatorname{Beta}}
+\newcommand{\distgamma}{\operatorname{Gamma}}
+\newcommand{\distexp}{\operatorname{Exp}}
+\newcommand{\distpois}{\operatorname{Poisson}}
+\newcommand{\distnormal}{\operatorname{\mathcal N}}
+\]</span></p>
+</div>
+<p>We will translate everything from the previous sections into codes.</p>
+<section id="prepare-the-dataset" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="prepare-the-dataset"><span class="header-section-number">5.2.1</span> Prepare the dataset</h3>
+<p>We first randomly generate a dataset <code>(X, y)</code> for the linear regression problem.</p>
+<div id="dc1f1fde" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>RANDOMSEED <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>np.random.seed(RANDOMSEED)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>X <span class="op">=</span> np.random.rand(<span class="dv">100</span>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>y <span class="op">=</span> <span class="fl">2.3</span> <span class="op">+</span> <span class="fl">1.2</span> <span class="op">*</span> X <span class="op">+</span> np.random.randn(<span class="dv">100</span>) <span class="op">*</span> <span class="fl">0.1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We set the seed to be 42 for reproducing the results. We will also split the dataset into training and test sets.</p>
+<div id="8e32a623" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">.15</span>,</span>
+<span id="cb4-4"><a href="#cb4-4"></a>                                                    random_state<span class="op">=</span>RANDOMSEED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will only focus only on the training set in this Chapter.</p>
+</section>
+<section id="compute-gradient" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="compute-gradient"><span class="header-section-number">5.2.2</span> Compute gradient</h3>
+<p>The cost function is</p>
+<p><span class="math display">\[
+J(b,w)=\frac1N\sum_{i=1}^N(y_i-b-wx_i)^2.
+\]</span></p>
+<p>So the graident is <span class="math display">\[
+\begin{aligned}
+\pdv{J}{b}&amp;=\frac1N\sum_{i=1}^N2(y_i-b-wx_i)(-1),\\
+\pdv{J}{w}&amp;=\frac1N\sum_{i=1}^N2(y_i-b-wx_i)(-x_i).
+\end{aligned}
+\]</span></p>
+<div id="cd9d4fa4" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> J(parameters, X, y):    </span>
+<span id="cb5-2"><a href="#cb5-2"></a>    b <span class="op">=</span> parameters[<span class="dv">0</span>]</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    w <span class="op">=</span> parameters[<span class="dv">1</span>]</span>
+<span id="cb5-4"><a href="#cb5-4"></a>    <span class="cf">return</span> ((y<span class="op">-</span>b<span class="op">-</span>w<span class="op">*</span>X)<span class="op">**</span><span class="dv">2</span>).mean().item()</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="kw">def</span> dJ(parameters, X, y):</span>
+<span id="cb5-7"><a href="#cb5-7"></a>    b <span class="op">=</span> parameters[<span class="dv">0</span>]</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    w <span class="op">=</span> parameters[<span class="dv">1</span>]</span>
+<span id="cb5-9"><a href="#cb5-9"></a>    db <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>(y<span class="op">-</span>b<span class="op">-</span>w<span class="op">*</span>X)<span class="op">*</span>(<span class="op">-</span><span class="dv">1</span>)).mean()</span>
+<span id="cb5-10"><a href="#cb5-10"></a>    dw <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>(y<span class="op">-</span>b<span class="op">-</span>w<span class="op">*</span>X)<span class="op">*</span>(<span class="op">-</span>X)).mean()</span>
+<span id="cb5-11"><a href="#cb5-11"></a>    <span class="cf">return</span> np.array([db, dw])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sec-gradeientdescent_numpy_example" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="sec-gradeientdescent_numpy_example"><span class="header-section-number">5.2.3</span> Gradient descent</h3>
+<p>In general we need to random select a starting point. Here for the purpose of comparing to what we get from previous section, we will use a manual selected starting point <span class="math inline">\((1, 1.5)\)</span>. We then follow the path and move for a few steps. Here we will use <span class="math inline">\(\eta=0.2\)</span> as the learning rate.</p>
+<div id="5820c22e" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>p <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">1.5</span>])</span>
+<span id="cb6-2"><a href="#cb6-2"></a>eta <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a>plist <span class="op">=</span> []</span>
+<span id="cb6-5"><a href="#cb6-5"></a>Jlist <span class="op">=</span> []</span>
+<span id="cb6-6"><a href="#cb6-6"></a>dJlist <span class="op">=</span> []</span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    J_i <span class="op">=</span> J(p, X_train, y_train)</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    dJ_i <span class="op">=</span> dJ(p, X_train, y_train)</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    plist.append(p)</span>
+<span id="cb6-11"><a href="#cb6-11"></a>    Jlist.append(J_i)</span>
+<span id="cb6-12"><a href="#cb6-12"></a>    dJlist.append(dJ_i)</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a>    p <span class="op">=</span> p <span class="op">-</span> eta <span class="op">*</span> dJ_i</span>
+<span id="cb6-15"><a href="#cb6-15"></a>plist <span class="op">=</span> np.array(plist)</span>
+<span id="cb6-16"><a href="#cb6-16"></a>Jlist <span class="op">=</span> np.array(Jlist)</span>
+<span id="cb6-17"><a href="#cb6-17"></a>dJlist <span class="op">=</span> np.array(dJlist)</span>
+<span id="cb6-18"><a href="#cb6-18"></a>plist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>array([[1.        , 1.5       ],
+       [1.46212898, 1.70260448],
+       [1.70179135, 1.79494492],
+       [1.8284451 , 1.8316393 ],
+       [1.89762476, 1.84038829],
+       [1.93750825, 1.83523704],
+       [1.96239471, 1.8233032 ],
+       [1.97954219, 1.80819012],
+       [1.99263653, 1.79171854],
+       [2.00355121, 1.77480499]])</code></pre>
+</div>
+</div>
+<div id="3e3a6fc1" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>Jlist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>array([1.35302136, 0.39283316, 0.14356485, 0.07738847, 0.0584474 ,
+       0.05176925, 0.04834712, 0.04585734, 0.04369662, 0.04170475])</code></pre>
+</div>
+</div>
+<div id="aadc821f" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>dJlist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>array([[-2.31064488, -1.01302241],
+       [-1.19831188, -0.4617022 ],
+       [-0.63326872, -0.1834719 ],
+       [-0.34589833, -0.04374494],
+       [-0.19941743,  0.02575624],
+       [-0.12443229,  0.05966924],
+       [-0.08573741,  0.07556538],
+       [-0.06547171,  0.08235793],
+       [-0.05457338,  0.08456773],
+       [-0.04844465,  0.08448733]])</code></pre>
+</div>
+</div>
+<p>You may compare the answer with the <code>PyTorch</code> implementation in <a href="#sec-gradientdescent_pytorch_example" class="quarto-xref"><span>Section 5.3.3</span></a>.</p>
+</section>
+<section id="mini-batch" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="mini-batch"><span class="header-section-number">5.2.4</span> Mini-batch</h3>
+</section>
 </section>
 <section id="linear-regression-pytorch" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="linear-regression-pytorch"><span class="header-section-number">5.3</span> Linear regression (<code>PyTorch</code>)</h2>
+<section id="construct-torch.tensor" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="construct-torch.tensor"><span class="header-section-number">5.3.1</span> Construct <code>torch.Tensor</code></h3>
+<p>There are multiple ways to construct a tensor. I just discuss those confusing ones.</p>
+<ul>
+<li><code>torch.Tensor</code> is the <code>PyTorch</code> tensor data structure. Itself serves as the constructor of the class, therefore you may use <code>torch.Tensor(data)</code> to construct a tensor. This is relative basic, and will have a default <code>float</code> type.</li>
+<li><code>torch.tensor</code> is the recommendated function to construct a tensor from data. It has two benefits over <code>torch.Tensor</code>: it will automatically induce the datatype from data instead of always using <code>float</code>; and it is easier to change datatype with the argument <code>dtype</code>.</li>
+<li><code>torch.as_tensor</code> is a function to construct a tensor from data. If the original data is numpy array, this tensor shares data with it. This means that if one is changed, the other is changed as well.</li>
+</ul>
+<div id="1dc97aa7" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="im">import</span> torch</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a>example <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>])</span>
+<span id="cb12-5"><a href="#cb12-5"></a>example_tensor0 <span class="op">=</span> torch.Tensor(example)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>example_tensor1 <span class="op">=</span> torch.tensor(example)</span>
+<span id="cb12-7"><a href="#cb12-7"></a>example_tensor2 <span class="op">=</span> torch.as_tensor(example)</span>
+<span id="cb12-8"><a href="#cb12-8"></a></span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="bu">print</span>(<span class="ss">f'Tensor: dtype: </span><span class="sc">{</span>example_tensor0<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">, tensor: dtype: </span><span class="sc">{</span>example_tensor1<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb12-10"><a href="#cb12-10"></a></span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="bu">print</span>(<span class="ss">f'tensor: </span><span class="sc">{</span>example_tensor1<span class="sc">}</span><span class="ss">, as_tensor: </span><span class="sc">{</span>example_tensor2<span class="sc">}</span><span class="ss">, original: </span><span class="sc">{</span>example<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb12-12"><a href="#cb12-12"></a></span>
+<span id="cb12-13"><a href="#cb12-13"></a>example[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a><span class="bu">print</span>(<span class="ss">f'tensor: </span><span class="sc">{</span>example_tensor1<span class="sc">}</span><span class="ss">, as_tensor: </span><span class="sc">{</span>example_tensor2<span class="sc">}</span><span class="ss">, original: </span><span class="sc">{</span>example<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tensor: dtype: torch.float32, tensor: dtype: torch.int32
+tensor: tensor([1, 2], dtype=torch.int32), as_tensor: tensor([1, 2], dtype=torch.int32), original: [1 2]
+tensor: tensor([1, 2], dtype=torch.int32), as_tensor: tensor([0, 2], dtype=torch.int32), original: [0 2]</code></pre>
+</div>
+</div>
+<p>In general, it is recommended to use <code>torch.as_tensor</code> over <code>torch.tensor</code> (since for large data to create a view is much faster than to create a copy) and to use <code>torch.tensor</code> over <code>torch.Tensor</code> (due to the benefits mentioned above).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+datatype
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The datatype in <code>PyTorch</code> is very strict. Many functions can work with only some of the datatypes. In most cases <code>float</code> and <code>double</code> are used. Other types may or may not be supported by a specific function.</p>
+<p>However, there are a lot of ways to play with types. For example, you may use <code>torch.tensor([1], dtype=torch.double)</code> to directly construct a <code>double</code> tensor, or use <code>torch.tensor([1]).double()</code> to first construct an <code>int</code> tensor and then cast it into a <code>double</code> tensor.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Scalar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A tensor with only one element is still a tensor in <code>PyTorch</code>. To use it as a scalar, you need to use <code>itme()</code> method.</p>
+<div id="cf4174b8" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>a <span class="op">=</span> torch.tensor(<span class="dv">1</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>tensor(1)</code></pre>
+</div>
+</div>
+<div id="1eda624b" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>a.item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>1</code></pre>
+</div>
+</div>
+<p>Note that for <code>numpy</code>, before 2.0 version an array with one element is considered as scalar. However after 2.0, it behaves very similar to <code>PyTorch</code>.</p>
+</div>
+</div>
+<p>We now construct a <code>PyTorch</code> tensor version of the dataset we used in previous sections. The <code>device</code> part will be introduced in the next section.</p>
+<div id="04d7c59f" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="im">import</span> torch</span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a>RANDOMSEED <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>np.random.seed(RANDOMSEED)</span>
+<span id="cb18-7"><a href="#cb18-7"></a>device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">'cpu'</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a></span>
+<span id="cb18-9"><a href="#cb18-9"></a>X <span class="op">=</span> np.random.rand(<span class="dv">100</span>)</span>
+<span id="cb18-10"><a href="#cb18-10"></a>y <span class="op">=</span> <span class="fl">2.3</span> <span class="op">+</span> <span class="fl">1.2</span> <span class="op">*</span> X <span class="op">+</span> np.random.randn(<span class="dv">100</span>) <span class="op">*</span> <span class="fl">0.1</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">.15</span>,</span>
+<span id="cb18-12"><a href="#cb18-12"></a>                                                    random_state<span class="op">=</span>RANDOMSEED)</span>
+<span id="cb18-13"><a href="#cb18-13"></a>X_tensor_train <span class="op">=</span> torch.as_tensor(X_train, device<span class="op">=</span>device)</span>
+<span id="cb18-14"><a href="#cb18-14"></a>y_tensor_train <span class="op">=</span> torch.as_tensor(y_train, device<span class="op">=</span>device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="devices" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="devices"><span class="header-section-number">5.3.2</span> devices</h3>
+<p>We coulde use <code>torch.cuda.is_available()</code> to check whether we have GPU/CUDA supported devices. If the answer is no, we don’t need to change any codes and everything works fine but slow.</p>
+<p>If we have GPU/CUDA supported devices, we could send our tensors to them and do computations there. Google Colab is a good place to play with it if we don’t have our own hardware.</p>
+<p>In most cases we use <code>to(device)</code> method to send a tensor to a device. Sometimes some function has <code>device=device</code> argument to automatically construct tensors in a device. Note that if one needs to compute the gradient of a tensor and send the tensor to a device, we need to manually set <code>requires_grad_(True)</code>.</p>
+<p>Here are some examples, although they only makes sense in a GPU environment.</p>
+<div id="c6837780" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">'cpu'</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a></span>
+<span id="cb19-3"><a href="#cb19-3"></a>t1 <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">float</span>, device<span class="op">=</span>device)</span>
+<span id="cb19-4"><a href="#cb19-4"></a>t2 <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="bu">print</span>(<span class="ss">f't1: </span><span class="sc">{</span>t1<span class="sc">.</span><span class="bu">type</span>()<span class="sc">}</span><span class="ss">, t2: </span><span class="sc">{</span>t2<span class="sc">.</span><span class="bu">type</span>()<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you can see <code>cuda</code> in the output of <code>type</code>, it is a GPU tensor. Otherwise it is a CPU tensor. We may use <code>to</code> to convert a CPU tensor to be a GPU tensor. If this tensor requires gradient, we should set it manually.</p>
+<div id="ab866254" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>t3 <span class="op">=</span> t2.to(device)</span>
+<span id="cb20-2"><a href="#cb20-2"></a>t3 <span class="op">=</span> t3.requires_grad_(<span class="va">True</span>)</span>
+<span id="cb20-3"><a href="#cb20-3"></a>t3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It is usually recommended to write codes with <code>device</code> in mind like above, since the codes work for both CPU and GPU machines.</p>
+</section>
+<section id="sec-gradientdescent_pytorch_example" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="sec-gradientdescent_pytorch_example"><span class="header-section-number">5.3.3</span> Gradient</h3>
+<p><code>PyTorch</code> can use <code>autograd</code> to automatically compute the gradient of given formula. All computations are done within the context of tensors. The biggest difference between <code>PyTorch</code> tensor and <code>numpy</code> array is that <code>PyTorch</code> tensor carries gradient infomation on its own.</p>
+<p>The step is very easy: first use <code>PyTorch</code> tensor to write a formula, enable gradients on correct tensors, and then use the <code>backward()</code> method.</p>
+<div id="9fe37dd5" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>b <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-2"><a href="#cb21-2"></a>w <span class="op">=</span> torch.tensor(<span class="fl">1.5</span>, dtype<span class="op">=</span><span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a>loss <span class="op">=</span> ((y_tensor_train <span class="op">-</span> b <span class="op">-</span> w <span class="op">*</span> X_tensor_train)<span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb21-5"><a href="#cb21-5"></a>loss.backward()</span>
+<span id="cb21-6"><a href="#cb21-6"></a><span class="bu">print</span>(<span class="ss">f'db: </span><span class="sc">{</span>b<span class="sc">.</span>grad<span class="sc">}</span><span class="ss">, dw: </span><span class="sc">{</span>w<span class="sc">.</span>grad<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>db: -2.310644882519191, dw: -1.0130224137389</code></pre>
+</div>
+</div>
+<p>We could manually compute the first few iterations and record the results. You may compare it with the <code>numpy</code> implementation in <a href="#sec-gradeientdescent_numpy_example" class="quarto-xref"><span>Section 5.2.3</span></a>. The answer is exactly the same.</p>
+<div id="540a138f" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>b <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a>w <span class="op">=</span> torch.tensor(<span class="fl">1.5</span>, dtype<span class="op">=</span><span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-3"><a href="#cb23-3"></a>eta <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a>dJlist <span class="op">=</span> []</span>
+<span id="cb23-5"><a href="#cb23-5"></a>plist <span class="op">=</span> []</span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb23-7"><a href="#cb23-7"></a>    loss <span class="op">=</span> ((y_tensor_train <span class="op">-</span> b <span class="op">-</span> w <span class="op">*</span> X_tensor_train)<span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb23-8"><a href="#cb23-8"></a>    loss.backward()</span>
+<span id="cb23-9"><a href="#cb23-9"></a>    dJlist.append([b.grad.item(), w.grad.item()])</span>
+<span id="cb23-10"><a href="#cb23-10"></a>    plist.append([b.item(), w.item()])</span>
+<span id="cb23-11"><a href="#cb23-11"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb23-12"><a href="#cb23-12"></a>        b <span class="op">-=</span> eta <span class="op">*</span> b.grad</span>
+<span id="cb23-13"><a href="#cb23-13"></a>        w <span class="op">-=</span> eta <span class="op">*</span> w.grad</span>
+<span id="cb23-14"><a href="#cb23-14"></a>    b.grad.zero_()</span>
+<span id="cb23-15"><a href="#cb23-15"></a>    w.grad.zero_()</span>
+<span id="cb23-16"><a href="#cb23-16"></a>    </span>
+<span id="cb23-17"><a href="#cb23-17"></a>plist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>[[1.0, 1.5],
+ [1.462128976503838, 1.70260448274778],
+ [1.701791352506138, 1.7949449226054148],
+ [1.8284450974134463, 1.8316393022111805],
+ [1.8976247633456746, 1.840388291132826],
+ [1.9375082488699051, 1.8352370440485253],
+ [1.9623947070300602, 1.8233031967656035],
+ [1.9795421883017095, 1.8081901205764057],
+ [1.992636530631048, 1.7917185352872653],
+ [2.003551206784623, 1.7748049887103945]]</code></pre>
+</div>
+</div>
+<div id="26b79efd" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>dJlist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>[[-2.310644882519191, -1.0130224137389],
+ [-1.1983118800115005, -0.46170219928817446],
+ [-0.6332687245365407, -0.18347189802882874],
+ [-0.3458983296611412, -0.043744944608227095],
+ [-0.19941742762115208, 0.025756235421503952],
+ [-0.12443229080077543, 0.05966923641460931],
+ [-0.08573740635824567, 0.07556538094598902],
+ [-0.06547171164669269, 0.08235792644570186],
+ [-0.05457338076787398, 0.08456773288435376],
+ [-0.04844464903201605, 0.08448732917010579]]</code></pre>
+</div>
+</div>
+</section>
 </section>
 <section id="rewrite-in-classes" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="rewrite-in-classes"><span class="header-section-number">5.4</span> Rewrite in classes</h2>

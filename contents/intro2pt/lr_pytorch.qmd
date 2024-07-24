@@ -1,1 +1,153 @@
 ## Linear regression (`PyTorch`)
+
+### Construct `torch.Tensor`
+There are multiple ways to construct a tensor. I just discuss those confusing ones. 
+
+- `torch.Tensor` is the `PyTorch` tensor data structure. Itself serves as the constructor of the class, therefore you may use `torch.Tensor(data)` to construct a tensor. This is relative basic, and will have a default `float` type.
+- `torch.tensor` is the recommendated function to construct a tensor from data. It has two benefits over `torch.Tensor`: it will automatically induce the datatype from data instead of always using `float`; and it is easier to change datatype with the argument `dtype`.
+- `torch.as_tensor` is a function to construct a tensor from data. If the original data is numpy array, this tensor shares data with it. This means that if one is changed, the other is changed as well.
+
+
+```{python}
+import numpy as np
+import torch
+
+example = np.array([1, 2])
+example_tensor0 = torch.Tensor(example)
+example_tensor1 = torch.tensor(example)
+example_tensor2 = torch.as_tensor(example)
+
+print(f'Tensor: dtype: {example_tensor0.dtype}, tensor: dtype: {example_tensor1.dtype}')
+
+print(f'tensor: {example_tensor1}, as_tensor: {example_tensor2}, original: {example}')
+
+example[0] = 0
+print(f'tensor: {example_tensor1}, as_tensor: {example_tensor2}, original: {example}')
+```
+
+In general, it is recommended to use `torch.as_tensor` over `torch.tensor` (since for large data to create a view is much faster than to create a copy) and to use `torch.tensor` over `torch.Tensor` (due to the benefits mentioned above).
+
+
+::: {.callout-note}
+# datatype  
+The datatype in `PyTorch` is very strict. Many functions can work with only some of the datatypes. In most cases `float` and `double` are used. Other types may or may not be supported by a specific function. 
+
+However, there are a lot of ways to play with types. For example, you may use `torch.tensor([1], dtype=torch.double)` to directly construct a `double` tensor, or use `torch.tensor([1]).double()` to first construct an `int` tensor and then cast it into a `double` tensor.
+:::
+
+
+::: {.callout-note}
+# Scalar
+A tensor with only one element is still a tensor in `PyTorch`. To use it as a scalar, you need to use `itme()` method.
+
+```{python}
+a = torch.tensor(1)
+a
+```
+
+```{python}
+a.item()
+```
+
+Note that for `numpy`, before 2.0 version an array with one element is considered as scalar. However after 2.0, it behaves very similar to `PyTorch`.
+:::
+
+We now construct a `PyTorch` tensor version of the dataset we used in previous sections. The `device` part will be introduced in the next section.
+
+```{python}
+import numpy as np
+from sklearn.model_selection import train_test_split
+import torch
+
+RANDOMSEED = 42
+np.random.seed(RANDOMSEED)
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+X = np.random.rand(100)
+y = 2.3 + 1.2 * X + np.random.randn(100) * 0.1
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.15,
+                                                    random_state=RANDOMSEED)
+X_tensor_train = torch.as_tensor(X_train, device=device)
+y_tensor_train = torch.as_tensor(y_train, device=device)
+```
+
+### devices
+We coulde use `torch.cuda.is_available()` to check whether we have GPU/CUDA supported devices. If the answer is no, we don't need to change any codes and everything works fine but slow.
+
+If we have GPU/CUDA supported devices, we could send our tensors to them and do computations there. Google Colab is a good place to play with it if we don't have our own hardware.
+
+In most cases we use `to(device)` method to send a tensor to a device. Sometimes some function has `device=device` argument to automatically construct tensors in a device. Note that if one needs to compute the gradient of a tensor and send the tensor to a device, we need to manually set `requires_grad_(True)`. 
+
+Here are some examples, although they only makes sense in a GPU environment.
+
+```{python}
+#| eval: false
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+t1 = torch.tensor(1, dtype=float, device=device)
+t2 = torch.tensor(1, dtype=float)
+print(f't1: {t1.type()}, t2: {t2.type()}')
+```
+If you can see `cuda` in the output of `type`, it is a GPU tensor. Otherwise it is a CPU tensor. We may use `to` to convert a CPU tensor to be a GPU tensor. If this tensor requires gradient, we should set it manually.
+
+
+
+```{python}
+#| eval: false
+t3 = t2.to(device)
+t3 = t3.requires_grad_(True)
+t3
+```
+
+It is usually recommended to write codes with `device` in mind like above, since the codes work for both CPU and GPU machines.
+
+### Gradient {#sec-gradientdescent_pytorch_example}
+`PyTorch` can use `autograd` to automatically compute the gradient of given formula. All computations are done within the context of tensors. The biggest difference between `PyTorch` tensor and `numpy` array is that `PyTorch` tensor carries gradient infomation on its own. 
+
+The step is very easy: first use `PyTorch` tensor to write a formula, enable gradients on correct tensors, and then use the `backward()` method.
+
+
+```{python}
+b = torch.tensor(1, dtype=float, device=device, requires_grad=True)
+w = torch.tensor(1.5, dtype=float, device=device, requires_grad=True)
+
+loss = ((y_tensor_train - b - w * X_tensor_train)**2).mean()
+loss.backward()
+print(f'db: {b.grad}, dw: {w.grad}')
+```
+
+We could manually compute the first few iterations and record the results. You may compare it with the `numpy` implementation in @sec-gradeientdescent_numpy_example. The answer is exactly the same.
+
+
+```{python}
+b = torch.tensor(1, dtype=float, device=device, requires_grad=True)
+w = torch.tensor(1.5, dtype=float, device=device, requires_grad=True)
+eta = 0.2
+dJlist = []
+plist = []
+for _ in range(10):
+    loss = ((y_tensor_train - b - w * X_tensor_train)**2).mean()
+    loss.backward()
+    dJlist.append([b.grad.item(), w.grad.item()])
+    plist.append([b.item(), w.item()])
+    with torch.no_grad():
+        b -= eta * b.grad
+        w -= eta * w.grad
+    b.grad.zero_()
+    w.grad.zero_()
+    
+plist
+```
+
+```{python}
+dJlist
+```
+
+
+::: {.callout-note}
+The code has some tricky parts. The main issue is to let `PyTorch` know which gradient infomation should be kept, which should not. In this code, to make it run correctly, we need to pay attention to the following three things:
+
+- Before updating `b` and `w`, `with torch.no_grad()` should be used, to tell `PyTorch` don't compute gradient here.
+- When updating `b` and `w`, we should use the in-place syntax `b -= db` instead of `b = b - db`. Again, the reason is related to updating gradient: the out-of-place syntax `b = b - db` will lose the grad info.
+- After updating `b` and `w`, we need to zero out the grad info by applying `b.grad.zero_()` and `w.grad.zero_()`.
+:::

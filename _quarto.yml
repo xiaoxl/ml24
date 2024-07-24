@@ -21,7 +21,7 @@ knitr:
     comment: "#>"
     collapse: true
 
-jupyter: ds24
+jupyter: python3
 
 format:
   html:
