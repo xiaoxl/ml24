@@ -1,5 +1,9 @@
 ## Linear regression (math) {#sec-linearregression_math}
 
+
+{{< include ../math.qmd >}}
+
+
 We only consider the simplest case: simple linear regression (SLR). The idea is very simple. The dataset contains two variables (the independent variable $x$ and the response variable $y$.) The goal is to find the relation between $x$ and $y$ with the given dataset. We assume their relation is $y=b+wx$. How do we find $b$ and $w$?
 
 Let us first see an example. We would like to find the red line (which is the best fitted curve) shown below.
@@ -61,7 +65,7 @@ The "best" is defined in the following way. The dataset is given $\{(x_i, y_i)\}
 
 $$
 J_{\{(x_i,y_i)\}}(b,w)=\frac1N\sum_{i=1}^N(y_i-\hat{y_i})^2=\frac1N\sum_{i=1}^N(y_i-b-wx_i)^2
-$$
+$$ {#eq-cost_lr}
 and we are expected to find the $(b,w)$ such that the loss function is minimized. The contour map of $J$ is shown below. 
 
 
@@ -115,13 +119,13 @@ ax = plt.gca()
 ax.set_xlabel('b')
 ax.set_ylabel('w')
 
-eta = 0.2
+lr = 0.2
 p = np.array([1, 1.5])
 
 costJ = [f(np.array([[p[0]]]), np.array([[p[1]]]), X_train, y_train)[0,0]]
 
 for _ in range(200):
-    d = -df(p, X_train, y_train)*eta
+    d = -df(p, X_train, y_train)*lr
     ax.plot(p[0], p[1], 'bo')
     ax.arrow(p[0], p[1], d[0]*.5, d[1]*.5,
             head_width=0.05, head_length=0.05, fc='k', ec='k')
@@ -133,6 +137,13 @@ bestp = p
 
 
 The parameter updating rule is shown below. The $\eta$ is called the **learning rate**. It is a hyperparameter that is used to control the learning process. 
+
+$$
+\begin{aligned}
+&\pdv{J}{b}=\frac1N\sum_{i=1}^N2(y_i-b-wx_i)(-1),\quad &b_{new} = b_{old}-\eta*\pdv{J}{b},\\
+&\pdv{J}{w}=\frac1N\sum_{i=1}^N2(y_i-b-wx_i)(-x_i),\quad &w_{new} = w_{old}-\eta*\pdv{J}{w},
+\end{aligned}
+$$ {#eq-gd_updating}
 
 ::: {.callout-note collapse="true"}
 # Learning rate $\eta$
@@ -146,11 +157,11 @@ fig, axs = plt.subplots(1, 2)
 axs[0].contour(bg, wg, z, levels=[0.01, 0.1, 0.2, 0.3, 0.4, 0.5])
 axs[1].contour(bg, wg, z, levels=[0.01, 0.1, 0.2, 0.3, 0.4, 0.5])
 
-eta = 0.01
+lr = 0.01
 p = np.array([1, 1.5])
 
 for _ in range(200):
-    d = -df(p, X_train, y_train)*eta
+    d = -df(p, X_train, y_train)*lr
     axs[0].plot(p[0], p[1], 'bo')
     axs[0].arrow(p[0], p[1], d[0]*.5, d[1]*.5,
             head_width=0.05, head_length=0.05, fc='k', ec='k')
@@ -158,11 +169,11 @@ for _ in range(200):
 
 axs[0].set_title('learning rate $\\eta$ = 0.01')
 
-eta = 1.6
+lr = 1.6
 p = np.array([1, 1.5])
 
 for _ in range(200):
-    d = -df(p, X_train, y_train)*eta
+    d = -df(p, X_train, y_train)*lr
     axs[1].plot(p[0], p[1], 'bo')
     axs[1].arrow(p[0], p[1], d[0]*.9, d[1]*.9,
             head_width=0.05, head_length=0.05, fc='k', ec='k')
@@ -205,7 +216,7 @@ Let us summarize the example above and generalize it to the general case.
 
 
 ::: {.callout-note}
-The above process can be further developped. We will discuss many of them in details later.
+The above process can be further developped. We will discuss many of them in later sections.
 
 1. The cost function is related to each concerte problem.
 2. To compute the gradient of the cost function, chain rule is usually used. In the setting of MLP which we will discuss later, the gradient computations with chain rule are summarized as the so-called **Back propagation**. 

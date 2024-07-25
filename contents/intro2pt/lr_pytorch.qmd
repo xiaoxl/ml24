@@ -67,8 +67,8 @@ X = np.random.rand(100)
 y = 2.3 + 1.2 * X + np.random.randn(100) * 0.1
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.15,
                                                     random_state=RANDOMSEED)
-X_tensor_train = torch.as_tensor(X_train, device=device)
-y_tensor_train = torch.as_tensor(y_train, device=device)
+X_tensor_train = torch.as_tensor(X_train, device=device, dtype=torch.float)
+y_tensor_train = torch.as_tensor(y_train, device=device, dtype=torch.float)
 ```
 
 ### devices
@@ -84,8 +84,8 @@ Here are some examples, although they only makes sense in a GPU environment.
 #| eval: false
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-t1 = torch.tensor(1, dtype=float, device=device)
-t2 = torch.tensor(1, dtype=float)
+t1 = torch.tensor(1, dtype=torch.float, device=device)
+t2 = torch.tensor(1, dtype=torch.float)
 print(f't1: {t1.type()}, t2: {t2.type()}')
 ```
 If you can see `cuda` in the output of `type`, it is a GPU tensor. Otherwise it is a CPU tensor. We may use `to` to convert a CPU tensor to be a GPU tensor. If this tensor requires gradient, we should set it manually.
@@ -96,7 +96,6 @@ If you can see `cuda` in the output of `type`, it is a GPU tensor. Otherwise it 
 #| eval: false
 t3 = t2.to(device)
 t3 = t3.requires_grad_(True)
-t3
 ```
 
 It is usually recommended to write codes with `device` in mind like above, since the codes work for both CPU and GPU machines.
@@ -108,8 +107,8 @@ The step is very easy: first use `PyTorch` tensor to write a formula, enable gra
 
 
 ```{python}
-b = torch.tensor(1, dtype=float, device=device, requires_grad=True)
-w = torch.tensor(1.5, dtype=float, device=device, requires_grad=True)
+b = torch.tensor(1, dtype=torch.float, device=device, requires_grad=True)
+w = torch.tensor(1.5, dtype=torch.float, device=device, requires_grad=True)
 
 loss = ((y_tensor_train - b - w * X_tensor_train)**2).mean()
 loss.backward()
@@ -120,21 +119,21 @@ We could manually compute the first few iterations and record the results. You m
 
 
 ```{python}
-b = torch.tensor(1, dtype=float, device=device, requires_grad=True)
-w = torch.tensor(1.5, dtype=float, device=device, requires_grad=True)
-eta = 0.2
+b = torch.tensor(1, dtype=torch.float, device=device, requires_grad=True)
+w = torch.tensor(1.5, dtype=torch.float, device=device, requires_grad=True)
+lr = 0.2
 dJlist = []
 plist = []
 for _ in range(10):
     loss = ((y_tensor_train - b - w * X_tensor_train)**2).mean()
     loss.backward()
-    dJlist.append([b.grad.item(), w.grad.item()])
-    plist.append([b.item(), w.item()])
     with torch.no_grad():
-        b -= eta * b.grad
-        w -= eta * w.grad
+        b -= lr * b.grad
+        w -= lr * w.grad
     b.grad.zero_()
     w.grad.zero_()
+    dJlist.append([b.grad.item(), w.grad.item()])
+    plist.append([b.item(), w.item()])
     
 plist
 ```
@@ -151,3 +150,36 @@ The code has some tricky parts. The main issue is to let `PyTorch` know which gr
 - When updating `b` and `w`, we should use the in-place syntax `b -= db` instead of `b = b - db`. Again, the reason is related to updating gradient: the out-of-place syntax `b = b - db` will lose the grad info.
 - After updating `b` and `w`, we need to zero out the grad info by applying `b.grad.zero_()` and `w.grad.zero_()`.
 :::
+
+We will skip mini-batch gradient descent here, and leave it to the next section with a more systematic treatment.
+
+
+### Optimizers
+
+After we get the gradient, there are still many tricks to move one step further. We already talked about the learning rate before. It is not the only case. Another example is that sometimes we don't really want to move in the direction given by the gradient, but we want to modify it a little bit. All these tricks are combined together and are called optimizers.
+
+An optimizer is a set of rules to update parameters after the gradient is computed. We already talked about `SGD` (stochastic gradient descent). Other common ones include `RMSprop` and `Adam`. In general, `Adam` is the generic best optimizer. If you don't know which optimizer to use, `Adam` is always the go-to choice.
+
+Here we rewrite our previous code by optimizers. We use `SGD` in this example. Again, we may compare the results to @sec-gradeientdescent_numpy_example and @sec-gradientdescent_pytorch_example.
+
+
+```{python}
+from torch.optim import SGD
+import torch
+
+lr = 0.2
+b = torch.tensor(1, dtype=torch.float, device=device, requires_grad=True)
+w = torch.tensor(1.5, dtype=torch.float, device=device, requires_grad=True)
+
+optimizer = SGD([b, w], lr=lr)
+plist = []
+
+for epoch in range(10):
+    loss = ((y_tensor_train - b - w*X_tensor_train)**2).mean()
+    loss.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+    plist.append([b.item(), w.item()])
+plist
+```
+

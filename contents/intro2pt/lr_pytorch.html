@@ -100,11 +100,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="construct-torch.tensor">Construct <code>torch.Tensor</code></h3>
 <p>There are multiple ways to construct a tensor. I just discuss those confusing ones.</p>
 <ul>
-<li><code>torch.Tensor</code> is the PyTorch tensor data structure. Itself serves as the constructor of the class, therefore you may use <code>torch.Tensor(data)</code> to construct a tensor. This is relative basic, and will have a default <code>float</code> type.</li>
+<li><code>torch.Tensor</code> is the <code>PyTorch</code> tensor data structure. Itself serves as the constructor of the class, therefore you may use <code>torch.Tensor(data)</code> to construct a tensor. This is relative basic, and will have a default <code>float</code> type.</li>
 <li><code>torch.tensor</code> is the recommendated function to construct a tensor from data. It has two benefits over <code>torch.Tensor</code>: it will automatically induce the datatype from data instead of always using <code>float</code>; and it is easier to change datatype with the argument <code>dtype</code>.</li>
 <li><code>torch.as_tensor</code> is a function to construct a tensor from data. If the original data is numpy array, this tensor shares data with it. This means that if one is changed, the other is changed as well.</li>
 </ul>
-<div id="72f86147" class="cell" data-execution_count="1">
+<div id="7b4af3dc" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -126,21 +126,6 @@ tensor: tensor([1, 2], dtype=torch.int32), as_tensor: tensor([0, 2], dtype=torch
 </div>
 </div>
 <p>In general, it is recommended to use <code>torch.as_tensor</code> over <code>torch.tensor</code> (since for large data to create a view is much faster than to create a copy) and to use <code>torch.tensor</code> over <code>torch.Tensor</code> (due to the benefits mentioned above).</p>
-<div id="f7652311" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>RANDOMSEED <span class="op">=</span> <span class="dv">42</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(RANDOMSEED)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.rand(<span class="dv">100</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fl">2.3</span> <span class="op">+</span> <span class="fl">1.2</span> <span class="op">*</span> X <span class="op">+</span> np.random.randn(<span class="dv">100</span>) <span class="op">*</span> <span class="fl">0.1</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">.15</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                                                    random_state<span class="op">=</span>RANDOMSEED)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>X_tensor_train <span class="op">=</span> torch.as_tensor(X_train)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>y_tensor_train <span class="op">=</span> torch.as_tensor(y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -151,7 +136,8 @@ datatype
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The datatype in PyTorch is very strict. Many functions can work with only some of the datatypes, like</p>
+<p>The datatype in <code>PyTorch</code> is very strict. Many functions can work with only some of the datatypes. In most cases <code>float</code> and <code>double</code> are used. Other types may or may not be supported by a specific function.</p>
+<p>However, there are a lot of ways to play with types. For example, you may use <code>torch.tensor([1], dtype=torch.double)</code> to directly construct a <code>double</code> tensor, or use <code>torch.tensor([1]).double()</code> to first construct an <code>int</code> tensor and then cast it into a <code>double</code> tensor.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -165,20 +151,177 @@ Scalar
 </div>
 <div class="callout-body-container callout-body">
 <p>A tensor with only one element is still a tensor in <code>PyTorch</code>. To use it as a scalar, you need to use <code>itme()</code> method.</p>
-<div id="0521f9a7" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> torch.tensor(<span class="dv">1</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="75dc14d4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> torch.tensor(<span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>tensor(1)</code></pre>
 </div>
 </div>
-<div id="7eaa79cb" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a.item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="a118337b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>a.item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>1</code></pre>
 </div>
 </div>
-<p>Note that for <code>numpy</code>, before 2.0 version an numpy array with one element is considered as scalar. However after 2.0, it behaves very similar to <code>PyTorch</code>.</p>
+<p>Note that for <code>numpy</code>, before 2.0 version an array with one element is considered as scalar. However after 2.0, it behaves very similar to <code>PyTorch</code>.</p>
+</div>
+</div>
+<p>We now construct a <code>PyTorch</code> tensor version of the dataset we used in previous sections. The <code>device</code> part will be introduced in the next section.</p>
+<div id="beced21e" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>RANDOMSEED <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(RANDOMSEED)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">'cpu'</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.rand(<span class="dv">100</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fl">2.3</span> <span class="op">+</span> <span class="fl">1.2</span> <span class="op">*</span> X <span class="op">+</span> np.random.randn(<span class="dv">100</span>) <span class="op">*</span> <span class="fl">0.1</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">.15</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                                                    random_state<span class="op">=</span>RANDOMSEED)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>X_tensor_train <span class="op">=</span> torch.as_tensor(X_train, device<span class="op">=</span>device)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>y_tensor_train <span class="op">=</span> torch.as_tensor(y_train, device<span class="op">=</span>device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="devices" class="level3">
+<h3 class="anchored" data-anchor-id="devices">devices</h3>
+<p>We coulde use <code>torch.cuda.is_available()</code> to check whether we have GPU/CUDA supported devices. If the answer is no, we don’t need to change any codes and everything works fine but slow.</p>
+<p>If we have GPU/CUDA supported devices, we could send our tensors to them and do computations there. Google Colab is a good place to play with it if we don’t have our own hardware.</p>
+<p>In most cases we use <code>to(device)</code> method to send a tensor to a device. Sometimes some function has <code>device=device</code> argument to automatically construct tensors in a device. Note that if one needs to compute the gradient of a tensor and send the tensor to a device, we need to manually set <code>requires_grad_(True)</code>.</p>
+<p>Here are some examples, although they only makes sense in a GPU environment.</p>
+<div id="16716fcb" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">'cpu'</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>t1 <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span>torch.<span class="bu">float</span>, device<span class="op">=</span>device)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>t2 <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span>torch.<span class="bu">float</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f't1: </span><span class="sc">{</span>t1<span class="sc">.</span><span class="bu">type</span>()<span class="sc">}</span><span class="ss">, t2: </span><span class="sc">{</span>t2<span class="sc">.</span><span class="bu">type</span>()<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you can see <code>cuda</code> in the output of <code>type</code>, it is a GPU tensor. Otherwise it is a CPU tensor. We may use <code>to</code> to convert a CPU tensor to be a GPU tensor. If this tensor requires gradient, we should set it manually.</p>
+<div id="47655b0a" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>t3 <span class="op">=</span> t2.to(device)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>t3 <span class="op">=</span> t3.requires_grad_(<span class="va">True</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>t3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It is usually recommended to write codes with <code>device</code> in mind like above, since the codes work for both CPU and GPU machines.</p>
+</section>
+<section id="sec-gradientdescent_pytorch_example" class="level3">
+<h3 class="anchored" data-anchor-id="sec-gradientdescent_pytorch_example">Gradient</h3>
+<p><code>PyTorch</code> can use <code>autograd</code> to automatically compute the gradient of given formula. All computations are done within the context of tensors. The biggest difference between <code>PyTorch</code> tensor and <code>numpy</code> array is that <code>PyTorch</code> tensor carries gradient infomation on its own.</p>
+<p>The step is very easy: first use <code>PyTorch</code> tensor to write a formula, enable gradients on correct tensors, and then use the <code>backward()</code> method.</p>
+<div id="036b8ca2" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span>torch.<span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> torch.tensor(<span class="fl">1.5</span>, dtype<span class="op">=</span>torch.<span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> ((y_tensor_train <span class="op">-</span> b <span class="op">-</span> w <span class="op">*</span> X_tensor_train)<span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>loss.backward()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'db: </span><span class="sc">{</span>b<span class="sc">.</span>grad<span class="sc">}</span><span class="ss">, dw: </span><span class="sc">{</span>w<span class="sc">.</span>grad<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>db: -2.3106448650360107, dw: -1.0130224227905273</code></pre>
+</div>
+</div>
+<p>We could manually compute the first few iterations and record the results. You may compare it with the <code>numpy</code> implementation in <strong>?@sec-gradeientdescent_numpy_example</strong>. The answer is exactly the same.</p>
+<div id="8dff8097" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span>torch.<span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> torch.tensor(<span class="fl">1.5</span>, dtype<span class="op">=</span>torch.<span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>dJlist <span class="op">=</span> []</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plist <span class="op">=</span> []</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> ((y_tensor_train <span class="op">-</span> b <span class="op">-</span> w <span class="op">*</span> X_tensor_train)<span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    dJlist.append([b.grad.item(), w.grad.item()])</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    plist.append([b.item(), w.item()])</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        b <span class="op">-=</span> lr <span class="op">*</span> b.grad</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        w <span class="op">-=</span> lr <span class="op">*</span> w.grad</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    b.grad.zero_()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    w.grad.zero_()</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>plist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>[[1.0, 1.5],
+ [1.46212899684906, 1.7026045322418213],
+ [1.7017914056777954, 1.7949450016021729],
+ [1.8284450769424438, 1.8316394090652466],
+ [1.8976247310638428, 1.8403884172439575],
+ [1.937508225440979, 1.8352371454238892],
+ [1.9623947143554688, 1.8233033418655396],
+ [1.9795421361923218, 1.8081902265548706],
+ [1.9926364421844482, 1.791718602180481],
+ [2.0035512447357178, 1.7748050689697266]]</code></pre>
+</div>
+</div>
+<div id="fb748157" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dJlist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>[[-2.3106448650360107, -1.0130224227905273],
+ [-1.1983118057250977, -0.4617021381855011],
+ [-0.6332685351371765, -0.18347179889678955],
+ [-0.34589827060699463, -0.043744899332523346],
+ [-0.199417382478714, 0.02575628086924553],
+ [-0.12443224340677261, 0.05966927483677864],
+ [-0.08573725819587708, 0.07556547224521637],
+ [-0.06547171622514725, 0.08235794305801392],
+ [-0.05457349494099617, 0.08456768840551376],
+ [-0.04844449833035469, 0.0844874158501625]]</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The code has some tricky parts. The main issue is to let <code>PyTorch</code> know which gradient infomation should be kept, which should not. In this code, to make it run correctly, we need to pay attention to the following three things:</p>
+<ul>
+<li>Before updating <code>b</code> and <code>w</code>, <code>with torch.no_grad()</code> should be used, to tell <code>PyTorch</code> don’t compute gradient here.</li>
+<li>When updating <code>b</code> and <code>w</code>, we should use the in-place syntax <code>b -= db</code> instead of <code>b = b - db</code>. Again, the reason is related to updating gradient: the out-of-place syntax <code>b = b - db</code> will lose the grad info.</li>
+<li>After updating <code>b</code> and <code>w</code>, we need to zero out the grad info by applying <code>b.grad.zero_()</code> and <code>w.grad.zero_()</code>.</li>
+</ul>
+</div>
+</div>
+<p>We will skip mini-batch gradient descent here, and leave it to the next section with a more systematic treatment.</p>
+</section>
+<section id="optimizers" class="level3">
+<h3 class="anchored" data-anchor-id="optimizers">Optimizers</h3>
+<p>After we get the gradient, there are still many tricks to move one step further. We already talked about the learning rate before. It is not the only case. Another example is that sometimes we don’t really want to move in the direction given by the gradient, but we want to modify it a little bit. All these tricks are combined together and are called optimizers.</p>
+<p>An optimizer is a set of rules to update parameters after the gradient is computed. We already talked about <code>SGD</code> (stochastic gradient descent). Other common ones include <code>RMSprop</code> and <code>Adam</code>. In general, <code>Adam</code> is the generic best optimizer. If you don’t know which optimizer to use, <code>Adam</code> is always the go-to choice.</p>
+<p>Here we rewrite our previous code by optimizers. We use <code>SGD</code> in this example. Again, we may compare the results to <strong>?@sec-gradeientdescent_numpy_example</strong> and <a href="#sec-gradientdescent_pytorch_example" class="quarto-xref">Section&nbsp;0.3</a>.</p>
+<div id="208389a7" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.optim <span class="im">import</span> SGD</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> torch.tensor(<span class="dv">1</span>, dtype<span class="op">=</span>torch.<span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> torch.tensor(<span class="fl">1.5</span>, dtype<span class="op">=</span>torch.<span class="bu">float</span>, device<span class="op">=</span>device, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.SGD([b, w], lr<span class="op">=</span>lr)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plist <span class="op">=</span> []</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    plist.append([b.item(), w.item()])</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> ((y_tensor_train <span class="op">-</span> b <span class="op">-</span> w<span class="op">*</span>X_tensor_train)<span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>plist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>[[1.0, 1.5],
+ [1.46212899684906, 1.7026045322418213],
+ [1.7017914056777954, 1.7949450016021729],
+ [1.8284450769424438, 1.8316394090652466],
+ [1.8976247310638428, 1.8403884172439575],
+ [1.937508225440979, 1.8352371454238892],
+ [1.9623947143554688, 1.8233033418655396],
+ [1.9795421361923218, 1.8081902265548706],
+ [1.9926364421844482, 1.791718602180481],
+ [2.0035512447357178, 1.7748050689697266]]</code></pre>
 </div>
 </div>
 </section>

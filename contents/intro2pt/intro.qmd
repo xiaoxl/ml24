@@ -19,6 +19,10 @@ Most materials are based on @Godoy2022.
 
 
 
+{{< include output.qmd >}}
+
+
+
 {{< include project.qmd >}}
 
 

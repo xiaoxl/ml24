@@ -30,15 +30,11 @@ We will only focus only on the training set in this Chapter.
 
 
 ### Compute gradient
-The cost function is 
+Recall @eq-cost_lr and @eq-gd_updating
 
-$$
-J(b,w)=\frac1N\sum_{i=1}^N(y_i-b-wx_i)^2.
-$$
-
-So the graident is 
 $$
 \begin{aligned}
+J(b,w)&=\frac1N\sum_{i=1}^N(y_i-b-wx_i)^2,\\
 \pdv{J}{b}&=\frac1N\sum_{i=1}^N2(y_i-b-wx_i)(-1),\\
 \pdv{J}{w}&=\frac1N\sum_{i=1}^N2(y_i-b-wx_i)(-x_i).
 \end{aligned}
@@ -64,7 +60,7 @@ def dJ(parameters, X, y):
 In general we need to random select a starting point. Here for the purpose of comparing to what we get from previous section, we will use a manual selected starting point $(1, 1.5)$. We then follow the path and move for a few steps. Here we will use $\eta=0.2$ as the learning rate. 
 ```{python}
 p = np.array([1.0, 1.5])
-eta = 0.2
+lr = 0.2
 
 plist = []
 Jlist = []
@@ -72,11 +68,11 @@ dJlist = []
 for _ in range(10):
     J_i = J(p, X_train, y_train)
     dJ_i = dJ(p, X_train, y_train)
+    p = p - lr * dJ_i
     plist.append(p)
     Jlist.append(J_i)
     dJlist.append(dJ_i)
 
-    p = p - eta * dJ_i
 plist = np.array(plist)
 Jlist = np.array(Jlist)
 dJlist = np.array(dJlist)
@@ -93,4 +89,48 @@ dJlist
 ```
 You may compare the answer with the `PyTorch` implementation in @sec-gradientdescent_pytorch_example.
 
-### Mini-batch and optimizers
+### Mini-batch and optimizers {#sec-minibatch_numpy}
+Review the gradient formula @eq-gd_updating, the gradient is computed by looking at each given data point and putting the results together. Therefore it is possible to get the partial information of the gradient by just looking at part of the data. In other words, the updating process can be modify in the following way: divide the original dataset into several groups, run through each group to compute the gradient with the data in only one group and then update the parameters. In general there are three types:
+
+- There is only 1 group: we update the parameters only once when we finish looking at all data points. This is the way we mentioned previously. It is called **batch gradient descent**. 
+- Every single point forms a group: we update the parameters eachtime we look at one data point. This method is called **stocastic gradient descent** (SGD). Since we compute the gradient with only one data point, it is expected that the direction is far from perfect, and the descent process is expected to be more "random". 
+- Multiple groups of the same size are formed, with a reasonable group size and group number. This is called **mini-batch gradient descent**. It is the middle point between the above two methods. The **batch size**, which is the size of each group, is a very important hyperparameter for trainning.
+
+
+::: {.callout-note}
+# Epochs
+One **epoch** is the process that you see each data point exactly once, no matter what the batch size is. 
+:::
+
+Usually batch gd is expected to have a more smooth trajection but move slowly, while SGD is expected to move faster to the minimal point but may never really get to it since the trajection is too jumpy. Mini-batch is meant to strike a balanced point by finding a good batch size. In the example below, we show the mini-batch gd in the first 10 epochs.
+
+```{python}
+p = np.array([1.0, 1.5])
+lr = 0.2
+batchsize = 32
+
+N = X_train.shape[0]
+indx = np.arange(N)
+
+np.random.seed(RANDOMSEED)
+np.random.shuffle(indx)
+batches = []
+
+batch_num = int(np.ceil(N / batchsize))
+for i in range(batch_num):
+    last = np.minimum((i+1)*batchsize, N)
+    batches.append(indx[i*batchsize: last])
+
+plist = []
+dJlist = []
+for epoch in range(10):
+    for i in range(batch_num):
+        dJ_i = dJ(p, X_train[batches[i]], y_train[batches[i]])
+        plist.append(p)
+        dJlist.append(dJ_i)
+        p = p - lr * dJ_i
+plist = np.array(plist)
+dJlist = np.array(dJlist)
+plist
+```
+
