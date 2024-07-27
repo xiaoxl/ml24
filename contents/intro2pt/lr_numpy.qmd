@@ -63,30 +63,16 @@ p = np.array([1.0, 1.5])
 lr = 0.2
 
 plist = []
-Jlist = []
-dJlist = []
 for _ in range(10):
     J_i = J(p, X_train, y_train)
     dJ_i = dJ(p, X_train, y_train)
     p = p - lr * dJ_i
-    plist.append(p)
-    Jlist.append(J_i)
-    dJlist.append(dJ_i)
+    plist.append([p[0], p[1]])
 
-plist = np.array(plist)
-Jlist = np.array(Jlist)
-dJlist = np.array(dJlist)
 plist
 ```
 
-```{python}
-Jlist
-```
 
-
-```{python}
-dJlist
-```
 You may compare the answer with the `PyTorch` implementation in @sec-gradientdescent_pytorch_example.
 
 ### Mini-batch and optimizers {#sec-minibatch_numpy}
@@ -102,7 +88,7 @@ Review the gradient formula @eq-gd_updating, the gradient is computed by looking
 One **epoch** is the process that you see each data point exactly once, no matter what the batch size is. 
 :::
 
-Usually batch gd is expected to have a more smooth trajection but move slowly, while SGD is expected to move faster to the minimal point but may never really get to it since the trajection is too jumpy. Mini-batch is meant to strike a balanced point by finding a good batch size. In the example below, we show the mini-batch gd in the first 10 epochs.
+Usually batch gradient descent is expected to have a more smooth trajection but move slowly, while SGD is expected to move faster to the minimal point but may never really get to it since the trajection is too jumpy. Mini-batch is meant to strike a balanced point by finding a good batch size. In the example below, we show the mini-batch gradient descent in the first 10 epochs.
 
 ```{python}
 p = np.array([1.0, 1.5])
@@ -122,15 +108,40 @@ for i in range(batch_num):
     batches.append(indx[i*batchsize: last])
 
 plist = []
-dJlist = []
 for epoch in range(10):
     for i in range(batch_num):
         dJ_i = dJ(p, X_train[batches[i]], y_train[batches[i]])
-        plist.append(p)
-        dJlist.append(dJ_i)
         p = p - lr * dJ_i
-plist = np.array(plist)
-dJlist = np.array(dJlist)
+    plist.append([p[0], p[1]])
 plist
 ```
 
+
+::: {.callout-note collapse="true"}
+# Non-shuffle version
+Here is the result for the non-shuffle version. You could compare the results with what we do later.
+
+```{python}
+p = np.array([1.0, 1.5])
+lr = 0.2
+batchsize = 32
+
+N = X_train.shape[0]
+indx = np.arange(N)
+
+batches = []
+batch_num = int(np.ceil(N / batchsize))
+for i in range(batch_num):
+    last = np.minimum((i+1)*batchsize, N)
+    batches.append(indx[i*batchsize: last])
+
+plist = []
+for epoch in range(10):
+    for i in range(batch_num):
+        dJ_i = dJ(p, X_train[batches[i]], y_train[batches[i]])
+        p = p - lr * dJ_i
+    plist.append([p[0], p[1]])
+plist
+```
+
+:::

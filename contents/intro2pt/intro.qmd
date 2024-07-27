@@ -15,7 +15,7 @@ Most materials are based on @Godoy2022.
 {{< include lr_pytorch.qmd >}}
 
 
-{{< include class_upgrade.qmd >}}
+{{< include dataloader.qmd >}}
 
 
 

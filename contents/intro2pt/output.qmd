@@ -1,3 +1,174 @@
 ## Organize the outputs
 
+We create a Logger class to receive results and produce output for our training. The idea is that each time a mini-batch is trained, the model is sent to the Logger to record all infomation you need.
 
+This class is supposed to be a placeholder at current stage. It is expected to overwrite it everytime since for different models we may want different information.
+
+
+```{python}
+
+```
+
+
+
+
+
+
+```{python}
+
+class LogMessanger(object):
+    """Computes and stores the average and current value"""
+    def __init__(self):
+        self.value = 0
+        self.avg = 0
+        self.sum = 0
+        self.count = 0
+
+    def update(self, avg_value_for_n, n=1):
+        self.value = avg_value_for_n
+        self.sum += avg_value_for_n * n
+        self.count += n
+        self.avg = self.sum / self.count
+
+class CustomLogger(object):
+    def __init__(self):
+        self.loss = LogMessanger()
+        self.losses = []
+        self.cum_losses = []
+        
+    def update(self, model, loss_fn, X, y):
+        yhat = model(X)
+        loss = loss_fn(yhat, y)
+        self.loss.update(loss, y.size(0))
+        self.losses.append(self.loss.value)
+        self.cum_losses.append(self.loss.avg)
+
+    def output(self):
+        res = f'loss {self.loss.avg}'
+        print(res)
+        return res
+
+class MyLogger(CustomLogger):
+    def __init__(self):
+        super().__init__()
+
+class ModelTemplete():
+    def __init__(self, model, loss_fn, optimizer, logger=None):
+        self.model = model
+        self.loss_fn = loss_fn
+        self.optimizer = optimizer
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.model.to(self.device)
+        self.train_loader = None
+        self.val_loader = None
+        self.logger = logger
+
+    def set_loaders(self, train_loader, val_loader=None):
+        self.train_loader = train_loader
+        self.val_loader = val_loader
+
+    def set_logger(self, msg):
+        self.logger = msg
+
+    def _train_once(self):
+        def _train_one_step(X, y):
+            self.model.train()
+            yhat = self.model(X)
+            loss = self.loss_fn(yhat, y)
+            loss.backward()
+            self.optimizer.step()
+            self.optimizer.zero_grad()
+            return loss.item()
+        return _train_one_step
+
+    def _eval_once(self):
+        def _eval_one_step(X, y):
+            self.model.eval()
+            yhat = self.model(X)
+            loss = self.loss_fn(yhat, y)
+            return loss.item()
+        return _train_one_step
+    
+    def _train_minibatch_once(self):
+        self.model.train()
+        data_loader = self.train_loader
+        losses = []
+        for X_batch, y_batch in data_loader:
+            X_batch = X_batch.to(self.device)
+            y_batch = y_batch.to(self.device)
+            mini_batch_loss = self._train_once()(X_batch, y_batch)
+            self.logger.update(self.model, self.loss_fn, X_batch, y_batch)
+            losses.append(mini_batch_loss)
+        loss = np.mean(losses)
+        return loss
+
+    def train(self, train_loader, epoch_num=10):
+        plist = []
+        self.model.train()
+        self.set_loaders(train_loader)
+        for epoch in range(epoch_num):
+            _ = self._train_minibatch_once()
+            p = self.model.state_dict()
+            plist.append([p['linear.bias'].item(), p['linear.weight'].item()])
+        plist = np.array(plist)
+        return plist
+
+
+def train_one_epoch(model, loss_fn, optimizer, dataloader):
+        model.train()
+        loss_log = 0
+        for X_batch, y_batch in dataloader:
+            yhat = model(X_batch.reshape(-1, 1))
+            loss = loss_fn(yhat, y_batch.reshape(-1, 1))
+            loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+            loss_log += loss.item() * y_batch.size(0)
+        return loss_log/len(dataloader.dataset)
+```
+
+
+```{python}
+lr = 0.2
+epoch_num = 10
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+model = BetterLR().to(device)
+optimizer = SGD(model.parameters(), lr=lr)
+
+train_loader = DataLoader(dataset=train_data, batch_size=32, shuffle=False)
+plist = []
+for i in range(10):
+    train_one_epoch(model, MSELoss(reduction='mean'), optimizer, train_loader)
+    p= model.state_dict()
+    plist.append([p['linear.bias'].item(), p['linear.weight'].item()])
+plist = np.array(plist)
+plist
+```
+
+```{python}
+#| eval: false
+lr = 0.2
+model = BetterLR().to(device)
+optimizer = SGD(model.parameters(), lr=lr)
+
+msg = MyLogger()
+mm = ModelTemplete(model, MSELoss(reduction='mean'), optimizer, msg)
+
+plist= mm.train(train_loader)
+plist
+```
+
+
+
+```{python}
+class MyMessangers():
+    def __init__(self):
+        pass
+
+    def update(self, model):
+        pass
+
+    def output(self):
+        pass
+```

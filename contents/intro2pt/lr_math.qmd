@@ -93,8 +93,8 @@ cs = plt.contour(bg, wg, z,
                 )
 plt.colorbar()
 ax = plt.gca()
-ax.set_xlabel('b')
-ax.set_ylabel('w')
+_ = ax.set_xlabel('b')
+_ = ax.set_ylabel('w')
 ```
 
 
