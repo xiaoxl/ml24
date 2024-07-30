@@ -1,4 +1,6 @@
 ## Dataloader {#sec-dataloader}
+
+### Convert the previous dataset using DataLoader
 Usually we use a class to provide data. The class is based on `Dataset` class, and need to implement the constructor, `__getitem__` method and `__len__` method. Here is an example. 
 
 
@@ -8,7 +10,7 @@ Note that we directly change `X` and `y` to be 2D tensors when we create the dat
 
 
 ```{python}
-from torch.utils.data import Dataset, TensorDataset
+from torch.utils.data import Dataset
 
 class MyData(Dataset):
     def __init__(self, x, y):
@@ -83,7 +85,7 @@ for epoch in range(epoch_num):
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
-    p= model.state_dict()
+    p = model.state_dict()
     plist.append([p['linear.bias'].item(), p['linear.weight'].item()])
 plist
 
@@ -93,3 +95,17 @@ plist
 
 You may notice that we use some not-very-elegent way to display the result. Don't worry about it. We will work on a better solution in the next section.
 
+### Rewrite using `random_split`
+It is possible to purely use `PyTorch` instead of going through `sklearn`. After we get the Dataset, we could use `random_split` to create training set and testing set. 
+
+
+```{python}
+from torch.utils.data import random_split
+import numpy as np
+
+dataset = MyData(X, y)
+train_data, val_data = random_split(dataset, [.85, .15], generator=torch.Generator().manual_seed(42))
+
+train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
+val_loader = DataLoader(val_data, batch_size=32)
+```
