@@ -17,12 +17,11 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 
 sns.set_theme()
-RANDOMSEED = 42
-np.random.seed(RANDOMSEED)
+np.random.seed(42)
 X = np.random.rand(100)
 y = 2.3 + 1.2 * X + np.random.randn(100) * 0.1
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.15,
-                                                    random_state=RANDOMSEED)
+                                                    random_state=42)
 
 plt.scatter(X_train, y_train)
 plt.plot(np.array([0,1]), np.array([2.3, 3.5]), 'r-')

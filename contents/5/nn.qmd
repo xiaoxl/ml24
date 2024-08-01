@@ -1,156 +1,165 @@
 ## Neural network implement of Logistic regression
-In the previous sections, we use gradient descent to run the Logistic regression model. We mentioned some important concepts, like epochs, mini-batch, etc.. But we didn't implement them. In fact `sklearn` doesn't provide a very good tool to do all these computations. Hence we turn to another package for this model. We are going to use `keras` to build a Logistic regression model, and plot the "loss vs epochs" learning curves.
+In the previous sections, we use gradient descent to run the Logistic regression model. We mentioned some important concepts, like epochs, mini-batch, etc.. We are going to use `PyTorch` to implement it. We will reuse many codes we wrote in the previous chapter.
 
-`keras` is high level Neural network library. It is now in the phase of transition from single backend `tensorflow` to multi-backend. The old version is installed along with `tensorflow`. You may use the following command to install it. 
+### A simple example
 
-```{.bash}
-pip install tensorflow
-```
-If you want to use new version, besides installing `tensorflow`, you should also install `keras-core`. Currently we still use `tensorflow` as the backend. This part may be updated after the stable version is released.
-
-```{.bash}
-pip install keras-core
-```
-You may follow the instructions for [`tensforflow`](https://www.tensorflow.org/install) and [`keras`](https://github.com/keras-team/keras) for more details.
+We 
 
 
 
-To use `keras` to implement logistic regression, we need the following modules: a `Sequential` model, a `Dense` layer. The model is organized as follows.
 
-We still use the horse colic dataset as an example.
+
+### Example
+
+We still use the horse colic dataset as an example. We first prepare the dataset.
 
 
 ```{python}
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/horse-colic/horse-colic.data'
-df = pd.read_csv(url, delim_whitespace=True, header=None)
+df = pd.read_csv(url, sep='\\s+', header=None)
 df = df.replace("?", np.NaN)
 
 df.fillna(0, inplace=True)
-df.drop(columns=[2, 24, 25, 26, 27], inplace=True)
-df[23].replace({1: 1, 2: 0}, inplace=True)
+df = df.drop(columns=[2, 24, 25, 26, 27])
+df[23] = df[23].replace({1: 1, 2: 0})
 X = df.iloc[:, :-1].to_numpy().astype(float)
 y = df[23].to_numpy().astype(int)
 
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=42)
+SEED = 42
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=SEED)
+
 ```
 
 
-Note that we need to perform normalization before throwing the data into the model. Here we use the `MinMaxScaler()` from `sklearn` package. The normalization layer in keras is a little bit more complicated and doesn't fit into situation.
-
+We need to perform normalization before throwing the data into the model. Here we use the `MinMaxScaler()` from `sklearn` package. 
 
 
 ```{python}
 from sklearn.preprocessing import MinMaxScaler
-
 mms = MinMaxScaler()
-mms.fit(X_train)
-X_train = mms.transform(X_train)
+X_train = mms.fit_transform(X_train, y_train)
 X_test = mms.transform(X_test)
 ```
 
+Then we write a `Dataset` class to build the dataset and create the dataloaders. Since the set is already split, we don't need to `random_split` here.
+```{python}
+import torch
+from torch.utils.data import Dataset, DataLoader
 
-In the following code, we first set up the model, and then add one `Dense` layer. This `Dense` layer means that we would perform a linear transformation to the input, by the formula $\theta_0+\theta_1x_1+\theta_2x_2+\ldots+\theta_nx_n$. Then there are three arguments:
+class MyData(Dataset):
+    def __init__(self, X, y):
+        self.X = torch.tensor(X, dtype=float)
+        self.y = torch.tensor(y, dtype=float).reshape(-1, 1)
 
-- `1`: means that there is only output.
-- `activation='sigmoid'`: means that we will apply the `sigmoid` function after the linear transformation.
-- `input_dim`: means the dimension of the input. Note that this dimension is the dimension of one individual data point. You don't take the size of the training set into consideration.
+    def __getitem__(self, index):
+        return (self.X[index], self.y[index])
 
-After building the basic architectal of the model, we need to speicify a few more arguments. In the `model.compile()` step, we have to input the `optimizer`, the loss function (which is the `binary_crossentropy` in our case) and the metrics to test the performance of the model (which is accuracy in our case).
+    def __len__(self):
+        return len(self.y)
 
-The `optimizer` is how the parameters are updated. The best choice in general is `adam`. The default setting is `RMSprop` and the optimizer discussed in our lecture is `sgd`. We will use `adam` here, since the learning curve it produces looks better (for illustration).
 
-Finally we could train the model. The argument is straightforward.
+train_set = MyData(X_train, y_train)
+val_set = MyData(X_test, y_test)
+
+train_loader = DataLoader(train_set, batch_size=32, shuffle=True)
+val_loader = DataLoader(val_set, batch_size=32)
+```
+
 
 
 
 ```{python}
+#| echo: false
 #| output: false
-# import keras_core as keras
-from keras import models, layers
-model = models.Sequential()
 
-model.add(layers.Dense(1, activation='sigmoid', input_dim=X_train.shape[1]))
-
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-hist = model.fit(X_train, y_train, epochs=400, batch_size=30, validation_data=(X_test, y_test))
-
-```
-
-
-Note that we assign the output of `model.fit()` to a variable `hist`. The infomation about this training process is recorded inside. We will extract those information.
-
-
-```{python}
-loss_train = hist.history['loss']
-loss_val = hist.history['val_loss']
-
-acc_train = hist.history['accuracy']
-acc_val = hist.history['val_accuracy']
-```
-
-
-We now could plot the learning curve (loss vs epochs) and the learning curve (accuracy vs epochs).
-
-
-
-```{python}
-import matplotlib.pyplot as plt
-plt.plot(loss_train, label='train_loss')
-plt.plot(loss_val, label='val_loss')
-plt.legend()
+from assests.code.models import ModelTemplate
 ```
 
 
 
-```{python}
-plt.plot(acc_train, label='train_acc')
-plt.plot(acc_val, label='val_acc')
-plt.legend()
-```
 
-
-### Regularization
-To apply regularization, we just need to modify the layer we added to the model. The argument is `kernel_regularizer`. We would like to set it to be `keras.regularizers.L2(alpha)`, where `alpha` is the regularization strength.
+In the following code, we first set up the original model.
 
 
 ```{python}
-#| output: false
-from keras import models, layers, regularizers
+import torch.nn as nn
+from torch.nn.modules import Linear
 
-model = models.Sequential()
+class LoR(nn.Module):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.linear = Linear(in_features=22, out_features=1, dtype=float)
+        self.activation = nn.Sigmoid()
 
-model.add(layers.Dense(1, activation='sigmoid', input_dim=X_train.shape[1],
-                       kernel_regularizer=regularizers.L2(0.5)))
-
-model.compile(optimizer='sgd', loss='binary_crossentropy', metrics=['accuracy'])
-hist = model.fit(X_train, y_train, epochs=400, batch_size=30,
-                 validation_data=(X_test, y_test))
+    def forward(self, X):
+        # pred = self.activation(self.linear(X))
+        pred = self.linear(X)
+        # return (pred >= 0).float()
+        return pred
 
 ```
 
 
+Then we derive the base `ModelTemplate` class.
 
 ```{python}
-loss_train = hist.history['loss']
-loss_val = hist.history['val_loss']
+class LoRModel(ModelTemplate):
+    def __init__(self, model, loss_fn, optimizer):
+        super().__init__(model, loss_fn, optimizer)
+        self.stats['acc_train'] = []
+        self.stats['acc_val'] = []
 
-acc_train = hist.history['accuracy']
-acc_val = hist.history['val_accuracy']
+    def compute_acc(self, dataloader):
+        with torch.no_grad():
+            acc = []
+            for X_batch, y_batch in dataloader:
+                yhat = torch.sigmoid(self.model(X_batch))
+                y_pred = (yhat>=0.5).to(float)
+                acc.append((y_pred==y_batch).sum().item())
+            # print(acc_train)
+        return np.sum(acc)/len(dataloader.dataset)
 
-plt.plot(loss_train, label='train_loss')
-plt.plot(loss_val, label='val_loss')
-plt.legend()
+    def log_update(self, train_time, loss, val_time, val_loss, train_loader, val_loader):
+        super().log_update(train_time, loss, val_time, val_loss, train_loader, val_loader)
+        acc_train = self.compute_acc(train_loader)
+        acc_val = self.compute_acc(val_loader)
+        self.stats['acc_train'].append(acc_train)
+        self.stats['acc_val'].append(acc_val)
+
+
+        # p = self.model.state_dict()
+        # self.stats['acc'].append([p['linear.bias'].item(), p['linear.weight'].item()])
+
+    def log_output(self, verbose=0):
+        s = super().log_output(verbose=0, formatstr=':.6f')
+        s.append(f'acc_train: {self.stats['acc_train'][-1]:.6f}')
+        s.append(f'acc_val: {self.stats['acc_val'][-1]:.6f}')
+        # s.append(f'p: [{self.stats['p'][-1][0]:.6f}, {self.stats['p'][-1][1]:.6f}]')
+        if verbose == 1:
+            print(' '.join(s))
+        return s
+
 ```
 
 
 
 ```{python}
-plt.plot(acc_train, label='train_acc')
-plt.plot(acc_val, label='val_acc')
-plt.legend()
+from torch.optim import SGD
+from torch.nn import BCEWithLogitsLoss, BCELoss
+
+original_model = LoR()
+model = LoRModel(model=original_model, loss_fn=BCEWithLogitsLoss(),
+                 optimizer=SGD(original_model.parameters(), lr = 0.1))
+
+model.train(train_loader, val_loader, epoch_num=100, verbose=1)
+
 ```
-You may compare what we get here with the codes we get before.
+
+
+
+
+

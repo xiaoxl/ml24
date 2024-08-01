@@ -98,6 +98,13 @@ X_tensor_train = torch.as_tensor(X_train, device=device, dtype=float)
 y_tensor_train = torch.as_tensor(y_train, device=device, dtype=float)
 ```
 
+
+
+::: {.callout-note}
+# Back to `numpy`
+If we would like to turn a tensor back to `numpy`, usually we would like to remove it from related computation graphs and just keep the data. Therefore usually we would like to apply `detach()` method to the tensor before converting. Also later we will talk about devices. When taking GPU into consideration, we also want to send the tensor back to CPU before converting. Therefore the code to turn a `PyTorch` tensor to a `numpy` array is `x.detach().cpu().numpy()`.
+:::
+
 ### devices
 We coulde use `torch.cuda.is_available()` to check whether we have GPU/CUDA supported devices. If the answer is no, we don't need to change any codes and everything works fine but slow.
 
@@ -337,7 +344,7 @@ In all our examples we initialize the parameters to be $(1, 1.5)$ for the purpos
 
 Note that if we directly change our function to the standard one we will encounter some issues. The main reason is that our previous code is an oversimplifed version that we treat `b` and `w` as two scalars. They are scalars in our particular problem, but it is better to treat them as a special case of tensors for the purpose of better generalization. Actually based on the standard functions from `PyTorch` (as well as many others like `sklearn`) `X` and `y` are expected to be 2D tensors. This is the reason why there are some strange `reshape(-1, 1 )` in the codes. 
 
-We will reconstruct it in the next section.
+We will reconstruct it in the later sections.
 :::
 
 

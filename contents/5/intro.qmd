@@ -1,7 +1,9 @@
 
 # Logistic regression 
 
+Logistic regression is very similar to linear regression, but applied to classification problems. In this chpater our idea is to treat it as the simplest example of a neural network instead of using other methods. The code we developped in the last chapter will be used extensively.
 
+<!-- 
 Consider a set of training data $(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \ldots$, where $x^{(i)}=(x^{(i)}_1, x^{(i)}_2, \ldots, x^{(i)}_n)$ is a $n$-dim vector, and $y^{(i)}$ is a real number. We would like to use Linear regression to find the relation between $x$ and $y$. 
 
 In this case, we assume that $y$ is a linear function of $x$:
@@ -18,7 +20,7 @@ y=\Theta \hat{x}^T.
 $$
 
 When we want to deal with classification problem, we may still use this regression idea, but we have to do some modification.
-
+ -->
 
 
 
@@ -37,7 +39,11 @@ When we want to deal with classification problem, we may still use this regressi
 
 
 
-{{< include multi.qmd >}}
+<!-- {{< include multi.qmd >}} -->
+
+
+{{< include sklearn.qmd >}}
+
 
 
 
