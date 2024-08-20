@@ -48,9 +48,9 @@ book:
     - contents/2/intro.qmd
     - contents/3/intro.qmd
     - contents/4/intro.qmd
-    - contents/intro2pt/intro.qmd
-    - contents/5/intro.qmd
-    - contents/6/intro.qmd
+    # - contents/intro2pt/intro.qmd
+    # - contents/5/intro.qmd
+    # - contents/6/intro.qmd
   #   - part: "Part II: R"
   #     chapters:
   #       - contents/7/07-.qmd
