@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.10">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Introduction – Machine Learning Fall 2024</title>
+<title>Machine Learning Fall 2024 - 1&nbsp; Introduction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -89,10 +89,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2d9718c933debafcce942f9b212640bc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c2be7f5231965d65f9256c776f13bc01.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -122,12 +122,9 @@ div.csl-indent {
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
-
-
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -170,20 +167,20 @@ window.Quarto = {
     <span class="navbar-title">Machine Learning Fall 2024</span>
     </a>
   </div>
-        <div class="quarto-navbar-tools tools-end">
+        <div class="quarto-navbar-tools">
 </div>
           <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../contents/1/intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -228,6 +225,18 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../contents/4/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ensemble methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../contents/5/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../contents/6/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Netural networks</span></span></a>
   </div>
 </li>
     </ul>
@@ -361,7 +370,7 @@ Note
 <div id="exm-" class="theorem example">
 <p><span class="theorem-title"><strong>Example 1.1</strong></span> The example is extracted from <span class="citation" data-cites="Har2012">[<a href="../../index.html#ref-Har2012" role="doc-biblioref">3</a>]</span>. There are some sample data shown in the following table. We would like to use these information to classify bird species.</p>
 <div class="cell" data-execution_count="1">
-<div id="tbl-table" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="1">
+<div id="tbl-table" class="cell quarto-float anchored" data-execution_count="1">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1.1: Bird species classification based on four features
@@ -369,66 +378,66 @@ Table&nbsp;1.1: Bird species classification based on four features
 <div aria-describedby="tbl-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <style type="text/css">
-#T_82f4e th {
+#T_7ac85 th {
   text-align: right;
 }
-#T_82f4e_row0_col0, #T_82f4e_row0_col1, #T_82f4e_row0_col2, #T_82f4e_row0_col3, #T_82f4e_row0_col4, #T_82f4e_row1_col0, #T_82f4e_row1_col1, #T_82f4e_row1_col2, #T_82f4e_row1_col3, #T_82f4e_row1_col4, #T_82f4e_row2_col0, #T_82f4e_row2_col1, #T_82f4e_row2_col2, #T_82f4e_row2_col3, #T_82f4e_row2_col4, #T_82f4e_row3_col0, #T_82f4e_row3_col1, #T_82f4e_row3_col2, #T_82f4e_row3_col3, #T_82f4e_row3_col4, #T_82f4e_row4_col0, #T_82f4e_row4_col1, #T_82f4e_row4_col2, #T_82f4e_row4_col3, #T_82f4e_row4_col4, #T_82f4e_row5_col0, #T_82f4e_row5_col1, #T_82f4e_row5_col2, #T_82f4e_row5_col3, #T_82f4e_row5_col4 {
+#T_7ac85_row0_col0, #T_7ac85_row0_col1, #T_7ac85_row0_col2, #T_7ac85_row0_col3, #T_7ac85_row0_col4, #T_7ac85_row1_col0, #T_7ac85_row1_col1, #T_7ac85_row1_col2, #T_7ac85_row1_col3, #T_7ac85_row1_col4, #T_7ac85_row2_col0, #T_7ac85_row2_col1, #T_7ac85_row2_col2, #T_7ac85_row2_col3, #T_7ac85_row2_col4, #T_7ac85_row3_col0, #T_7ac85_row3_col1, #T_7ac85_row3_col2, #T_7ac85_row3_col3, #T_7ac85_row3_col4, #T_7ac85_row4_col0, #T_7ac85_row4_col1, #T_7ac85_row4_col2, #T_7ac85_row4_col3, #T_7ac85_row4_col4, #T_7ac85_row5_col0, #T_7ac85_row5_col1, #T_7ac85_row5_col2, #T_7ac85_row5_col3, #T_7ac85_row5_col4 {
   text-align: right;
 }
 </style>
 
-<table id="T_82f4e" class="do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_7ac85" class="do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th id="T_82f4e_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Weight (g)</th>
-<th id="T_82f4e_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Wingspan (cm)</th>
-<th id="T_82f4e_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Webbed feet?</th>
-<th id="T_82f4e_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Back color</th>
-<th id="T_82f4e_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Species</th>
+<th id="T_7ac85_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Weight (g)</th>
+<th id="T_7ac85_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Wingspan (cm)</th>
+<th id="T_7ac85_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Webbed feet?</th>
+<th id="T_7ac85_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Back color</th>
+<th id="T_7ac85_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Species</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_82f4e_row0_col0" class="data row0 col0">1000.100000</td>
-<td id="T_82f4e_row0_col1" class="data row0 col1">125.000000</td>
-<td id="T_82f4e_row0_col2" class="data row0 col2">No</td>
-<td id="T_82f4e_row0_col3" class="data row0 col3">Brown</td>
-<td id="T_82f4e_row0_col4" class="data row0 col4">Buteo jamaicensis</td>
+<td id="T_7ac85_row0_col0" class="data row0 col0">1000.100000</td>
+<td id="T_7ac85_row0_col1" class="data row0 col1">125.000000</td>
+<td id="T_7ac85_row0_col2" class="data row0 col2">No</td>
+<td id="T_7ac85_row0_col3" class="data row0 col3">Brown</td>
+<td id="T_7ac85_row0_col4" class="data row0 col4">Buteo jamaicensis</td>
 </tr>
 <tr class="even">
-<td id="T_82f4e_row1_col0" class="data row1 col0">3000.700000</td>
-<td id="T_82f4e_row1_col1" class="data row1 col1">200.000000</td>
-<td id="T_82f4e_row1_col2" class="data row1 col2">No</td>
-<td id="T_82f4e_row1_col3" class="data row1 col3">Gray</td>
-<td id="T_82f4e_row1_col4" class="data row1 col4">Sagittarius serpentarius</td>
+<td id="T_7ac85_row1_col0" class="data row1 col0">3000.700000</td>
+<td id="T_7ac85_row1_col1" class="data row1 col1">200.000000</td>
+<td id="T_7ac85_row1_col2" class="data row1 col2">No</td>
+<td id="T_7ac85_row1_col3" class="data row1 col3">Gray</td>
+<td id="T_7ac85_row1_col4" class="data row1 col4">Sagittarius serpentarius</td>
 </tr>
 <tr class="odd">
-<td id="T_82f4e_row2_col0" class="data row2 col0">3300.000000</td>
-<td id="T_82f4e_row2_col1" class="data row2 col1">220.300000</td>
-<td id="T_82f4e_row2_col2" class="data row2 col2">No</td>
-<td id="T_82f4e_row2_col3" class="data row2 col3">Gray</td>
-<td id="T_82f4e_row2_col4" class="data row2 col4">Sagittarius serpentarius</td>
+<td id="T_7ac85_row2_col0" class="data row2 col0">3300.000000</td>
+<td id="T_7ac85_row2_col1" class="data row2 col1">220.300000</td>
+<td id="T_7ac85_row2_col2" class="data row2 col2">No</td>
+<td id="T_7ac85_row2_col3" class="data row2 col3">Gray</td>
+<td id="T_7ac85_row2_col4" class="data row2 col4">Sagittarius serpentarius</td>
 </tr>
 <tr class="even">
-<td id="T_82f4e_row3_col0" class="data row3 col0">4100.000000</td>
-<td id="T_82f4e_row3_col1" class="data row3 col1">136.000000</td>
-<td id="T_82f4e_row3_col2" class="data row3 col2">Yes</td>
-<td id="T_82f4e_row3_col3" class="data row3 col3">Black</td>
-<td id="T_82f4e_row3_col4" class="data row3 col4">Gavia immer</td>
+<td id="T_7ac85_row3_col0" class="data row3 col0">4100.000000</td>
+<td id="T_7ac85_row3_col1" class="data row3 col1">136.000000</td>
+<td id="T_7ac85_row3_col2" class="data row3 col2">Yes</td>
+<td id="T_7ac85_row3_col3" class="data row3 col3">Black</td>
+<td id="T_7ac85_row3_col4" class="data row3 col4">Gavia immer</td>
 </tr>
 <tr class="odd">
-<td id="T_82f4e_row4_col0" class="data row4 col0">3.000000</td>
-<td id="T_82f4e_row4_col1" class="data row4 col1">11.000000</td>
-<td id="T_82f4e_row4_col2" class="data row4 col2">No</td>
-<td id="T_82f4e_row4_col3" class="data row4 col3">Green</td>
-<td id="T_82f4e_row4_col4" class="data row4 col4">Calothorax lucifer</td>
+<td id="T_7ac85_row4_col0" class="data row4 col0">3.000000</td>
+<td id="T_7ac85_row4_col1" class="data row4 col1">11.000000</td>
+<td id="T_7ac85_row4_col2" class="data row4 col2">No</td>
+<td id="T_7ac85_row4_col3" class="data row4 col3">Green</td>
+<td id="T_7ac85_row4_col4" class="data row4 col4">Calothorax lucifer</td>
 </tr>
 <tr class="even">
-<td id="T_82f4e_row5_col0" class="data row5 col0">570.000000</td>
-<td id="T_82f4e_row5_col1" class="data row5 col1">75.000000</td>
-<td id="T_82f4e_row5_col2" class="data row5 col2">No</td>
-<td id="T_82f4e_row5_col3" class="data row5 col3">Black</td>
-<td id="T_82f4e_row5_col4" class="data row5 col4">Campephilus principalis</td>
+<td id="T_7ac85_row5_col0" class="data row5 col0">570.000000</td>
+<td id="T_7ac85_row5_col1" class="data row5 col1">75.000000</td>
+<td id="T_7ac85_row5_col2" class="data row5 col2">No</td>
+<td id="T_7ac85_row5_col3" class="data row5 col3">Black</td>
+<td id="T_7ac85_row5_col4" class="data row5 col4">Campephilus principalis</td>
 </tr>
 </tbody>
 </table>
@@ -439,13 +448,13 @@ Table&nbsp;1.1: Bird species classification based on four features
 </div>
 <p>The first four columns are features, and the last column is the label. The first two features are numeric and can take on decimal values. The third feature is binary that can only be <span class="math inline">\(1\)</span> (Yes) or <span class="math inline">\(0\)</span> (No). The fourth feature is an enumeration over the color palette. You may either treat it as categorical data or numeric data, depending on how you want to build the model and what you want to get out of the data. In this example we will use it as categorical data that we only choose it from a list of colors (<span class="math inline">\(1\)</span> — Brown, <span class="math inline">\(2\)</span> — Gray, <span class="math inline">\(3\)</span> — Black, <span class="math inline">\(4\)</span> — Green).</p>
 <p>Then we are able to transform the above data into the following form:</p>
-<div id="tbl-vectorized" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-vectorized" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vectorized-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1.2: Vectorized Bird species data
 </figcaption>
 <div aria-describedby="tbl-vectorized-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th>Features</th>
@@ -580,10 +589,20 @@ JupyterLite contains a few popular packages. Therefore it is totally ok if you w
 <span id="cb2-12"><a href="#cb2-12"></a><span class="bu">print</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-layout-panel" data-layout-nrow="2">
 <div class="quarto-layout-row">
+<div id="05806764" class="cell quarto-layout-cell" data-execution_count="2" style="flex-basis: 50.0%;justify-content: flex-start;">
 
 </div>
-<div class="quarto-layout-row">
+<div id="ace55af3" class="cell quarto-layout-cell" data-execution_count="3" style="flex-basis: 50.0%;justify-content: flex-start;">
 
+</div>
+</div>
+<div class="quarto-layout-row">
+<div id="1f4209e7" class="cell quarto-layout-cell" data-execution_count="4" style="flex-basis: 50.0%;justify-content: flex-start;">
+
+</div>
+<div id="314f0510" class="cell quarto-layout-cell" data-execution_count="5" style="flex-basis: 50.0%;justify-content: flex-start;">
+
+</div>
 </div>
 </div>
 <p>Please tell the differences between the above codes.</p>
@@ -591,7 +610,7 @@ JupyterLite contains a few popular packages. Therefore it is totally ok if you w
 <section id="list-and-dict" class="level4" data-number="1.4.2.2">
 <h4 data-number="1.4.2.2" class="anchored" data-anchor-id="list-and-dict"><span class="header-section-number">1.4.2.2</span> <code>list</code> and <code>dict</code></h4>
 <p>Here are some very basic usage of lists of dictionaries in Python.</p>
-<div id="bed9915e" class="cell" data-execution_count="6">
+<div id="cab48bf4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>newlist <span class="op">=</span> <span class="bu">list</span>()</span>
 <span id="cb3-2"><a href="#cb3-2"></a>newlist.append(<span class="dv">1</span>)</span>
 <span id="cb3-3"><a href="#cb3-3"></a>newlist.append(<span class="st">'hello'</span>)</span>
@@ -600,14 +619,14 @@ JupyterLite contains a few popular packages. Therefore it is totally ok if you w
 <pre><code>[1, 'hello']</code></pre>
 </div>
 </div>
-<div id="0767bbc7" class="cell" data-execution_count="7">
+<div id="78c477cb" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>newlisttwo <span class="op">=</span> [<span class="dv">1</span>, <span class="st">'hello'</span>]</span>
 <span id="cb5-2"><a href="#cb5-2"></a>newlisttwo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>[1, 'hello']</code></pre>
 </div>
 </div>
-<div id="ce8a8e46" class="cell" data-execution_count="8">
+<div id="a9c25051" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>newdict <span class="op">=</span> <span class="bu">dict</span>()</span>
 <span id="cb7-2"><a href="#cb7-2"></a>newdict[<span class="st">'one'</span>] <span class="op">=</span> <span class="st">'good'</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a>newdict[<span class="dv">1</span>] <span class="op">=</span> <span class="st">'yes'</span></span>
@@ -616,7 +635,7 @@ JupyterLite contains a few popular packages. Therefore it is totally ok if you w
 <pre><code>{'one': 'good', 1: 'yes'}</code></pre>
 </div>
 </div>
-<div id="1597a70c" class="cell" data-execution_count="9">
+<div id="55a663d5" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>newdicttwo <span class="op">=</span> {<span class="st">'one'</span>: <span class="st">'good'</span>, <span class="dv">1</span>: <span class="st">'yes'</span>}</span>
 <span id="cb9-2"><a href="#cb9-2"></a>newdicttwo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -627,7 +646,7 @@ JupyterLite contains a few popular packages. Therefore it is totally ok if you w
 <section id="loop-through-lists" class="level4" data-number="1.4.2.3">
 <h4 data-number="1.4.2.3" class="anchored" data-anchor-id="loop-through-lists"><span class="header-section-number">1.4.2.3</span> Loop through lists</h4>
 <p>When creating <code>for</code> loops we may let Python directly loop through lists. Here is an example. The code is almost self-explained.</p>
-<div id="d6722701" class="cell" data-execution_count="10">
+<div id="973a72a4" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>alist <span class="op">=</span> [<span class="st">'one'</span>, <span class="dv">2</span>, <span class="st">'three'</span>, <span class="dv">4</span>]</span>
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="cf">for</span> item <span class="kw">in</span> alist:</span>
@@ -659,7 +678,7 @@ three
 <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html"><code>pandas.DataFrame.to_excel</code></a></li>
 <li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imsave.html"><code>matplotlib.pyplot.imsave</code></a></li>
 <li><a href="https://docs.opencv.org/3.4/d4/da8/group__imgcodecs.html#gabbc7ef1aa2edfaa87772f1202d67e0ce"><code>cv.imwrite</code></a></li>
-<li><a href="https://docs.python.org/3/library/json.html#json.dump"><code>json.dump</code></a></li>
+<li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imsave.html"><code>json.dump</code></a></li>
 </ul>
 </section>
 <section id="relative-paths" class="level4" data-number="1.4.2.6">
@@ -673,7 +692,7 @@ three
 <li>Want to generate a file whose name is <code>result.csv</code> and put it in a subfoler named <code>foldername</code>.</li>
 </ol>
 <p>To do the tasks, don’t directly run the code <code>pd.read_csv('D:/Files/example.csv')</code>. Instead you should first copy the file to your working directory <code>C:/Users/Xinli/projects/</code>, and then run the following code.</p>
-<div id="638a754b" class="cell" data-execution_count="11">
+<div id="b96584df" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb13-2"><a href="#cb13-2"></a></span>
 <span id="cb13-3"><a href="#cb13-3"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'example.csv'</span>)</span>
@@ -766,10 +785,10 @@ three
 </ul>
 </div>
 <!-- 
-````twdnefwbff ex1helloworld
+````fqkilrlzmb ex1helloworld
 :class: dropdown
 
-```ckixbljxktil python
+```gjhezmhheatn python
 for i in range(5):
     print(i)
 
@@ -794,7 +813,7 @@ Please be careful about the last line. `sorted()` doesn't change the original li
 </div>
 <!-- ````{solution} ex1list
 :class: dropdown
-```ckixbljxktil python
+```gjhezmhheatn python
 import pandas as pd
 
 people = {'name': list(), 'age': list()}
@@ -810,7 +829,7 @@ df = pd.DataFrame(people)
 ```` -->
 <div id="exr-ex1iris" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 1.5 (The dataset iris)</strong></span> &nbsp;</p>
-<div id="ccb6291d" class="cell" data-execution_count="12">
+<div id="058ad369" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
 <span id="cb14-2"><a href="#cb14-2"></a>iris <span class="op">=</span> load_iris()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -825,7 +844,7 @@ df = pd.DataFrame(people)
 <!-- ````{solution} ex1iris
 :class: dropdown
 We first find that `iris` is a dictionary. Then we can look at all the keys by `iris.keys()`. The interesting keys are `data`, `target`, `target_names` and `feature_names`. We can also read the description of the dataset by looking at `DESCR`. 
-```ckixbljxktil python
+```gjhezmhheatn python
 X = iris['data']
 print(iris['feature_names'])
 y = iris['target']
@@ -902,7 +921,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -934,47 +964,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1009,11 +999,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1289,12 +1275,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Preface">
+      <a href="../../index.html" class="pagination-link  aria-label=" preface"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../contents/2/intro.html" class="pagination-link" aria-label="k-Nearest Neighbors algorithm (k-NN)">
+      <a href="../../contents/2/intro.html" class="pagination-link" aria-label="<span class='chapter-number'>2</span>&nbsp; <span class='chapter-title'>k-Nearest Neighbors algorithm (k-NN)</span>">
         <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">k-Nearest Neighbors algorithm (k-NN)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
