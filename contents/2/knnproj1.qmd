@@ -22,17 +22,20 @@ The split will be randomly. You may set the argument `random_state` to be a cert
 
 After we get the training set, we should also normalize it. All our normalization should be based on the training set. When we want to use our model on some new data points, we will use the same normalization parameters to normalize the data points in interests right before we apply the model. Here since we mainly care about the test set, we could normalize the test set at this stage.
 
-Note that in the following code, the function `encodeNorm` defined in the previous section is used. 
+Note that in the following code, we mainly use the implementation from `sklearn`. 
+<!-- the function `encodeNorm` defined in the previous section is used.  -->
 <!-- I import it from `assests.codes.knn`. You need to modify this part based on your file structure. See @sec-applyourknn for more details. -->
 
 
 ```{python}
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=1, stratify=y)
 
-X_train_norm, parameters = encodeNorm(X_train)
-X_test_norm, _ = encodeNorm(X_test, parameters=parameters)
+mm = MinMaxScaler()
+X_train_norm = mm.fit_transform(X_train)
+X_test_norm = mm.transform(X_test)
 ```
 
 Before we start to play with k-NN, let us look at the data first. Since we only choose two features, it is able to plot these data points on a 2D plane, with different colors representing different classes. 
@@ -57,47 +60,7 @@ _ = fig.legend(handles=scatter.legend_elements()[0], labels=labels,
 
 ### Apply our k-NN model {#sec-applyourknn}
 
-Now let us apply k-NN to this dataset. We first use our codes. The poential code is 
-```{python}
-#| eval: false
-y_pred = classify_kNN(X_test, X_train, y_train, k=10)
-```
-
-However the above code is actually wrong. The issue is that our function `classify_kNN` can only classify one row of data. To classify many rows, we need to use a `for` loop. 
-
-
-
-```{python}
-n_neighbors = 10
-y_pred = list()
-for row in X_test_norm:
-    row_pred = classify_kNN(row, X_train_norm, y_train, k=n_neighbors)
-    y_pred.append(row_pred)
-y_pred = np.array(y_pred)
-```
-We could use list comprehension to simply the above codes. 
-
-
-```{python}
-n_neighbors = 10
-y_pred = np.array([classify_kNN(row, X_train_norm, y_train, k=n_neighbors)
-                   for row in X_test_norm])
-```
-
-
-This `y_pred` is the result we got for the test set. We may compare it with the real answer `y_test`, and calcuate the accuracy.
-
-
-```{python}
-acc = np.mean(y_pred == y_test)
-acc
-
-```
-
-
-### Apply k-NN model from `sklearn`
-
-Now we would like to use `sklearn` to reproduce this result. Since our data is prepared, what we need to do is directly call the functions.
+Now let us apply k-NN to this dataset. Since our data is prepared, what we need to do is directly call the functions.
 
 
 ```{python}
@@ -117,7 +80,7 @@ acc
 We may organize the above process in a neater way. After we get a data, the usual process is to apply several transforms to the data before we really get to the model part. Using terminolgies from `sklearn`, the former are called *transforms*, and the latter is called an *estimator*. In this example, we have exactly one tranform which is the normalization. The estimator here we use is the k-NN classifier. 
 
 `sklearn` provides a standard way to write these codes, which is called `pipeline`. We may chain the transforms and estimators in a sequence and let the data go through the pipeline. In this example, the pipeline contains two steps:
-1. The normalization transform `sklearn.preprocessing.MinMaxScaler`. When we directly apply it the parameters `ranges` and `minVals` and  will be recorded automatically, and we don't need to worry about it when we want to use the same parameters to normalize other data.
+1. The normalization transform `sklearn.preprocessing.MinMaxScaler`. 
 2. The k-NN classifier `sklearn.neighbors.KNeighborsClassifier`. This is the same one as we use previously.
 
 The code is as follows. It is a straightforward code. Note that the `()` after the class in each step of `steps` is very important. The codes cannot run if you miss it.
@@ -126,10 +89,12 @@ After we setup the pipeline, we may use it as other estimators since it is an es
 
 
 ```{python}
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import accuracy_score
 
+n_neighbors = 10
 steps = [('scaler', MinMaxScaler()),
          ('knn', KNeighborsClassifier(n_neighbors, weights="uniform",
                                       metric="euclidean", algorithm='brute'))]
@@ -139,8 +104,25 @@ y_pipe = pipe.predict(X_test)
 accuracy_score(y_pipe, y_test)
 ```
 
+Once a pipeline is set, you may use `step name` with TWO underscores `__` with `parameter name` to get access to a specific parameter. Please check the following code.
 
-### Visualize the Decision boundary [Optional]
+```{python}
+pipe.get_params()['knn__n_neighbors']
+```
+
+
+```{python}
+pipe.set_params(knn__n_neighbors=5)
+pipe.get_params()['knn__n_neighbors']
+```
+
+
+
+### Visualize the Decision boundary
+
+<details>
+<summary>This section is optional.</summary>
+
 Using the classifier we get above, we are able to classify every points on the plane. This enables us to draw the following plot, which is called the Decision boundary. It helps us to visualize the relations between features and the classes.
 
 We use `DecisionBoundaryDisplay` from `sklearn.inspection` to plot the decision boundary. The function requires us to have a fitted classifier. We may use the classifier `pipe` we got above. Note that this classifier should have some build-in structures that our `classify_kNN` function doesn't have. We may rewrite our codes to make it work, but this goes out of the scope of this section. This is supposed to be Python programming exercise. We will talk about it in the future if we have enough time.
@@ -164,19 +146,45 @@ disp.figure_.set_size_inches((10,7))
 ```
 
 
+</details>
 
 ### k-Fold Cross-Validation {#sec-cross-validation}
 
 Previously we perform a random split and test our model in this case. What would happen if we fit our model on another split? We might get a different accuracy score. So in order to evaluate the performance of our model, it is natual to consider several different split and compute the accuracy socre for each case, and combine all these socres together to generate an index to indicate whehter our model is good or bad. This naive idea is called *k-Fold Cross-Validation*.
 
-The algorithm is described as follows. We first randomly split the dataset into `k` groups. We use one of them as the test set, and the rest together forming the training set, and use this setting to get an accuracy score. We did this for each group to be chosen as the test set. Then the final score is the mean.
+The algorithm is described as follows. We first randomly split the dataset into `k` groups of the same size. We use one of them as the test set, and the rest together forming the training set, and use this setting to get an accuracy score. We did this for each group to be chosen as the test set. Then the final score is the mean.
 
-`sklearn` provides a function `sklearn.model_selection.cross_val_score` to perform the above computation. The usage is straightforward, as follows.
+
+::: {.callout-note collapse="true"}
+# `KFold`
+`KFold` from `sklearn.model.selection` is used to split the dataset into `k` groups and in each iteration to chooose one as the validation set. 
 
 
 ```{python}
-from sklearn.model_selection import cross_val_score
-cv_scores = cross_val_score(pipe, X, y, cv=5)
+from sklearn.model_selection import KFold
+
+kf = KFold(n_splits=5)
+
+for train_idx, val_idx in kf.split(range(10)):
+    print(train_idx, val_idx)
+```
+
+- I only put `range(10)` in `kf.split` since it only needs to work with the index. If a dataset is put there, the output is still the index of which data is in the training set and which is in the validation set.
+- If you want to randomize the selection, when set up `KFold` we could add an argument `shuffle=True`. In this case, we may use `random_state` to control the outcome provide reproducing ability.
+
+Let us see an example for our data.
+
+```{python}
+from sklearn.model_selection import KFold
+from sklearn.base import clone
+
+kf = KFold(n_splits=5, shuffle=True, random_state=1)
+
+cv_scores = []
+for train_idx, val_idx in kf.split(X):
+    pipe_tmp = clone(pipe)
+    pipe_tmp.fit(X[train_idx], y[train_idx])
+    cv_scores.append(pipe_tmp.score(X[val_idx], y[val_idx]))
 cv_scores
 ```
 
@@ -184,9 +192,73 @@ cv_scores
 np.mean(cv_scores)
 ```
 
+Note that here `sklearn.base.clone` is used to initialize an unfitted model which has the same hyperpamaters as `pipe`.
+
+:::
+
+
+::: {.callout-note collapse="true"}
+# `cross_validate`
+`KFold` is too "manual". We may use `cross_validate` to autmate the above process. Note that depending on the arguments given `cross_validate` may be implemented by `KFold`.
+
+```{python}
+from sklearn.model_selection import cross_validate
+
+cv_result = cross_validate(pipe, X, y, cv=5, scoring='accuracy')
+cv_result
+```
+And you may only see the scores if this is the only thing that interests you.
+
+```{python}
+cv_result['test_score']
+```
+
+
+- You may choose different scoring methods. More info can be found in [the document](https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter).
+- If `cv=5`, `KFold(5, shuffle=False)` is applied here. If you prefer random split, you may directly use `KFold` here.
+
+```{python}
+cv_result = cross_validate(pipe, X, y, scoring='accuracy',
+                           cv=KFold(5, shuffle=True, random_state=1))
+cv_result['test_score']
+```
+You may compare this result with the previous one and the one in `KFold` section.
+Of course, the cv score is usually the mean of all the scores.
+
+```{python}
+cv_result['test_score'].mean()
+```
+
+
+:::
+
+::: {.callout-note collapse="true"}
+# `cross_val_score`
+This is a faster way to directly get `cv_result['test_score']` in `cross_validate` section. The argument about `cv` and `scoring` are the same as `cross_validate`.
+
+```{python}
+from sklearn.model_selection import cross_val_score
+cv_scores = cross_val_score(pipe, X, y, cv=KFold(5, shuffle=True, random_state=1))
+cv_scores
+```
+
+```{python}
+cv_scores.mean()
+```
+
+
+:::
+
+
 
 ### Choosing a `k` value
 In the previous example we choose `k` to be `10` as an example. To choose a `k` value we usually run some test by trying different `k` and choose the one with the best performance. In this case, best performance means the highest cross-validation score.
+
+
+
+
+::: {.callout-note collapse="true"}
+# Grid search
 
 `sklearn.model_selection.GridSearchCV` provides a way to do this directly. We only need to setup the esitimator, the metric (which is the cross-validation score in this case), and the hyperparameters to be searched through, and `GridSearchCV` will run the search automatically.
 
@@ -215,3 +287,28 @@ np.mean(cv_scores)
 
 
 The cross-validation score using `k=31` is calculated. This serves as a benchmark score and we may come back to dataset using other methods and compare the scores.
+:::
+
+
+
+::: {.callout-note collapse="true"}
+# Plot the curve
+Grid search can only give us a single number that has the best cross validation score. However there are many cases that the number might not be really the best. So usually we also want to see the result for all `k`. The best way to display all results simutanously is to plot the curve.
+
+
+```{python}
+import matplotlib.pyplot as plt
+
+n_list = list(range(1, 101))
+cv_scores = []
+for k in n_list:
+    pipe_tmp = clone(pipe)
+    pipe_tmp.set_params(knn__n_neighbors=k)
+    cv_scores.append(cross_val_score(pipe_tmp, X, y, cv=5).mean())
+
+plt.plot(cv_scores)
+```
+
+From this plot, combining with the best cv score happens at `k=31`, we could make our final decision about which `k` to choose.
+
+:::

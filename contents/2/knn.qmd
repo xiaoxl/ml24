@@ -72,6 +72,12 @@ $$
 
 ### The codes
 
+
+<details>
+<summary>This part is optional.</summary>
+
+
+
 - `argsort`
 - `unique`
 - `argmax`
@@ -92,6 +98,8 @@ def classify_kNN(inX, X, y, k=5):
     label = labelcounts[0][labelcounts[1].argmax()]
     return label
 ```
+
+</details>
 
 ### `sklearn` packages
 You may also directly use the kNN function `KNeighborsClassifier` packaged in `sklearn.neighbors`. You may check the description of the function online from [here](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html).
@@ -121,7 +129,13 @@ $$
 X_{original} = X_{norm} \times ranges + minVal.
 $$
 
-The sample codes are listed below.
+
+
+
+<details>
+<summary>The sample codes are listed below. This part is optional.</summary>
+
+
 
 ```{python}
 import numpy as np
@@ -150,4 +164,23 @@ def decodeNorm(X, parameters):
     return Xoriginal
 ```
 
-If you use `sklearn` you could use `MinMaxScaler` from `sklearn.preprocessing` to achive the same goal. The related codes will be discussed later in projects. I keep our handwritten codes here for Python practicing.
+</details>
+
+You could use `MinMaxScaler` from `sklearn.preprocessing` to achive the goal. The API is very similar to an estimator.
+
+
+```{python}
+#| eval: false
+from sklearn.preprocessing import MinMaxScaler
+
+mm = MinMaxScaler()
+mm.fit(X)
+X_norm = mm.transform(X)
+```
+
+The last two lines can be combined into 
+
+```{python}
+#| eval: false
+X_norm = mm.fit_transform(X)
+```
