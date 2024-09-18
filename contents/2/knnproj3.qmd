@@ -34,7 +34,14 @@ X_test, y_test = stream_to_array(mnist_test, max=100)
 
 Note that one of the purpose to load the data in streaming mode is that the dataset is big and it is not wise to load everything all together. However this is the only way to train a KNN model since all it does is to memorize everything. In the future with other models we may want to load the image one by one with the streaming mode.
 
-Also due to the issue of large dataset, I only choose the first 600/100 images from the original dataset. The `itertools.islice` is used to only choose the first few items from a generator.
+Also due to the issue of large dataset, I only choose the first 600/100 images from the original dataset. The `itertools.islice` is used to only choose the first few items from a generator. We may also check the distribution of `y_train`. 
+
+```{python}
+np.unique(y_train, return_counts=True)
+```
+Although not optimal, all digits are presented, and the distributions are relatively equal. So we will use this slice of the original dataset. In reality, if possible it is always better to use all data provided to you.
+
+
 
 
 ### Apply k-NN
