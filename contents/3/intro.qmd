@@ -18,7 +18,7 @@ Given a dataset with labels, the decision tree algorithm firstly trys to split t
 
 
 
-{{< include dt2.qmd >}}
+<!-- {{< include dt2.qmd >}} -->
 
 
 

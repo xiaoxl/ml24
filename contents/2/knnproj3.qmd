@@ -13,28 +13,25 @@ from datasets import load_dataset
 import numpy as np
 import itertools
 
-def stream_to_array(streaming, max=None):
-    pic_list = []
-    label_list =[]
-    if max is None:
-        generator = streaming
-    else:
-        generator = itertools.islice(streaming, max)
-    for data in generator:
-        pic_list.append(np.array(data['image']).reshape(-1))
-        label_list.append(data['label'])
-    return np.array(pic_list), np.array(label_list)
+def pil_to_array(data):
+    data['image'] = np.array(data['image'])
+    return data
 
-mnist_train = load_dataset("ylecun/mnist", split='train', streaming=True)
-mnist_test = load_dataset("ylecun/mnist", split='test', streaming=True)
+mnist_train = load_dataset("ylecun/mnist", split='train').take(600)
+mnist_test = load_dataset("ylecun/mnist", split='test').take(100)
 
-X_train, y_train = stream_to_array(mnist_train, max=600)
-X_test, y_test = stream_to_array(mnist_test, max=100)
+mnist_train_processed = mnist_train.map(pil_to_array)
+mnist_test_processed = mnist_test.map(pil_to_array)
+
+X_train = np.array(mnist_train_processed['image']).reshape(-1, 784)
+y_train = np.array(mnist_train_processed['label']).reshape(-1)
+X_test = np.array(mnist_test_processed['image']).reshape(-1, 784)
+y_test = np.array(mnist_test_processed['label']).reshape(-1)
 ```
 
 Note that one of the purpose to load the data in streaming mode is that the dataset is big and it is not wise to load everything all together. However this is the only way to train a KNN model since all it does is to memorize everything. In the future with other models we may want to load the image one by one with the streaming mode.
 
-Also due to the issue of large dataset, I only choose the first 600/100 images from the original dataset. The `itertools.islice` is used to only choose the first few items from a generator. We may also check the distribution of `y_train`. 
+Also due to the issue of large dataset, I only choose the first 600/100 images from the original dataset. This is implemented by the `.take` method when loading the dataset.
 
 ```{python}
 np.unique(y_train, return_counts=True)

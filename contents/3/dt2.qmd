@@ -24,11 +24,70 @@ Now we are applying `sklearn.DecisionTreeClassifier` to construct the decision t
 
 
 ```{python}
-# Step 1
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 ```
+
+
+```{python}
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+num_leaf = list(range(1, 100))
+train_acc = []
+test_acc = []
+for i in num_leaf:
+    clf = DecisionTreeClassifier(random_state=42, min_samples_leaf=i)
+    clf.fit(X_train, y_train)
+    train_acc.append(clf.score(X_train, y_train))
+    test_acc.append(clf.score(X_test, y_test))
+plt.plot(num_leaf, train_acc, label='training')
+plt.plot(num_leaf, test_acc, label='testing')
+plt.gca().set_xlim((max(num_leaf)+1, min(num_leaf)-1))
+plt.legend()
+```
+
+
+
+
+```{python}
+
+from sklearn.base import clone
+def eval_ccp_alphas(clf, X, y):
+    ccp_path = clf.cost_complexity_pruning_path(X, y)
+    ccp_alphas, impurities = ccp_path.ccp_alphas, ccp_path.impurities
+    clfs = []
+    for ccp_alpha in ccp_alphas:
+        clf_tmp = clone(clf)
+        clf_tmp.set_params(ccp_alpha=ccp_alpha)
+        clf_tmp.fit(X, y)
+        clfs.append(clf_tmp)
+
+    node_counts = [clf.tree_.node_count for clf in clfs]
+    depth = [clf.tree_.max_depth for clf in clfs]
+    train_acc = [clf.score(X_train, y_train) for clf in clfs]
+    test_acc = [clf.score(X_test, y_test) for clf in clfs]
+
+    fig, ax = plt.subplots(3, 1)
+    ax[0].plot(ccp_alphas, node_counts, marker="o", drawstyle="steps-post")
+    ax[0].set_xlabel("alpha")
+    ax[0].set_ylabel("number of nodes")
+    ax[1].plot(ccp_alphas, depth, marker="o", drawstyle="steps-post")
+    ax[1].set_xlabel("alpha")
+    ax[1].set_ylabel("depth of tree")
+    ax[2].plot(ccp_alphas, train_acc, marker="o", drawstyle="steps-post", label='train')
+    ax[2].plot(ccp_alphas, test_acc, marker="o", drawstyle="steps-post", label='test')
+    ax[2].set_xlabel("alpha")
+    ax[2].set_ylabel("accuracy")
+    ax[2].legend()
+
+    return ccp_alphas
+
+clf = DecisionTreeClassifier(random_state=42)
+eval_ccp_alphas(clf, X_train, y_train)
+```
+
 
 
 

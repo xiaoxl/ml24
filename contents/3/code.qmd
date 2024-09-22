@@ -40,7 +40,8 @@ We then use this split algorithm recursively to get the decision tree.
 4. Repeat the above steps, until `max_depth` is reached.
 :::
 
-Here are the sample codes.
+<details>
+<summary>The manual sample code is optional.</summary>
 
 ```{python}
 def split(G):
@@ -82,3 +83,4 @@ def countlabels(S):
     labelCount = dict(pd.Series(y).value_counts())
     return labelCount
 ```
+</details>

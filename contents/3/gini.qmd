@@ -89,7 +89,11 @@ When $0\leq p_1\leq 1$, this function $Gini(p_1)$ is between $0$ and $0.5$.
 :::
 
 
-The sample codes are listed below:
+
+
+
+<details>
+<summary>The sample manual codes are optional. </summary>
 
 ```{python}
 import pandas as pd
@@ -99,4 +103,7 @@ def gini(S):
     gini = 1 - ((pd.Series(y).value_counts()/N)**2).sum()
     return gini
 ```
+
+</details>
+
 
