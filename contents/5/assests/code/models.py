@@ -2,7 +2,6 @@ import torch
 import numpy as np
 import random
 import time
-from torch.utils.data import Dataset
 
 
 class ModelTemplate():
@@ -43,7 +42,7 @@ class ModelTemplate():
 
         self.model.train()
 
-    def log_update(self, train_time, loss, val_time, val_loss, train_loader, val_loader):
+    def log_update(self, train_time, loss, val_time, val_loss):
         self.stats['train_time'].append(train_time)
         self.stats['losses'].append(loss)
         self.stats['val_time'].append(val_time)
@@ -60,14 +59,6 @@ class ModelTemplate():
         if verbose == 1:
             print(' '.join(s))
         return s
-    
-    class metrics():
-        def __init__(self):
-            self.acc = []
-        
-        def update(self, yhat, y):
-            self.acc.append((yhat==y).sum().item())
-
 
     def _train_one_epoch(self, dataloader):
         self.model.train()
@@ -78,7 +69,7 @@ class ModelTemplate():
             y_batch = y_batch.to(self.device)
             yhat = self.model(X_batch)
             loss = self.loss_fn(yhat, y_batch)
-            
+
             loss.backward()
             self.optimizer.step()
             self.optimizer.zero_grad()
@@ -113,7 +104,7 @@ class ModelTemplate():
                 end_time = time.time()
                 val_time = end_time - start_time
 
-            self.log_update(train_time, loss, val_time, val_loss, train_loader, val_loader)
+            self.log_update(train_time, loss, val_time, val_loss)
             self.log_output(verbose=verbose)
 
     def predict(self, X):
@@ -124,33 +115,3 @@ class ModelTemplate():
         y = y_tensor.detach().cpu().numpy()
 
         return y
-
-
-class __MyModel__(ModelTemplate):
-    def __init__(self, model, loss_fn, optimizer):
-        super().__init__(model, loss_fn, optimizer)
-        self.stats['p'] = []
-
-    def log_update(self, train_time, loss, val_time, val_loss):
-        super().log_update(train_time, loss, val_time, val_loss)
-        p = self.model.state_dict()
-        self.stats['p'].append([p['linear.bias'].item(), p['linear.weight'].item()])
-
-    def log_output(self, verbose=0):
-        s = super().log_output(verbose=0, formatstr=':.6f')
-        s.append(f'p: [{self.stats['p'][-1][0]:.6f}, {self.stats['p'][-1][1]:.6f}]')
-        if verbose == 1:
-            print(' '.join(s))
-        return s
-
-
-class __MyData__(Dataset):
-    def __init__(self, x, y):
-        self.x = torch.tensor(x, dtype=float).reshape(-1, 1)
-        self.y = torch.tensor(y, dtype=float).reshape(-1, 1)
-
-    def __getitem__(self, index):
-        return (self.x[index], self.y[index])
-
-    def __len__(self):
-        return len(self.y)
