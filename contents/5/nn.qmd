@@ -5,7 +5,7 @@ In the previous sections, we use gradient descent to run the Logistic regression
 
 We 
 
-
+$$f(x)$$
 
 
 

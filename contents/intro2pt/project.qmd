@@ -2,6 +2,6 @@
 
 
 
-::: {exr-}
+::: {#exr-}
 Try to reconstruct all the plots in Section @sec-linearregression_math.
 :::

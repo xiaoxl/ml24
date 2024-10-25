@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.6.10">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,11 +63,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="nn_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="nn_files/libs/quarto-html/anchor.min.js"></script>
 <link href="nn_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="nn_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="nn_files/libs/quarto-html/quarto-syntax-highlighting-79bb3942e891885f9f7af119cd221462.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="nn_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="nn_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="nn_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="nn_files/libs/bootstrap/bootstrap-b4859f80379277dd227e7c6eb891e56d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -97,8 +126,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>In the previous sections, we use gradient descent to run the Logistic regression model. We mentioned some important concepts, like epochs, mini-batch, etc.. We are going to use <code>PyTorch</code> to implement it. We will reuse many codes we wrote in the previous chapter.</p>
+<section id="a-simple-example" class="level3">
+<h3 class="anchored" data-anchor-id="a-simple-example">A simple example</h3>
+<p>We</p>
+<p><span class="math display">\[f(x)\]</span></p>
+</section>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example</h3>
 <p>We still use the horse colic dataset as an example. We first prepare the dataset.</p>
-<div id="af879861" class="cell" data-execution_count="1">
+<div id="950e1bc7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -117,14 +153,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>, random_state<span class="op">=</span>SEED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We need to perform normalization before throwing the data into the model. Here we use the <code>MinMaxScaler()</code> from <code>sklearn</code> package.</p>
-<div id="18be7be6" class="cell" data-execution_count="2">
+<div id="05b0b337" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mms <span class="op">=</span> MinMaxScaler()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> mms.fit_transform(X_train, y_train)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> mms.transform(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we write a <code>Dataset</code> class to build the dataset and create the dataloaders. Since the set is already split, we don’t need to <code>random_split</code> here.</p>
-<div id="6fda268a" class="cell" data-execution_count="3">
+<div id="986c3a9d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset, DataLoader</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -147,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>val_loader <span class="op">=</span> DataLoader(val_set, batch_size<span class="op">=</span><span class="dv">32</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the following code, we first set up the original model.</p>
-<div id="f2e950c3" class="cell" data-execution_count="5">
+<div id="db39690d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.nn.modules <span class="im">import</span> Linear</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -164,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we derive the base <code>ModelTemplate</code> class.</p>
-<div id="08a6ecaf" class="cell" data-execution_count="6">
+<div id="7126d554" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LoRModel(ModelTemplate):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, model, loss_fn, optimizer):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(model, loss_fn, optimizer)</span>
@@ -201,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">' '</span>.join(s))</span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="290db01c" class="cell" data-execution_count="7">
+<div id="817626ce" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.optim <span class="im">import</span> SGD</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.nn <span class="im">import</span> BCEWithLogitsLoss, BCELoss</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -211,108 +247,109 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>model.train(train_loader, val_loader, epoch_num<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>epoch 1 train_time: 0.069220 loss: 0.671417 val_time: 0.000525 val_loss: 0.634591 acc_train: 0.623529 acc_val: 0.688889
-epoch 2 train_time: 0.007351 loss: 0.641158 val_time: 0.000587 val_loss: 0.620867 acc_train: 0.615686 acc_val: 0.666667
-epoch 3 train_time: 0.004534 loss: 0.626640 val_time: 0.001505 val_loss: 0.601530 acc_train: 0.619608 acc_val: 0.666667
-epoch 4 train_time: 0.006382 loss: 0.616246 val_time: 0.000997 val_loss: 0.593717 acc_train: 0.631373 acc_val: 0.666667
-epoch 5 train_time: 0.006705 loss: 0.608511 val_time: 0.001616 val_loss: 0.586012 acc_train: 0.627451 acc_val: 0.666667
-epoch 6 train_time: 0.007511 loss: 0.600650 val_time: 0.001000 val_loss: 0.580375 acc_train: 0.635294 acc_val: 0.666667
-epoch 7 train_time: 0.004506 loss: 0.592428 val_time: 0.000000 val_loss: 0.578777 acc_train: 0.647059 acc_val: 0.688889
-epoch 8 train_time: 0.003505 loss: 0.584873 val_time: 0.001003 val_loss: 0.574535 acc_train: 0.678431 acc_val: 0.688889
-epoch 9 train_time: 0.007252 loss: 0.579909 val_time: 0.000000 val_loss: 0.573974 acc_train: 0.705882 acc_val: 0.688889
-epoch 10 train_time: 0.004508 loss: 0.573035 val_time: 0.001066 val_loss: 0.568489 acc_train: 0.709804 acc_val: 0.688889
-epoch 11 train_time: 0.005496 loss: 0.567468 val_time: 0.001074 val_loss: 0.562400 acc_train: 0.713725 acc_val: 0.688889
-epoch 12 train_time: 0.007534 loss: 0.562581 val_time: 0.001004 val_loss: 0.558584 acc_train: 0.721569 acc_val: 0.688889
-epoch 13 train_time: 0.006101 loss: 0.558347 val_time: 0.001000 val_loss: 0.558617 acc_train: 0.717647 acc_val: 0.711111
-epoch 14 train_time: 0.006019 loss: 0.553907 val_time: 0.001007 val_loss: 0.557948 acc_train: 0.737255 acc_val: 0.711111
-epoch 15 train_time: 0.005525 loss: 0.551366 val_time: 0.000992 val_loss: 0.553716 acc_train: 0.737255 acc_val: 0.711111
-epoch 16 train_time: 0.005156 loss: 0.545007 val_time: 0.001005 val_loss: 0.550646 acc_train: 0.741176 acc_val: 0.711111
-epoch 17 train_time: 0.006599 loss: 0.541644 val_time: 0.000000 val_loss: 0.547639 acc_train: 0.745098 acc_val: 0.733333
-epoch 18 train_time: 0.005990 loss: 0.537834 val_time: 0.000502 val_loss: 0.546007 acc_train: 0.756863 acc_val: 0.733333
-epoch 19 train_time: 0.007585 loss: 0.534810 val_time: 0.001002 val_loss: 0.545003 acc_train: 0.756863 acc_val: 0.733333
-epoch 20 train_time: 0.005512 loss: 0.530666 val_time: 0.001004 val_loss: 0.543548 acc_train: 0.756863 acc_val: 0.733333
-epoch 21 train_time: 0.006520 loss: 0.527711 val_time: 0.001000 val_loss: 0.540432 acc_train: 0.756863 acc_val: 0.733333
-epoch 22 train_time: 0.006536 loss: 0.524494 val_time: 0.001006 val_loss: 0.536767 acc_train: 0.756863 acc_val: 0.733333
-epoch 23 train_time: 0.005174 loss: 0.522756 val_time: 0.000839 val_loss: 0.540760 acc_train: 0.760784 acc_val: 0.733333
-epoch 24 train_time: 0.005018 loss: 0.519344 val_time: 0.001000 val_loss: 0.536252 acc_train: 0.772549 acc_val: 0.755556
-epoch 25 train_time: 0.006176 loss: 0.516686 val_time: 0.000000 val_loss: 0.533478 acc_train: 0.772549 acc_val: 0.755556
-epoch 26 train_time: 0.005052 loss: 0.515025 val_time: 0.000998 val_loss: 0.534979 acc_train: 0.760784 acc_val: 0.733333
-epoch 27 train_time: 0.004727 loss: 0.511449 val_time: 0.001030 val_loss: 0.534637 acc_train: 0.760784 acc_val: 0.711111
-epoch 28 train_time: 0.006583 loss: 0.509885 val_time: 0.001523 val_loss: 0.529265 acc_train: 0.768627 acc_val: 0.755556
-epoch 29 train_time: 0.006081 loss: 0.507175 val_time: 0.001025 val_loss: 0.531067 acc_train: 0.764706 acc_val: 0.711111
-epoch 30 train_time: 0.006767 loss: 0.505095 val_time: 0.001001 val_loss: 0.527426 acc_train: 0.768627 acc_val: 0.711111
-epoch 31 train_time: 0.005558 loss: 0.503745 val_time: 0.001019 val_loss: 0.529408 acc_train: 0.772549 acc_val: 0.688889
-epoch 32 train_time: 0.009014 loss: 0.500548 val_time: 0.001165 val_loss: 0.522903 acc_train: 0.768627 acc_val: 0.755556
-epoch 33 train_time: 0.006039 loss: 0.499074 val_time: 0.001004 val_loss: 0.524693 acc_train: 0.768627 acc_val: 0.688889
-epoch 34 train_time: 0.006149 loss: 0.496295 val_time: 0.001001 val_loss: 0.524953 acc_train: 0.776471 acc_val: 0.688889
-epoch 35 train_time: 0.005101 loss: 0.495239 val_time: 0.000939 val_loss: 0.523245 acc_train: 0.776471 acc_val: 0.688889
-epoch 36 train_time: 0.006522 loss: 0.493162 val_time: 0.000000 val_loss: 0.524881 acc_train: 0.784314 acc_val: 0.666667
-epoch 37 train_time: 0.006514 loss: 0.490762 val_time: 0.001323 val_loss: 0.522297 acc_train: 0.780392 acc_val: 0.688889
-epoch 38 train_time: 0.006529 loss: 0.489456 val_time: 0.001007 val_loss: 0.522125 acc_train: 0.784314 acc_val: 0.688889
-epoch 39 train_time: 0.006692 loss: 0.487612 val_time: 0.001004 val_loss: 0.520350 acc_train: 0.784314 acc_val: 0.688889
-epoch 40 train_time: 0.006572 loss: 0.486373 val_time: 0.002012 val_loss: 0.517961 acc_train: 0.788235 acc_val: 0.688889
-epoch 41 train_time: 0.006571 loss: 0.485035 val_time: 0.001506 val_loss: 0.519769 acc_train: 0.788235 acc_val: 0.666667
-epoch 42 train_time: 0.007213 loss: 0.483184 val_time: 0.000893 val_loss: 0.518405 acc_train: 0.792157 acc_val: 0.688889
-epoch 43 train_time: 0.006552 loss: 0.481371 val_time: 0.000998 val_loss: 0.520985 acc_train: 0.792157 acc_val: 0.666667
-epoch 44 train_time: 0.006632 loss: 0.479605 val_time: 0.001023 val_loss: 0.516584 acc_train: 0.796078 acc_val: 0.688889
-epoch 45 train_time: 0.007626 loss: 0.477359 val_time: 0.000996 val_loss: 0.513911 acc_train: 0.792157 acc_val: 0.688889
-epoch 46 train_time: 0.005253 loss: 0.476555 val_time: 0.000000 val_loss: 0.515336 acc_train: 0.796078 acc_val: 0.688889
-epoch 47 train_time: 0.006686 loss: 0.475131 val_time: 0.001031 val_loss: 0.514993 acc_train: 0.800000 acc_val: 0.688889
-epoch 48 train_time: 0.007026 loss: 0.474354 val_time: 0.001004 val_loss: 0.514543 acc_train: 0.796078 acc_val: 0.688889
-epoch 49 train_time: 0.008034 loss: 0.472457 val_time: 0.001519 val_loss: 0.512721 acc_train: 0.800000 acc_val: 0.711111
-epoch 50 train_time: 0.008011 loss: 0.471169 val_time: 0.001006 val_loss: 0.511086 acc_train: 0.800000 acc_val: 0.711111
-epoch 51 train_time: 0.006572 loss: 0.470307 val_time: 0.001300 val_loss: 0.511912 acc_train: 0.796078 acc_val: 0.711111
-epoch 52 train_time: 0.006147 loss: 0.469186 val_time: 0.001599 val_loss: 0.513071 acc_train: 0.796078 acc_val: 0.688889
-epoch 53 train_time: 0.006002 loss: 0.468038 val_time: 0.001023 val_loss: 0.510471 acc_train: 0.796078 acc_val: 0.711111
-epoch 54 train_time: 0.006556 loss: 0.466008 val_time: 0.001004 val_loss: 0.506022 acc_train: 0.800000 acc_val: 0.711111
-epoch 55 train_time: 0.006170 loss: 0.464958 val_time: 0.001007 val_loss: 0.505385 acc_train: 0.800000 acc_val: 0.711111
-epoch 56 train_time: 0.006170 loss: 0.463475 val_time: 0.001505 val_loss: 0.504714 acc_train: 0.796078 acc_val: 0.711111
-epoch 57 train_time: 0.007514 loss: 0.462563 val_time: 0.001000 val_loss: 0.505592 acc_train: 0.796078 acc_val: 0.711111
-epoch 58 train_time: 0.007022 loss: 0.461969 val_time: 0.001001 val_loss: 0.501133 acc_train: 0.800000 acc_val: 0.711111
-epoch 59 train_time: 0.007499 loss: 0.459505 val_time: 0.001230 val_loss: 0.502497 acc_train: 0.792157 acc_val: 0.711111
-epoch 60 train_time: 0.007527 loss: 0.459698 val_time: 0.001005 val_loss: 0.503979 acc_train: 0.796078 acc_val: 0.711111
-epoch 61 train_time: 0.007010 loss: 0.457964 val_time: 0.000999 val_loss: 0.502018 acc_train: 0.792157 acc_val: 0.711111
-epoch 62 train_time: 0.007713 loss: 0.457870 val_time: 0.000000 val_loss: 0.500148 acc_train: 0.792157 acc_val: 0.711111
-epoch 63 train_time: 0.007030 loss: 0.455935 val_time: 0.000000 val_loss: 0.499703 acc_train: 0.792157 acc_val: 0.711111
-epoch 64 train_time: 0.008037 loss: 0.456749 val_time: 0.001004 val_loss: 0.499266 acc_train: 0.792157 acc_val: 0.711111
-epoch 65 train_time: 0.006754 loss: 0.454282 val_time: 0.000000 val_loss: 0.500288 acc_train: 0.792157 acc_val: 0.711111
-epoch 66 train_time: 0.006011 loss: 0.453319 val_time: 0.001005 val_loss: 0.497988 acc_train: 0.792157 acc_val: 0.711111
-epoch 67 train_time: 0.006514 loss: 0.453131 val_time: 0.001000 val_loss: 0.503731 acc_train: 0.796078 acc_val: 0.711111
-epoch 68 train_time: 0.007758 loss: 0.452134 val_time: 0.000999 val_loss: 0.504121 acc_train: 0.800000 acc_val: 0.755556
-epoch 69 train_time: 0.006742 loss: 0.450121 val_time: 0.001005 val_loss: 0.499021 acc_train: 0.792157 acc_val: 0.711111
-epoch 70 train_time: 0.007021 loss: 0.450540 val_time: 0.001503 val_loss: 0.498571 acc_train: 0.792157 acc_val: 0.711111
-epoch 71 train_time: 0.007233 loss: 0.448121 val_time: 0.001505 val_loss: 0.497476 acc_train: 0.792157 acc_val: 0.711111
-epoch 72 train_time: 0.006524 loss: 0.447650 val_time: 0.000998 val_loss: 0.497371 acc_train: 0.792157 acc_val: 0.711111
-epoch 73 train_time: 0.007250 loss: 0.445995 val_time: 0.001312 val_loss: 0.495714 acc_train: 0.792157 acc_val: 0.711111
-epoch 74 train_time: 0.006745 loss: 0.446246 val_time: 0.001230 val_loss: 0.495954 acc_train: 0.792157 acc_val: 0.711111
-epoch 75 train_time: 0.008039 loss: 0.444501 val_time: 0.001000 val_loss: 0.497184 acc_train: 0.788235 acc_val: 0.733333
-epoch 76 train_time: 0.007649 loss: 0.444024 val_time: 0.001504 val_loss: 0.494948 acc_train: 0.792157 acc_val: 0.733333
-epoch 77 train_time: 0.008923 loss: 0.443318 val_time: 0.001506 val_loss: 0.497794 acc_train: 0.784314 acc_val: 0.755556
-epoch 78 train_time: 0.008550 loss: 0.443860 val_time: 0.001005 val_loss: 0.497816 acc_train: 0.788235 acc_val: 0.755556
-epoch 79 train_time: 0.008023 loss: 0.440550 val_time: 0.001000 val_loss: 0.494076 acc_train: 0.792157 acc_val: 0.733333
-epoch 80 train_time: 0.006522 loss: 0.440766 val_time: 0.001504 val_loss: 0.495558 acc_train: 0.792157 acc_val: 0.755556
-epoch 81 train_time: 0.007169 loss: 0.440224 val_time: 0.000999 val_loss: 0.492079 acc_train: 0.792157 acc_val: 0.733333
-epoch 82 train_time: 0.007025 loss: 0.439352 val_time: 0.001000 val_loss: 0.490592 acc_train: 0.800000 acc_val: 0.755556
-epoch 83 train_time: 0.008799 loss: 0.437961 val_time: 0.001002 val_loss: 0.492897 acc_train: 0.792157 acc_val: 0.755556
-epoch 84 train_time: 0.009713 loss: 0.437556 val_time: 0.000999 val_loss: 0.490778 acc_train: 0.800000 acc_val: 0.755556
-epoch 85 train_time: 0.008541 loss: 0.438297 val_time: 0.001000 val_loss: 0.493222 acc_train: 0.792157 acc_val: 0.755556
-epoch 86 train_time: 0.007534 loss: 0.435463 val_time: 0.001008 val_loss: 0.490855 acc_train: 0.800000 acc_val: 0.755556
-epoch 87 train_time: 0.006531 loss: 0.436021 val_time: 0.001000 val_loss: 0.494243 acc_train: 0.796078 acc_val: 0.755556
-epoch 88 train_time: 0.006571 loss: 0.434024 val_time: 0.001004 val_loss: 0.490689 acc_train: 0.796078 acc_val: 0.755556
-epoch 89 train_time: 0.005774 loss: 0.433347 val_time: 0.001508 val_loss: 0.489129 acc_train: 0.803922 acc_val: 0.777778
-epoch 90 train_time: 0.007521 loss: 0.432282 val_time: 0.001506 val_loss: 0.488496 acc_train: 0.803922 acc_val: 0.777778
-epoch 91 train_time: 0.006026 loss: 0.432573 val_time: 0.000506 val_loss: 0.488751 acc_train: 0.800000 acc_val: 0.777778
-epoch 92 train_time: 0.007103 loss: 0.431425 val_time: 0.000999 val_loss: 0.488216 acc_train: 0.800000 acc_val: 0.777778
-epoch 93 train_time: 0.005624 loss: 0.430742 val_time: 0.001903 val_loss: 0.488057 acc_train: 0.800000 acc_val: 0.777778
-epoch 94 train_time: 0.006513 loss: 0.431759 val_time: 0.001505 val_loss: 0.487980 acc_train: 0.800000 acc_val: 0.777778
-epoch 95 train_time: 0.006572 loss: 0.429298 val_time: 0.000000 val_loss: 0.486176 acc_train: 0.800000 acc_val: 0.777778
-epoch 96 train_time: 0.006850 loss: 0.429453 val_time: 0.001000 val_loss: 0.487362 acc_train: 0.800000 acc_val: 0.777778
-epoch 97 train_time: 0.007533 loss: 0.428341 val_time: 0.001005 val_loss: 0.483990 acc_train: 0.807843 acc_val: 0.777778
-epoch 98 train_time: 0.006515 loss: 0.427243 val_time: 0.001506 val_loss: 0.481934 acc_train: 0.807843 acc_val: 0.777778
-epoch 99 train_time: 0.007746 loss: 0.428129 val_time: 0.000875 val_loss: 0.482421 acc_train: 0.807843 acc_val: 0.777778
-epoch 100 train_time: 0.004508 loss: 0.426347 val_time: 0.001000 val_loss: 0.481851 acc_train: 0.807843 acc_val: 0.777778</code></pre>
+<pre><code>epoch 1 train_time: 0.092155 loss: 0.679847 val_time: 0.001003 val_loss: 0.608124 acc_train: 0.619608 acc_val: 0.688889
+epoch 2 train_time: 0.007173 loss: 0.642667 val_time: 0.001001 val_loss: 0.591900 acc_train: 0.635294 acc_val: 0.688889
+epoch 3 train_time: 0.010522 loss: 0.627117 val_time: 0.001000 val_loss: 0.572018 acc_train: 0.647059 acc_val: 0.688889
+epoch 4 train_time: 0.008521 loss: 0.616267 val_time: 0.001003 val_loss: 0.563995 acc_train: 0.647059 acc_val: 0.688889
+epoch 5 train_time: 0.007016 loss: 0.607853 val_time: 0.001000 val_loss: 0.555948 acc_train: 0.631373 acc_val: 0.688889
+epoch 6 train_time: 0.008523 loss: 0.600068 val_time: 0.001000 val_loss: 0.549937 acc_train: 0.635294 acc_val: 0.666667
+epoch 7 train_time: 0.009512 loss: 0.591422 val_time: 0.001004 val_loss: 0.548207 acc_train: 0.654902 acc_val: 0.688889
+epoch 8 train_time: 0.008572 loss: 0.583469 val_time: 0.002560 val_loss: 0.543494 acc_train: 0.658824 acc_val: 0.688889
+epoch 9 train_time: 0.009537 loss: 0.578396 val_time: 0.000999 val_loss: 0.542608 acc_train: 0.678431 acc_val: 0.733333
+epoch 10 train_time: 0.010533 loss: 0.571064 val_time: 0.001000 val_loss: 0.537143 acc_train: 0.682353 acc_val: 0.711111
+epoch 11 train_time: 0.007006 loss: 0.565249 val_time: 0.003531 val_loss: 0.531233 acc_train: 0.690196 acc_val: 0.711111
+epoch 12 train_time: 0.008523 loss: 0.560324 val_time: 0.002003 val_loss: 0.527071 acc_train: 0.694118 acc_val: 0.711111
+epoch 13 train_time: 0.007509 loss: 0.555791 val_time: 0.001000 val_loss: 0.527208 acc_train: 0.713725 acc_val: 0.711111
+epoch 14 train_time: 0.008016 loss: 0.551292 val_time: 0.002017 val_loss: 0.526541 acc_train: 0.725490 acc_val: 0.711111
+epoch 15 train_time: 0.009340 loss: 0.548686 val_time: 0.002000 val_loss: 0.522243 acc_train: 0.729412 acc_val: 0.711111
+epoch 16 train_time: 0.009564 loss: 0.541993 val_time: 0.002000 val_loss: 0.519352 acc_train: 0.733333 acc_val: 0.711111
+epoch 17 train_time: 0.007513 loss: 0.538579 val_time: 0.002005 val_loss: 0.516096 acc_train: 0.737255 acc_val: 0.711111
+epoch 18 train_time: 0.007006 loss: 0.534584 val_time: 0.001000 val_loss: 0.514694 acc_train: 0.749020 acc_val: 0.711111
+epoch 19 train_time: 0.008566 loss: 0.531341 val_time: 0.000999 val_loss: 0.513873 acc_train: 0.752941 acc_val: 0.711111
+epoch 20 train_time: 0.008028 loss: 0.527185 val_time: 0.001007 val_loss: 0.512262 acc_train: 0.749020 acc_val: 0.733333
+epoch 21 train_time: 0.010545 loss: 0.524170 val_time: 0.001508 val_loss: 0.509381 acc_train: 0.752941 acc_val: 0.733333
+epoch 22 train_time: 0.008524 loss: 0.520822 val_time: 0.001000 val_loss: 0.505713 acc_train: 0.760784 acc_val: 0.733333
+epoch 23 train_time: 0.008520 loss: 0.518831 val_time: 0.001002 val_loss: 0.509633 acc_train: 0.768627 acc_val: 0.777778
+epoch 24 train_time: 0.010010 loss: 0.515524 val_time: 0.002046 val_loss: 0.505064 acc_train: 0.760784 acc_val: 0.755556
+epoch 25 train_time: 0.008514 loss: 0.512783 val_time: 0.000999 val_loss: 0.502240 acc_train: 0.768627 acc_val: 0.755556
+epoch 26 train_time: 0.008331 loss: 0.511110 val_time: 0.001006 val_loss: 0.503839 acc_train: 0.768627 acc_val: 0.777778
+epoch 27 train_time: 0.009522 loss: 0.507506 val_time: 0.001506 val_loss: 0.503880 acc_train: 0.768627 acc_val: 0.800000
+epoch 28 train_time: 0.009575 loss: 0.505923 val_time: 0.000982 val_loss: 0.498522 acc_train: 0.776471 acc_val: 0.777778
+epoch 29 train_time: 0.008526 loss: 0.502993 val_time: 0.000999 val_loss: 0.500259 acc_train: 0.776471 acc_val: 0.800000
+epoch 30 train_time: 0.008520 loss: 0.501114 val_time: 0.001002 val_loss: 0.496816 acc_train: 0.780392 acc_val: 0.800000
+epoch 31 train_time: 0.007276 loss: 0.499635 val_time: 0.001005 val_loss: 0.498763 acc_train: 0.784314 acc_val: 0.800000
+epoch 32 train_time: 0.008030 loss: 0.496382 val_time: 0.001008 val_loss: 0.492898 acc_train: 0.784314 acc_val: 0.800000
+epoch 33 train_time: 0.008524 loss: 0.495009 val_time: 0.001000 val_loss: 0.494528 acc_train: 0.784314 acc_val: 0.800000
+epoch 34 train_time: 0.007151 loss: 0.492203 val_time: 0.002002 val_loss: 0.494758 acc_train: 0.788235 acc_val: 0.800000
+epoch 35 train_time: 0.009482 loss: 0.490921 val_time: 0.001000 val_loss: 0.493438 acc_train: 0.792157 acc_val: 0.777778
+epoch 36 train_time: 0.007515 loss: 0.489009 val_time: 0.001007 val_loss: 0.494885 acc_train: 0.803922 acc_val: 0.777778
+epoch 37 train_time: 0.008527 loss: 0.486521 val_time: 0.002000 val_loss: 0.492462 acc_train: 0.792157 acc_val: 0.777778
+epoch 38 train_time: 0.008514 loss: 0.485216 val_time: 0.001009 val_loss: 0.492574 acc_train: 0.800000 acc_val: 0.777778
+epoch 39 train_time: 0.008532 loss: 0.483415 val_time: 0.001999 val_loss: 0.491095 acc_train: 0.800000 acc_val: 0.777778
+epoch 40 train_time: 0.008525 loss: 0.482064 val_time: 0.001000 val_loss: 0.488933 acc_train: 0.800000 acc_val: 0.777778
+epoch 41 train_time: 0.009244 loss: 0.480731 val_time: 0.001007 val_loss: 0.490815 acc_train: 0.800000 acc_val: 0.800000
+epoch 42 train_time: 0.008597 loss: 0.478977 val_time: 0.000930 val_loss: 0.489780 acc_train: 0.800000 acc_val: 0.800000
+epoch 43 train_time: 0.008518 loss: 0.477180 val_time: 0.001003 val_loss: 0.492212 acc_train: 0.800000 acc_val: 0.777778
+epoch 44 train_time: 0.008515 loss: 0.475384 val_time: 0.002007 val_loss: 0.488227 acc_train: 0.796078 acc_val: 0.800000
+epoch 45 train_time: 0.007519 loss: 0.473144 val_time: 0.002003 val_loss: 0.485403 acc_train: 0.800000 acc_val: 0.800000
+epoch 46 train_time: 0.008524 loss: 0.472321 val_time: 0.000988 val_loss: 0.486920 acc_train: 0.796078 acc_val: 0.800000
+epoch 47 train_time: 0.008007 loss: 0.470835 val_time: 0.001515 val_loss: 0.486745 acc_train: 0.803922 acc_val: 0.800000
+epoch 48 train_time: 0.008521 loss: 0.470149 val_time: 0.001000 val_loss: 0.486427 acc_train: 0.807843 acc_val: 0.800000
+epoch 49 train_time: 0.008506 loss: 0.468279 val_time: 0.002010 val_loss: 0.484822 acc_train: 0.807843 acc_val: 0.800000
+epoch 50 train_time: 0.007202 loss: 0.467032 val_time: 0.001000 val_loss: 0.483507 acc_train: 0.803922 acc_val: 0.800000
+epoch 51 train_time: 0.007471 loss: 0.466202 val_time: 0.001000 val_loss: 0.484331 acc_train: 0.803922 acc_val: 0.777778
+epoch 52 train_time: 0.008515 loss: 0.465062 val_time: 0.002010 val_loss: 0.485870 acc_train: 0.807843 acc_val: 0.755556
+epoch 53 train_time: 0.009540 loss: 0.463858 val_time: 0.002507 val_loss: 0.483312 acc_train: 0.807843 acc_val: 0.777778
+epoch 54 train_time: 0.008110 loss: 0.461880 val_time: 0.000998 val_loss: 0.479108 acc_train: 0.803922 acc_val: 0.800000
+epoch 55 train_time: 0.007516 loss: 0.460917 val_time: 0.002006 val_loss: 0.478546 acc_train: 0.803922 acc_val: 0.800000
+epoch 56 train_time: 0.008015 loss: 0.459450 val_time: 0.002038 val_loss: 0.478032 acc_train: 0.800000 acc_val: 0.800000
+epoch 57 train_time: 0.008527 loss: 0.458469 val_time: 0.002006 val_loss: 0.479042 acc_train: 0.803922 acc_val: 0.777778
+epoch 58 train_time: 0.006531 loss: 0.457960 val_time: 0.001007 val_loss: 0.474775 acc_train: 0.796078 acc_val: 0.800000
+epoch 59 train_time: 0.008522 loss: 0.455453 val_time: 0.002516 val_loss: 0.476107 acc_train: 0.800000 acc_val: 0.777778
+epoch 60 train_time: 0.007495 loss: 0.455780 val_time: 0.000998 val_loss: 0.477734 acc_train: 0.803922 acc_val: 0.777778
+epoch 61 train_time: 0.008522 loss: 0.453964 val_time: 0.002016 val_loss: 0.476004 acc_train: 0.800000 acc_val: 0.777778
+epoch 62 train_time: 0.008518 loss: 0.453833 val_time: 0.002001 val_loss: 0.474385 acc_train: 0.800000 acc_val: 0.777778
+epoch 63 train_time: 0.007630 loss: 0.451914 val_time: 0.000998 val_loss: 0.474111 acc_train: 0.800000 acc_val: 0.777778
+epoch 64 train_time: 0.009530 loss: 0.452718 val_time: 0.000000 val_loss: 0.473704 acc_train: 0.800000 acc_val: 0.777778
+epoch 65 train_time: 0.010538 loss: 0.450353 val_time: 0.001001 val_loss: 0.474840 acc_train: 0.796078 acc_val: 0.777778
+epoch 66 train_time: 0.010520 loss: 0.449396 val_time: 0.001000 val_loss: 0.472830 acc_train: 0.800000 acc_val: 0.777778
+epoch 67 train_time: 0.008515 loss: 0.449271 val_time: 0.002007 val_loss: 0.478523 acc_train: 0.800000 acc_val: 0.800000
+epoch 68 train_time: 0.007941 loss: 0.448185 val_time: 0.002000 val_loss: 0.478853 acc_train: 0.800000 acc_val: 0.777778
+epoch 69 train_time: 0.008550 loss: 0.446303 val_time: 0.001000 val_loss: 0.473931 acc_train: 0.796078 acc_val: 0.800000
+epoch 70 train_time: 0.008516 loss: 0.446692 val_time: 0.000998 val_loss: 0.474083 acc_train: 0.796078 acc_val: 0.800000
+epoch 71 train_time: 0.009003 loss: 0.444250 val_time: 0.001513 val_loss: 0.472841 acc_train: 0.796078 acc_val: 0.800000
+epoch 72 train_time: 0.008522 loss: 0.443817 val_time: 0.001000 val_loss: 0.472976 acc_train: 0.796078 acc_val: 0.800000
+epoch 73 train_time: 0.007521 loss: 0.442181 val_time: 0.002007 val_loss: 0.471580 acc_train: 0.800000 acc_val: 0.800000
+epoch 74 train_time: 0.007015 loss: 0.442507 val_time: 0.001004 val_loss: 0.471988 acc_train: 0.800000 acc_val: 0.800000
+epoch 75 train_time: 0.009037 loss: 0.440745 val_time: 0.001003 val_loss: 0.473119 acc_train: 0.800000 acc_val: 0.777778
+epoch 76 train_time: 0.008513 loss: 0.440276 val_time: 0.001006 val_loss: 0.471044 acc_train: 0.800000 acc_val: 0.777778
+epoch 77 train_time: 0.008015 loss: 0.439623 val_time: 0.002517 val_loss: 0.474031 acc_train: 0.803922 acc_val: 0.777778
+epoch 78 train_time: 0.009524 loss: 0.440224 val_time: 0.000992 val_loss: 0.474052 acc_train: 0.803922 acc_val: 0.777778
+epoch 79 train_time: 0.010409 loss: 0.436898 val_time: 0.002001 val_loss: 0.470669 acc_train: 0.803922 acc_val: 0.777778
+epoch 80 train_time: 0.009538 loss: 0.437143 val_time: 0.001001 val_loss: 0.472093 acc_train: 0.803922 acc_val: 0.777778
+epoch 81 train_time: 0.006518 loss: 0.436710 val_time: 0.000999 val_loss: 0.468895 acc_train: 0.803922 acc_val: 0.777778
+epoch 82 train_time: 0.008520 loss: 0.435764 val_time: 0.002004 val_loss: 0.467485 acc_train: 0.803922 acc_val: 0.777778
+epoch 83 train_time: 0.009010 loss: 0.434400 val_time: 0.001515 val_loss: 0.469842 acc_train: 0.803922 acc_val: 0.777778
+epoch 84 train_time: 0.008522 loss: 0.434050 val_time: 0.001002 val_loss: 0.467826 acc_train: 0.803922 acc_val: 0.777778
+epoch 85 train_time: 0.009524 loss: 0.434739 val_time: 0.000998 val_loss: 0.470411 acc_train: 0.800000 acc_val: 0.777778
+epoch 86 train_time: 0.008529 loss: 0.431928 val_time: 0.002000 val_loss: 0.468329 acc_train: 0.803922 acc_val: 0.777778
+epoch 87 train_time: 0.008229 loss: 0.432545 val_time: 0.000994 val_loss: 0.471753 acc_train: 0.803922 acc_val: 0.777778
+epoch 88 train_time: 0.008521 loss: 0.430623 val_time: 0.001998 val_loss: 0.468281 acc_train: 0.803922 acc_val: 0.777778
+epoch 89 train_time: 0.009524 loss: 0.429899 val_time: 0.000999 val_loss: 0.466967 acc_train: 0.803922 acc_val: 0.777778
+epoch 90 train_time: 0.009511 loss: 0.428911 val_time: 0.002007 val_loss: 0.466524 acc_train: 0.803922 acc_val: 0.777778
+epoch 91 train_time: 0.009043 loss: 0.429184 val_time: 0.000998 val_loss: 0.466969 acc_train: 0.807843 acc_val: 0.777778
+epoch 92 train_time: 0.011556 loss: 0.428102 val_time: 0.001000 val_loss: 0.466338 acc_train: 0.807843 acc_val: 0.777778
+epoch 93 train_time: 0.012122 loss: 0.427414 val_time: 0.001934 val_loss: 0.466272 acc_train: 0.803922 acc_val: 0.777778
+epoch 94 train_time: 0.011354 loss: 0.428526 val_time: 0.001586 val_loss: 0.466366 acc_train: 0.803922 acc_val: 0.777778
+epoch 95 train_time: 0.010502 loss: 0.425994 val_time: 0.001514 val_loss: 0.464816 acc_train: 0.807843 acc_val: 0.777778
+epoch 96 train_time: 0.011176 loss: 0.426142 val_time: 0.001049 val_loss: 0.466055 acc_train: 0.803922 acc_val: 0.777778
+epoch 97 train_time: 0.010991 loss: 0.425034 val_time: 0.001626 val_loss: 0.462848 acc_train: 0.807843 acc_val: 0.777778
+epoch 98 train_time: 0.009523 loss: 0.424070 val_time: 0.001008 val_loss: 0.460801 acc_train: 0.807843 acc_val: 0.777778
+epoch 99 train_time: 0.008520 loss: 0.424946 val_time: 0.002597 val_loss: 0.461512 acc_train: 0.803922 acc_val: 0.777778
+epoch 100 train_time: 0.007528 loss: 0.423146 val_time: 0.001000 val_loss: 0.460972 acc_train: 0.807843 acc_val: 0.777778</code></pre>
 </div>
 </div>
+</section>
 
 </main>
 <!-- /main column -->
