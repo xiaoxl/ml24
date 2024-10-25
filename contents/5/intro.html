@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.6.10">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,17 +63,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../contents/6/intro.html" rel="next">
 <link href="../../contents/intro2pt/intro.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2d9718c933debafcce942f9b212640bc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c2be7f5231965d65f9256c776f13bc01.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -217,12 +216,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../contents/6/intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Netural networks</span></span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -328,7 +321,7 @@ p=\sigma(L(x))=\sigma\left(\theta_0+\sum_{j=1}^n\theta_jx_j\right)=\sigma\left(\
 <p><span class="math display">\[
 \sigma(z)=\frac{1}{1+\mathrm{e}^{-z}}.
 \]</span> The graph of the function is shown below.</p>
-<div id="0f9c90bc" class="cell" data-execution_count="1">
+<div id="4416dfff" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -466,7 +459,7 @@ Note
 <p>When fit a model to data, it is highly possible that the model is underfit or overfit.</p>
 <p>Roughly speaking, <strong>underfit</strong> means the model is not sufficient to fit the training samples, and <strong>overfit</strong> means that the models learns too many noise from the data. In many cases, high bias is related to underfit, and high variance is related to overfit.</p>
 <p>The following example is from <a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py">the <code>sklearn</code> guide</a>. Although it is a polynomial regression example, it grasps the key idea of underfit and overfit.</p>
-<div id="717d4014" class="cell page-columns page-full" data-execution_count="2">
+<div id="546f19af" class="cell page-columns page-full" data-execution_count="2">
 <div class="cell-output cell-output-display page-columns page-full">
 <div class="page-columns page-full">
 <figure class="figure page-columns page-full">
@@ -480,12 +473,12 @@ Note
 <h3 data-number="6.2.3" class="anchored" data-anchor-id="learning-curves-accuracy-vs-training-size"><span class="header-section-number">6.2.3</span> Learning curves (accuracy vs training size)</h3>
 <p>A learning curve shows the validation and training score of an estimator for varying a key hyperparameter. In most cases the key hyperparameter is the training size or the number of epochs. It is a tool to find out how much we benefit from altering the hyperparameter by training more data or training for more epochs, and whether the estimator suffers more from a variance error or a bias error.</p>
 <p><code>sklearn</code> provides <code>sklearn.model_selection.learning_curve()</code> to generate the values that are required to plot such a learning curve. However this function is just related to the sample size. If we would like to talk about epochs, we need other packages.</p>
-<p>Let us first look at the learning curve about sample size. The official document page is <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html">here</a>. The function takes input <code>estimator</code>, dataset <code>X</code>, <code>y</code>, and an arry-like argument <code>train_sizes</code>. The dataset <code>(X, y)</code> will be split into pieces using the cross-validation technique. The number of pieces is set by the argument <code>cv</code>. The default value is <code>cv=5</code>. For details about cross-validation please see <a href="../2/intro.html#sec-cross-validation" class="quarto-xref"><span>Section 2.2.6</span></a>.</p>
+<p>Let us first look at the learning curve about sample size. The official document page is <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html">here</a>. The function takes input <code>estimator</code>, dataset <code>X</code>, <code>y</code>, and an arry-like argument <code>train_sizes</code>. The dataset <code>(X, y)</code> will be split into pieces using the cross-validation technique. The number of pieces is set by the argument <code>cv</code>. The default value is <code>cv=5</code>. For details about cross-validation please see <a href="../2/intro.html#sec-cross-validation" class="quarto-xref"><span>Section 2.2.5</span></a>.</p>
 <p>Then the model is trained over a random sample of the training set, and evaluate the score over the test set. The size of the sample of the training set is set by the argument <code>train_sizes</code>. This argument is array-like. Therefore the process will be repeated several times, and we can see the impact of increasing the training size.</p>
 <p>The output contains three pieces. The first is <code>train_sizes_abs</code> which is the number of elements in each training set. This output is mainly for reference. The difference between the output and the input <code>train_sizes</code> is that the input can be float which represents the percentagy. The output is always the exact number of elements.</p>
 <p>The second output is <code>train_scores</code> and the third is <code>test_scores</code>, both of which are the scores we get from the training and testing process. Note that both are 2D <code>numpy</code> arrays, of the size <code>(number of different sizes, cv)</code>. Each row is a 1D <code>numpy</code> array representing the cross-validation scores, which is corresponding to a train size. If we want the mean as the cross-validation score, we could use <code>train_scores.mean(axis=1)</code>.</p>
 <p>After understanding the input and output, we could plot the learning curve. We still use the <code>horse colic</code> as the example. The details about the dataset can be found <a href="https://xiaoxl.github.io/Datasets/contents/horse_colic.html">here</a>.</p>
-<div id="4d53e931" class="cell" data-execution_count="3">
+<div id="2292cddd" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
@@ -502,9 +495,9 @@ Note
 <span id="cb1-14"><a href="#cb1-14"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb1-15"><a href="#cb1-15"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\Xinli\AppData\Local\Temp\ipykernel_65712\73942173.py:5: FutureWarning: The 'delim_whitespace' keyword in pd.read_csv is deprecated and will be removed in a future version. Use ``sep='\s+'`` instead
+<pre><code>C:\Users\Xinli\AppData\Local\Temp\ipykernel_16596\73942173.py:5: FutureWarning: The 'delim_whitespace' keyword in pd.read_csv is deprecated and will be removed in a future version. Use ``sep='\s+'`` instead
   df = pd.read_csv(url, delim_whitespace=True, header=None)
-C:\Users\Xinli\AppData\Local\Temp\ipykernel_65712\73942173.py:10: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.
+C:\Users\Xinli\AppData\Local\Temp\ipykernel_16596\73942173.py:10: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.
 The behavior will change in pandas 3.0. This inplace method will never work because the intermediate object on which we are setting values always behaves as a copy.
 
 For example, when doing 'df[col].method(value, inplace=True)', try using 'df.method({col: value}, inplace=True)' or df[col] = df[col].method(value) instead, to perform the operation inplace on the original object.
@@ -514,7 +507,7 @@ For example, when doing 'df[col].method(value, inplace=True)', try using 'df.met
 </div>
 </div>
 <p>We use the model <code>LogisticRegression</code>. The following code plot the learning curve for this model.</p>
-<div id="5600981b" class="cell" data-execution_count="4">
+<div id="3f78d20c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
@@ -570,7 +563,7 @@ For example, when doing 'df[col].method(value, inplace=True)', try using 'df.met
 <li>In <code>SGDClassifier</code>, the regularization is given by the argument <code>penalty</code> and <code>alpha</code>. <code>penalty</code> is the same as that in <code>LogisticRegression</code>, and <code>alpha</code> is the regularization strength, whose default value is <code>0.0001</code>.</li>
 </ul>
 <p>Let us see the above example.</p>
-<div id="d08aac53" class="cell" data-execution_count="5">
+<div id="bde733e2" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>clf <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, C<span class="op">=</span><span class="fl">0.1</span>)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>steps <span class="op">=</span> [(<span class="st">'scalar'</span>, MinMaxScaler()),</span>
 <span id="cb4-3"><a href="#cb4-3"></a>         (<span class="st">'log'</span>, clf)]</span>
@@ -602,11 +595,12 @@ For example, when doing 'df[col].method(value, inplace=True)', try using 'df.met
 <section id="a-simple-example" class="level3" data-number="6.3.1">
 <h3 data-number="6.3.1" class="anchored" data-anchor-id="a-simple-example"><span class="header-section-number">6.3.1</span> A simple example</h3>
 <p>We</p>
+<p><span class="math display">\[f(x)\]</span></p>
 </section>
 <section id="example" class="level3" data-number="6.3.2">
 <h3 data-number="6.3.2" class="anchored" data-anchor-id="example"><span class="header-section-number">6.3.2</span> Example</h3>
 <p>We still use the horse colic dataset as an example. We first prepare the dataset.</p>
-<div id="b8e32009" class="cell" data-execution_count="6">
+<div id="148485df" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -625,14 +619,14 @@ For example, when doing 'df[col].method(value, inplace=True)', try using 'df.met
 <span id="cb5-16"><a href="#cb5-16"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>, random_state<span class="op">=</span>SEED)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We need to perform normalization before throwing the data into the model. Here we use the <code>MinMaxScaler()</code> from <code>sklearn</code> package.</p>
-<div id="82dde565" class="cell" data-execution_count="7">
+<div id="680f89e9" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
 <span id="cb6-2"><a href="#cb6-2"></a>mms <span class="op">=</span> MinMaxScaler()</span>
 <span id="cb6-3"><a href="#cb6-3"></a>X_train <span class="op">=</span> mms.fit_transform(X_train, y_train)</span>
 <span id="cb6-4"><a href="#cb6-4"></a>X_test <span class="op">=</span> mms.transform(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we write a <code>Dataset</code> class to build the dataset and create the dataloaders. Since the set is already split, we don’t need to <code>random_split</code> here.</p>
-<div id="8da0cffe" class="cell" data-execution_count="8">
+<div id="dd49ef6b" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> torch</span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset, DataLoader</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
@@ -655,7 +649,7 @@ For example, when doing 'df[col].method(value, inplace=True)', try using 'df.met
 <span id="cb7-20"><a href="#cb7-20"></a>val_loader <span class="op">=</span> DataLoader(val_set, batch_size<span class="op">=</span><span class="dv">32</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the following code, we first set up the original model.</p>
-<div id="f83da1ec" class="cell" data-execution_count="10">
+<div id="cebd94c1" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="im">from</span> torch.nn.modules <span class="im">import</span> Linear</span>
 <span id="cb8-3"><a href="#cb8-3"></a></span>
@@ -672,7 +666,7 @@ For example, when doing 'df[col].method(value, inplace=True)', try using 'df.met
 <span id="cb8-14"><a href="#cb8-14"></a>        <span class="cf">return</span> pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we derive the base <code>ModelTemplate</code> class.</p>
-<div id="7183db24" class="cell" data-execution_count="11">
+<div id="66d358bf" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">class</span> LoRModel(ModelTemplate):</span>
 <span id="cb9-2"><a href="#cb9-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, model, loss_fn, optimizer):</span>
 <span id="cb9-3"><a href="#cb9-3"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(model, loss_fn, optimizer)</span>
@@ -709,7 +703,7 @@ For example, when doing 'df[col].method(value, inplace=True)', try using 'df.met
 <span id="cb9-34"><a href="#cb9-34"></a>            <span class="bu">print</span>(<span class="st">' '</span>.join(s))</span>
 <span id="cb9-35"><a href="#cb9-35"></a>        <span class="cf">return</span> s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="85840af9" class="cell" data-execution_count="12">
+<div id="20e6d874" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> torch.optim <span class="im">import</span> SGD</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> torch.nn <span class="im">import</span> BCEWithLogitsLoss, BCELoss</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
@@ -719,106 +713,106 @@ For example, when doing 'df[col].method(value, inplace=True)', try using 'df.met
 <span id="cb10-7"><a href="#cb10-7"></a></span>
 <span id="cb10-8"><a href="#cb10-8"></a>model.train(train_loader, val_loader, epoch_num<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>epoch 1 train_time: 0.009149 loss: 0.674627 val_time: 0.001110 val_loss: 0.619009 acc_train: 0.627451 acc_val: 0.688889
-epoch 2 train_time: 0.004470 loss: 0.647466 val_time: 0.001009 val_loss: 0.606279 acc_train: 0.627451 acc_val: 0.688889
-epoch 3 train_time: 0.004992 loss: 0.631382 val_time: 0.001513 val_loss: 0.587835 acc_train: 0.627451 acc_val: 0.688889
-epoch 4 train_time: 0.004513 loss: 0.619163 val_time: 0.000999 val_loss: 0.579341 acc_train: 0.631373 acc_val: 0.688889
-epoch 5 train_time: 0.005146 loss: 0.609541 val_time: 0.000000 val_loss: 0.570777 acc_train: 0.631373 acc_val: 0.711111
-epoch 6 train_time: 0.005018 loss: 0.600289 val_time: 0.000999 val_loss: 0.564059 acc_train: 0.639216 acc_val: 0.711111
-epoch 7 train_time: 0.005141 loss: 0.590659 val_time: 0.001001 val_loss: 0.561695 acc_train: 0.654902 acc_val: 0.688889
-epoch 8 train_time: 0.006529 loss: 0.581817 val_time: 0.001006 val_loss: 0.556573 acc_train: 0.658824 acc_val: 0.666667
-epoch 9 train_time: 0.006056 loss: 0.575897 val_time: 0.001006 val_loss: 0.555410 acc_train: 0.701961 acc_val: 0.711111
-epoch 10 train_time: 0.004529 loss: 0.568207 val_time: 0.001007 val_loss: 0.549390 acc_train: 0.709804 acc_val: 0.711111
-epoch 11 train_time: 0.006530 loss: 0.561794 val_time: 0.000997 val_loss: 0.543227 acc_train: 0.717647 acc_val: 0.711111
-epoch 12 train_time: 0.006521 loss: 0.556270 val_time: 0.001000 val_loss: 0.538794 acc_train: 0.729412 acc_val: 0.711111
-epoch 13 train_time: 0.006516 loss: 0.551529 val_time: 0.001503 val_loss: 0.538478 acc_train: 0.745098 acc_val: 0.711111
-epoch 14 train_time: 0.006579 loss: 0.546595 val_time: 0.001001 val_loss: 0.537497 acc_train: 0.749020 acc_val: 0.733333
-epoch 15 train_time: 0.006550 loss: 0.543805 val_time: 0.000991 val_loss: 0.533154 acc_train: 0.752941 acc_val: 0.733333
-epoch 16 train_time: 0.006036 loss: 0.537000 val_time: 0.000999 val_loss: 0.530011 acc_train: 0.752941 acc_val: 0.733333
-epoch 17 train_time: 0.004514 loss: 0.533244 val_time: 0.001003 val_loss: 0.526669 acc_train: 0.760784 acc_val: 0.733333
-epoch 18 train_time: 0.005025 loss: 0.529177 val_time: 0.001003 val_loss: 0.525024 acc_train: 0.764706 acc_val: 0.733333
-epoch 19 train_time: 0.006732 loss: 0.525873 val_time: 0.001000 val_loss: 0.523801 acc_train: 0.776471 acc_val: 0.733333
-epoch 20 train_time: 0.008019 loss: 0.521512 val_time: 0.001125 val_loss: 0.522176 acc_train: 0.780392 acc_val: 0.755556
-epoch 21 train_time: 0.006521 loss: 0.518520 val_time: 0.000000 val_loss: 0.519269 acc_train: 0.780392 acc_val: 0.755556
-epoch 22 train_time: 0.006311 loss: 0.515101 val_time: 0.001008 val_loss: 0.515778 acc_train: 0.776471 acc_val: 0.733333
-epoch 23 train_time: 0.006001 loss: 0.513203 val_time: 0.001000 val_loss: 0.519432 acc_train: 0.784314 acc_val: 0.755556
-epoch 24 train_time: 0.005550 loss: 0.509660 val_time: 0.000999 val_loss: 0.515220 acc_train: 0.784314 acc_val: 0.777778
-epoch 25 train_time: 0.004506 loss: 0.506943 val_time: 0.001003 val_loss: 0.512260 acc_train: 0.788235 acc_val: 0.777778
-epoch 26 train_time: 0.005409 loss: 0.505380 val_time: 0.001000 val_loss: 0.513752 acc_train: 0.780392 acc_val: 0.755556
-epoch 27 train_time: 0.007043 loss: 0.501728 val_time: 0.000000 val_loss: 0.513422 acc_train: 0.780392 acc_val: 0.755556
-epoch 28 train_time: 0.004558 loss: 0.500234 val_time: 0.000000 val_loss: 0.508129 acc_train: 0.780392 acc_val: 0.755556
-epoch 29 train_time: 0.005512 loss: 0.497392 val_time: 0.001000 val_loss: 0.510038 acc_train: 0.784314 acc_val: 0.755556
-epoch 30 train_time: 0.004509 loss: 0.495293 val_time: 0.001000 val_loss: 0.506375 acc_train: 0.784314 acc_val: 0.755556
-epoch 31 train_time: 0.006531 loss: 0.493891 val_time: 0.001010 val_loss: 0.508324 acc_train: 0.784314 acc_val: 0.755556
-epoch 32 train_time: 0.006678 loss: 0.490733 val_time: 0.001011 val_loss: 0.502308 acc_train: 0.784314 acc_val: 0.755556
-epoch 33 train_time: 0.006102 loss: 0.489358 val_time: 0.001507 val_loss: 0.504019 acc_train: 0.788235 acc_val: 0.755556
-epoch 34 train_time: 0.006013 loss: 0.486646 val_time: 0.001000 val_loss: 0.504261 acc_train: 0.784314 acc_val: 0.755556
-epoch 35 train_time: 0.005564 loss: 0.485487 val_time: 0.000976 val_loss: 0.502926 acc_train: 0.784314 acc_val: 0.755556
-epoch 36 train_time: 0.005718 loss: 0.483562 val_time: 0.001007 val_loss: 0.504548 acc_train: 0.792157 acc_val: 0.755556
-epoch 37 train_time: 0.006582 loss: 0.481137 val_time: 0.001072 val_loss: 0.502033 acc_train: 0.792157 acc_val: 0.755556
-epoch 38 train_time: 0.005511 loss: 0.479781 val_time: 0.001003 val_loss: 0.501860 acc_train: 0.796078 acc_val: 0.755556
-epoch 39 train_time: 0.006415 loss: 0.478170 val_time: 0.001165 val_loss: 0.500380 acc_train: 0.800000 acc_val: 0.755556
-epoch 40 train_time: 0.006022 loss: 0.476871 val_time: 0.001000 val_loss: 0.498162 acc_train: 0.796078 acc_val: 0.755556
-epoch 41 train_time: 0.005652 loss: 0.475505 val_time: 0.001009 val_loss: 0.499792 acc_train: 0.796078 acc_val: 0.777778
-epoch 42 train_time: 0.006061 loss: 0.473835 val_time: 0.001005 val_loss: 0.498708 acc_train: 0.796078 acc_val: 0.777778
-epoch 43 train_time: 0.006543 loss: 0.472051 val_time: 0.001000 val_loss: 0.501097 acc_train: 0.796078 acc_val: 0.777778
-epoch 44 train_time: 0.007028 loss: 0.470318 val_time: 0.001007 val_loss: 0.497102 acc_train: 0.800000 acc_val: 0.777778
-epoch 45 train_time: 0.007029 loss: 0.468182 val_time: 0.000000 val_loss: 0.494473 acc_train: 0.800000 acc_val: 0.777778
-epoch 46 train_time: 0.006011 loss: 0.467393 val_time: 0.001154 val_loss: 0.495783 acc_train: 0.796078 acc_val: 0.777778
-epoch 47 train_time: 0.005069 loss: 0.465967 val_time: 0.000514 val_loss: 0.495563 acc_train: 0.796078 acc_val: 0.777778
-epoch 48 train_time: 0.006578 loss: 0.465339 val_time: 0.001000 val_loss: 0.495331 acc_train: 0.796078 acc_val: 0.777778
-epoch 49 train_time: 0.005827 loss: 0.463593 val_time: 0.001001 val_loss: 0.493717 acc_train: 0.796078 acc_val: 0.777778
-epoch 50 train_time: 0.007028 loss: 0.462370 val_time: 0.001006 val_loss: 0.492275 acc_train: 0.800000 acc_val: 0.777778
-epoch 51 train_time: 0.007019 loss: 0.461523 val_time: 0.000518 val_loss: 0.493138 acc_train: 0.796078 acc_val: 0.800000
-epoch 52 train_time: 0.005528 loss: 0.460417 val_time: 0.001007 val_loss: 0.494454 acc_train: 0.800000 acc_val: 0.777778
-epoch 53 train_time: 0.006044 loss: 0.459334 val_time: 0.001998 val_loss: 0.492033 acc_train: 0.796078 acc_val: 0.800000
-epoch 54 train_time: 0.005609 loss: 0.457327 val_time: 0.001000 val_loss: 0.487873 acc_train: 0.803922 acc_val: 0.777778
-epoch 55 train_time: 0.006538 loss: 0.456415 val_time: 0.001002 val_loss: 0.487303 acc_train: 0.803922 acc_val: 0.777778
-epoch 56 train_time: 0.005528 loss: 0.455030 val_time: 0.000999 val_loss: 0.486743 acc_train: 0.803922 acc_val: 0.777778
-epoch 57 train_time: 0.004508 loss: 0.454154 val_time: 0.001000 val_loss: 0.487643 acc_train: 0.803922 acc_val: 0.800000
-epoch 58 train_time: 0.004515 loss: 0.453704 val_time: 0.000999 val_loss: 0.483372 acc_train: 0.807843 acc_val: 0.777778
-epoch 59 train_time: 0.004568 loss: 0.451267 val_time: 0.001021 val_loss: 0.484756 acc_train: 0.807843 acc_val: 0.800000
-epoch 60 train_time: 0.006513 loss: 0.451604 val_time: 0.000000 val_loss: 0.486329 acc_train: 0.803922 acc_val: 0.777778
-epoch 61 train_time: 0.005353 loss: 0.449811 val_time: 0.001000 val_loss: 0.484585 acc_train: 0.803922 acc_val: 0.777778
-epoch 62 train_time: 0.005524 loss: 0.449721 val_time: 0.000998 val_loss: 0.482820 acc_train: 0.807843 acc_val: 0.800000
-epoch 63 train_time: 0.005516 loss: 0.447913 val_time: 0.001507 val_loss: 0.482491 acc_train: 0.803922 acc_val: 0.777778
-epoch 64 train_time: 0.007041 loss: 0.448823 val_time: 0.001000 val_loss: 0.482010 acc_train: 0.803922 acc_val: 0.777778
-epoch 65 train_time: 0.005012 loss: 0.446369 val_time: 0.001503 val_loss: 0.483129 acc_train: 0.800000 acc_val: 0.755556
-epoch 66 train_time: 0.006522 loss: 0.445447 val_time: 0.002009 val_loss: 0.480999 acc_train: 0.800000 acc_val: 0.777778
-epoch 67 train_time: 0.005015 loss: 0.445404 val_time: 0.001000 val_loss: 0.486650 acc_train: 0.796078 acc_val: 0.777778
-epoch 68 train_time: 0.005522 loss: 0.444460 val_time: 0.001000 val_loss: 0.487049 acc_train: 0.796078 acc_val: 0.777778
-epoch 69 train_time: 0.006112 loss: 0.442527 val_time: 0.001505 val_loss: 0.482234 acc_train: 0.800000 acc_val: 0.777778
-epoch 70 train_time: 0.006519 loss: 0.442984 val_time: 0.001000 val_loss: 0.482030 acc_train: 0.800000 acc_val: 0.777778
-epoch 71 train_time: 0.004506 loss: 0.440611 val_time: 0.001512 val_loss: 0.480820 acc_train: 0.803922 acc_val: 0.777778
-epoch 72 train_time: 0.006124 loss: 0.440156 val_time: 0.000894 val_loss: 0.480842 acc_train: 0.800000 acc_val: 0.777778
-epoch 73 train_time: 0.005010 loss: 0.438593 val_time: 0.001000 val_loss: 0.479417 acc_train: 0.803922 acc_val: 0.777778
-epoch 74 train_time: 0.006529 loss: 0.438962 val_time: 0.001007 val_loss: 0.479688 acc_train: 0.803922 acc_val: 0.777778
-epoch 75 train_time: 0.006538 loss: 0.437273 val_time: 0.000999 val_loss: 0.480948 acc_train: 0.800000 acc_val: 0.777778
-epoch 76 train_time: 0.008034 loss: 0.436836 val_time: 0.000504 val_loss: 0.478903 acc_train: 0.803922 acc_val: 0.777778
-epoch 77 train_time: 0.007015 loss: 0.436190 val_time: 0.000000 val_loss: 0.481736 acc_train: 0.796078 acc_val: 0.777778
-epoch 78 train_time: 0.006032 loss: 0.436840 val_time: 0.001045 val_loss: 0.481888 acc_train: 0.796078 acc_val: 0.777778
-epoch 79 train_time: 0.005521 loss: 0.433567 val_time: 0.001003 val_loss: 0.478438 acc_train: 0.803922 acc_val: 0.777778
-epoch 80 train_time: 0.006090 loss: 0.433801 val_time: 0.001002 val_loss: 0.479732 acc_train: 0.800000 acc_val: 0.777778
-epoch 81 train_time: 0.005529 loss: 0.433351 val_time: 0.001000 val_loss: 0.476616 acc_train: 0.800000 acc_val: 0.777778
-epoch 82 train_time: 0.006518 loss: 0.432495 val_time: 0.001505 val_loss: 0.475177 acc_train: 0.800000 acc_val: 0.777778
-epoch 83 train_time: 0.006561 loss: 0.431201 val_time: 0.001000 val_loss: 0.477437 acc_train: 0.800000 acc_val: 0.777778
-epoch 84 train_time: 0.005056 loss: 0.430826 val_time: 0.001011 val_loss: 0.475507 acc_train: 0.800000 acc_val: 0.777778
-epoch 85 train_time: 0.005032 loss: 0.431591 val_time: 0.001000 val_loss: 0.477952 acc_train: 0.800000 acc_val: 0.777778
-epoch 86 train_time: 0.005018 loss: 0.428879 val_time: 0.001003 val_loss: 0.475768 acc_train: 0.800000 acc_val: 0.777778
-epoch 87 train_time: 0.006157 loss: 0.429469 val_time: 0.000864 val_loss: 0.479029 acc_train: 0.796078 acc_val: 0.777778
-epoch 88 train_time: 0.006541 loss: 0.427537 val_time: 0.002007 val_loss: 0.475638 acc_train: 0.807843 acc_val: 0.777778
-epoch 89 train_time: 0.007041 loss: 0.426961 val_time: 0.001001 val_loss: 0.474318 acc_train: 0.807843 acc_val: 0.777778
-epoch 90 train_time: 0.007595 loss: 0.425945 val_time: 0.000936 val_loss: 0.473740 acc_train: 0.807843 acc_val: 0.777778
-epoch 91 train_time: 0.007540 loss: 0.426258 val_time: 0.001009 val_loss: 0.474088 acc_train: 0.807843 acc_val: 0.777778
-epoch 92 train_time: 0.006417 loss: 0.425213 val_time: 0.001503 val_loss: 0.473682 acc_train: 0.807843 acc_val: 0.777778
-epoch 93 train_time: 0.006039 loss: 0.424503 val_time: 0.001009 val_loss: 0.473505 acc_train: 0.807843 acc_val: 0.777778
-epoch 94 train_time: 0.004512 loss: 0.425619 val_time: 0.001010 val_loss: 0.473489 acc_train: 0.807843 acc_val: 0.777778
-epoch 95 train_time: 0.006037 loss: 0.423174 val_time: 0.001014 val_loss: 0.471925 acc_train: 0.807843 acc_val: 0.777778
-epoch 96 train_time: 0.008095 loss: 0.423395 val_time: 0.000000 val_loss: 0.473106 acc_train: 0.803922 acc_val: 0.777778
-epoch 97 train_time: 0.004768 loss: 0.422295 val_time: 0.003011 val_loss: 0.470060 acc_train: 0.807843 acc_val: 0.777778
-epoch 98 train_time: 0.005531 loss: 0.421285 val_time: 0.001005 val_loss: 0.468067 acc_train: 0.803922 acc_val: 0.777778
-epoch 99 train_time: 0.006522 loss: 0.422199 val_time: 0.000999 val_loss: 0.468618 acc_train: 0.807843 acc_val: 0.777778
-epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467997 acc_train: 0.803922 acc_val: 0.777778</code></pre>
+<pre><code>epoch 1 train_time: 0.016554 loss: 0.687305 val_time: 0.000998 val_loss: 0.629018 acc_train: 0.623529 acc_val: 0.688889
+epoch 2 train_time: 0.014543 loss: 0.647179 val_time: 0.002030 val_loss: 0.610829 acc_train: 0.623529 acc_val: 0.666667
+epoch 3 train_time: 0.009044 loss: 0.631053 val_time: 0.001007 val_loss: 0.590579 acc_train: 0.627451 acc_val: 0.666667
+epoch 4 train_time: 0.013516 loss: 0.619827 val_time: 0.002004 val_loss: 0.582125 acc_train: 0.631373 acc_val: 0.666667
+epoch 5 train_time: 0.009525 loss: 0.611581 val_time: 0.002002 val_loss: 0.573933 acc_train: 0.635294 acc_val: 0.688889
+epoch 6 train_time: 0.009542 loss: 0.603524 val_time: 0.002001 val_loss: 0.567759 acc_train: 0.627451 acc_val: 0.688889
+epoch 7 train_time: 0.014066 loss: 0.594559 val_time: 0.003011 val_loss: 0.565573 acc_train: 0.643137 acc_val: 0.688889
+epoch 8 train_time: 0.016076 loss: 0.586488 val_time: 0.003010 val_loss: 0.560729 acc_train: 0.650980 acc_val: 0.666667
+epoch 9 train_time: 0.011580 loss: 0.581166 val_time: 0.001000 val_loss: 0.559487 acc_train: 0.674510 acc_val: 0.644444
+epoch 10 train_time: 0.010719 loss: 0.574006 val_time: 0.001054 val_loss: 0.554144 acc_train: 0.674510 acc_val: 0.644444
+epoch 11 train_time: 0.014740 loss: 0.568107 val_time: 0.003658 val_loss: 0.547912 acc_train: 0.670588 acc_val: 0.666667
+epoch 12 train_time: 0.015177 loss: 0.562748 val_time: 0.001000 val_loss: 0.543812 acc_train: 0.686275 acc_val: 0.666667
+epoch 13 train_time: 0.014080 loss: 0.558267 val_time: 0.002007 val_loss: 0.543447 acc_train: 0.705882 acc_val: 0.666667
+epoch 14 train_time: 0.012550 loss: 0.553683 val_time: 0.002515 val_loss: 0.542561 acc_train: 0.733333 acc_val: 0.666667
+epoch 15 train_time: 0.012064 loss: 0.550834 val_time: 0.002008 val_loss: 0.538282 acc_train: 0.749020 acc_val: 0.666667
+epoch 16 train_time: 0.012560 loss: 0.544311 val_time: 0.001220 val_loss: 0.534921 acc_train: 0.752941 acc_val: 0.688889
+epoch 17 train_time: 0.013521 loss: 0.540649 val_time: 0.002523 val_loss: 0.531483 acc_train: 0.756863 acc_val: 0.688889
+epoch 18 train_time: 0.015265 loss: 0.536531 val_time: 0.004067 val_loss: 0.529776 acc_train: 0.764706 acc_val: 0.711111
+epoch 19 train_time: 0.012023 loss: 0.533492 val_time: 0.002005 val_loss: 0.528668 acc_train: 0.768627 acc_val: 0.711111
+epoch 20 train_time: 0.010550 loss: 0.528879 val_time: 0.002532 val_loss: 0.527157 acc_train: 0.768627 acc_val: 0.711111
+epoch 21 train_time: 0.014070 loss: 0.525856 val_time: 0.001014 val_loss: 0.524292 acc_train: 0.768627 acc_val: 0.711111
+epoch 22 train_time: 0.017544 loss: 0.522445 val_time: 0.003011 val_loss: 0.520279 acc_train: 0.768627 acc_val: 0.711111
+epoch 23 train_time: 0.014581 loss: 0.520419 val_time: 0.002542 val_loss: 0.524044 acc_train: 0.760784 acc_val: 0.688889
+epoch 24 train_time: 0.015014 loss: 0.517011 val_time: 0.001216 val_loss: 0.519522 acc_train: 0.764706 acc_val: 0.688889
+epoch 25 train_time: 0.014138 loss: 0.514204 val_time: 0.002186 val_loss: 0.516830 acc_train: 0.764706 acc_val: 0.688889
+epoch 26 train_time: 0.011526 loss: 0.512408 val_time: 0.001003 val_loss: 0.518149 acc_train: 0.764706 acc_val: 0.711111
+epoch 27 train_time: 0.012534 loss: 0.508721 val_time: 0.001002 val_loss: 0.517591 acc_train: 0.764706 acc_val: 0.711111
+epoch 28 train_time: 0.009021 loss: 0.507010 val_time: 0.001002 val_loss: 0.512259 acc_train: 0.764706 acc_val: 0.711111
+epoch 29 train_time: 0.013525 loss: 0.504229 val_time: 0.000994 val_loss: 0.514286 acc_train: 0.764706 acc_val: 0.711111
+epoch 30 train_time: 0.012513 loss: 0.502013 val_time: 0.001505 val_loss: 0.510456 acc_train: 0.764706 acc_val: 0.711111
+epoch 31 train_time: 0.009515 loss: 0.500548 val_time: 0.001505 val_loss: 0.512526 acc_train: 0.772549 acc_val: 0.733333
+epoch 32 train_time: 0.015541 loss: 0.497224 val_time: 0.002570 val_loss: 0.506306 acc_train: 0.764706 acc_val: 0.711111
+epoch 33 train_time: 0.015065 loss: 0.495740 val_time: 0.001996 val_loss: 0.508015 acc_train: 0.772549 acc_val: 0.733333
+epoch 34 train_time: 0.014525 loss: 0.492991 val_time: 0.000995 val_loss: 0.508081 acc_train: 0.788235 acc_val: 0.733333
+epoch 35 train_time: 0.013406 loss: 0.491803 val_time: 0.002012 val_loss: 0.506698 acc_train: 0.788235 acc_val: 0.733333
+epoch 36 train_time: 0.014590 loss: 0.489737 val_time: 0.002509 val_loss: 0.508183 acc_train: 0.788235 acc_val: 0.733333
+epoch 37 train_time: 0.015088 loss: 0.487203 val_time: 0.002008 val_loss: 0.505553 acc_train: 0.788235 acc_val: 0.733333
+epoch 38 train_time: 0.013531 loss: 0.485715 val_time: 0.001506 val_loss: 0.505410 acc_train: 0.792157 acc_val: 0.733333
+epoch 39 train_time: 0.013053 loss: 0.484001 val_time: 0.002999 val_loss: 0.503631 acc_train: 0.792157 acc_val: 0.733333
+epoch 40 train_time: 0.011433 loss: 0.482553 val_time: 0.002508 val_loss: 0.501427 acc_train: 0.792157 acc_val: 0.755556
+epoch 41 train_time: 0.015067 loss: 0.481098 val_time: 0.000997 val_loss: 0.503178 acc_train: 0.796078 acc_val: 0.733333
+epoch 42 train_time: 0.024775 loss: 0.479402 val_time: 0.003234 val_loss: 0.502023 acc_train: 0.796078 acc_val: 0.755556
+epoch 43 train_time: 0.010911 loss: 0.477439 val_time: 0.001537 val_loss: 0.504440 acc_train: 0.796078 acc_val: 0.733333
+epoch 44 train_time: 0.010969 loss: 0.475688 val_time: 0.001531 val_loss: 0.500365 acc_train: 0.800000 acc_val: 0.755556
+epoch 45 train_time: 0.013080 loss: 0.473399 val_time: 0.000995 val_loss: 0.497569 acc_train: 0.792157 acc_val: 0.755556
+epoch 46 train_time: 0.013170 loss: 0.472585 val_time: 0.002019 val_loss: 0.498848 acc_train: 0.800000 acc_val: 0.755556
+epoch 47 train_time: 0.012940 loss: 0.471106 val_time: 0.001000 val_loss: 0.498452 acc_train: 0.796078 acc_val: 0.755556
+epoch 48 train_time: 0.012061 loss: 0.470401 val_time: 0.000994 val_loss: 0.498351 acc_train: 0.796078 acc_val: 0.755556
+epoch 49 train_time: 0.016155 loss: 0.468439 val_time: 0.002000 val_loss: 0.496576 acc_train: 0.796078 acc_val: 0.755556
+epoch 50 train_time: 0.014244 loss: 0.467164 val_time: 0.002258 val_loss: 0.494957 acc_train: 0.796078 acc_val: 0.755556
+epoch 51 train_time: 0.016164 loss: 0.466241 val_time: 0.002624 val_loss: 0.495823 acc_train: 0.796078 acc_val: 0.777778
+epoch 52 train_time: 0.014609 loss: 0.465039 val_time: 0.001093 val_loss: 0.497141 acc_train: 0.800000 acc_val: 0.755556
+epoch 53 train_time: 0.008791 loss: 0.463880 val_time: 0.002007 val_loss: 0.494770 acc_train: 0.800000 acc_val: 0.777778
+epoch 54 train_time: 0.010544 loss: 0.461786 val_time: 0.000507 val_loss: 0.490373 acc_train: 0.796078 acc_val: 0.777778
+epoch 55 train_time: 0.008529 loss: 0.460941 val_time: 0.001994 val_loss: 0.489797 acc_train: 0.800000 acc_val: 0.777778
+epoch 56 train_time: 0.012516 loss: 0.459424 val_time: 0.002514 val_loss: 0.489345 acc_train: 0.800000 acc_val: 0.777778
+epoch 57 train_time: 0.013069 loss: 0.458503 val_time: 0.001001 val_loss: 0.490265 acc_train: 0.800000 acc_val: 0.777778
+epoch 58 train_time: 0.010536 loss: 0.457875 val_time: 0.003512 val_loss: 0.485759 acc_train: 0.803922 acc_val: 0.777778
+epoch 59 train_time: 0.015582 loss: 0.455383 val_time: 0.001000 val_loss: 0.487140 acc_train: 0.800000 acc_val: 0.777778
+epoch 60 train_time: 0.014898 loss: 0.455701 val_time: 0.001498 val_loss: 0.488668 acc_train: 0.803922 acc_val: 0.755556
+epoch 61 train_time: 0.018055 loss: 0.453859 val_time: 0.003236 val_loss: 0.486936 acc_train: 0.803922 acc_val: 0.755556
+epoch 62 train_time: 0.014062 loss: 0.453659 val_time: 0.001018 val_loss: 0.485058 acc_train: 0.800000 acc_val: 0.777778
+epoch 63 train_time: 0.011492 loss: 0.451791 val_time: 0.001516 val_loss: 0.484719 acc_train: 0.800000 acc_val: 0.777778
+epoch 64 train_time: 0.011550 loss: 0.452694 val_time: 0.004007 val_loss: 0.484204 acc_train: 0.800000 acc_val: 0.755556
+epoch 65 train_time: 0.017071 loss: 0.450128 val_time: 0.003002 val_loss: 0.485302 acc_train: 0.796078 acc_val: 0.755556
+epoch 66 train_time: 0.010518 loss: 0.449155 val_time: 0.001507 val_loss: 0.483107 acc_train: 0.800000 acc_val: 0.755556
+epoch 67 train_time: 0.012539 loss: 0.449069 val_time: 0.002517 val_loss: 0.488900 acc_train: 0.800000 acc_val: 0.755556
+epoch 68 train_time: 0.014073 loss: 0.448072 val_time: 0.001002 val_loss: 0.489223 acc_train: 0.792157 acc_val: 0.777778
+epoch 69 train_time: 0.016110 loss: 0.446037 val_time: 0.003023 val_loss: 0.484251 acc_train: 0.796078 acc_val: 0.755556
+epoch 70 train_time: 0.018088 loss: 0.446483 val_time: 0.001994 val_loss: 0.484048 acc_train: 0.796078 acc_val: 0.755556
+epoch 71 train_time: 0.011033 loss: 0.444053 val_time: 0.001506 val_loss: 0.482835 acc_train: 0.796078 acc_val: 0.755556
+epoch 72 train_time: 0.010533 loss: 0.443581 val_time: 0.002519 val_loss: 0.482815 acc_train: 0.796078 acc_val: 0.733333
+epoch 73 train_time: 0.006999 loss: 0.441916 val_time: 0.000506 val_loss: 0.481370 acc_train: 0.796078 acc_val: 0.755556
+epoch 74 train_time: 0.013047 loss: 0.442210 val_time: 0.002004 val_loss: 0.481685 acc_train: 0.796078 acc_val: 0.733333
+epoch 75 train_time: 0.014531 loss: 0.440478 val_time: 0.001000 val_loss: 0.482895 acc_train: 0.800000 acc_val: 0.777778
+epoch 76 train_time: 0.008520 loss: 0.439997 val_time: 0.000999 val_loss: 0.480762 acc_train: 0.803922 acc_val: 0.755556
+epoch 77 train_time: 0.013018 loss: 0.439290 val_time: 0.002527 val_loss: 0.483560 acc_train: 0.796078 acc_val: 0.777778
+epoch 78 train_time: 0.013515 loss: 0.439899 val_time: 0.002582 val_loss: 0.483708 acc_train: 0.800000 acc_val: 0.777778
+epoch 79 train_time: 0.014068 loss: 0.436585 val_time: 0.002032 val_loss: 0.480211 acc_train: 0.803922 acc_val: 0.777778
+epoch 80 train_time: 0.015594 loss: 0.436755 val_time: 0.002010 val_loss: 0.481489 acc_train: 0.800000 acc_val: 0.777778
+epoch 81 train_time: 0.013064 loss: 0.436268 val_time: 0.002665 val_loss: 0.478381 acc_train: 0.803922 acc_val: 0.755556
+epoch 82 train_time: 0.008817 loss: 0.435402 val_time: 0.001006 val_loss: 0.476859 acc_train: 0.803922 acc_val: 0.755556
+epoch 83 train_time: 0.010520 loss: 0.434043 val_time: 0.001505 val_loss: 0.479177 acc_train: 0.800000 acc_val: 0.777778
+epoch 84 train_time: 0.009958 loss: 0.433658 val_time: 0.002004 val_loss: 0.477113 acc_train: 0.803922 acc_val: 0.777778
+epoch 85 train_time: 0.010344 loss: 0.434383 val_time: 0.000998 val_loss: 0.479657 acc_train: 0.796078 acc_val: 0.777778
+epoch 86 train_time: 0.011517 loss: 0.431633 val_time: 0.001004 val_loss: 0.477295 acc_train: 0.800000 acc_val: 0.777778
+epoch 87 train_time: 0.014686 loss: 0.432182 val_time: 0.001000 val_loss: 0.480640 acc_train: 0.796078 acc_val: 0.777778
+epoch 88 train_time: 0.015550 loss: 0.430162 val_time: 0.003000 val_loss: 0.477199 acc_train: 0.800000 acc_val: 0.777778
+epoch 89 train_time: 0.012076 loss: 0.429550 val_time: 0.002013 val_loss: 0.475849 acc_train: 0.803922 acc_val: 0.777778
+epoch 90 train_time: 0.009029 loss: 0.428505 val_time: 0.002005 val_loss: 0.475251 acc_train: 0.803922 acc_val: 0.777778
+epoch 91 train_time: 0.014760 loss: 0.428774 val_time: 0.002523 val_loss: 0.475538 acc_train: 0.800000 acc_val: 0.777778
+epoch 92 train_time: 0.010943 loss: 0.427689 val_time: 0.002003 val_loss: 0.475123 acc_train: 0.803922 acc_val: 0.777778
+epoch 93 train_time: 0.014955 loss: 0.427007 val_time: 0.002509 val_loss: 0.474950 acc_train: 0.803922 acc_val: 0.777778
+epoch 94 train_time: 0.010377 loss: 0.428046 val_time: 0.002010 val_loss: 0.475000 acc_train: 0.803922 acc_val: 0.777778
+epoch 95 train_time: 0.017552 loss: 0.425579 val_time: 0.002528 val_loss: 0.473345 acc_train: 0.803922 acc_val: 0.777778
+epoch 96 train_time: 0.012069 loss: 0.425747 val_time: 0.002009 val_loss: 0.474508 acc_train: 0.803922 acc_val: 0.777778
+epoch 97 train_time: 0.011543 loss: 0.424612 val_time: 0.003005 val_loss: 0.471441 acc_train: 0.800000 acc_val: 0.777778
+epoch 98 train_time: 0.015598 loss: 0.423607 val_time: 0.003159 val_loss: 0.469371 acc_train: 0.807843 acc_val: 0.777778
+epoch 99 train_time: 0.012532 loss: 0.424526 val_time: 0.002598 val_loss: 0.469886 acc_train: 0.800000 acc_val: 0.777778
+epoch 100 train_time: 0.016588 loss: 0.422709 val_time: 0.002008 val_loss: 0.469303 acc_train: 0.800000 acc_val: 0.777778</code></pre>
 </div>
 </div>
 </section>
@@ -831,7 +825,7 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 <ol type="1">
 <li>A tensor with only one item is mathematically equal to a number. In Pytorch, you may use <code>.item()</code> to extract the number from a tensor with only one item.</li>
 </ol>
-<div id="8377f470" class="cell" data-execution_count="13">
+<div id="a4e112cc" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> torch</span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
 <span id="cb12-3"><a href="#cb12-3"></a>a <span class="op">=</span> torch.tensor([<span class="dv">1</span>])</span>
@@ -840,7 +834,7 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 <pre><code>tensor([1])</code></pre>
 </div>
 </div>
-<div id="1ea3db61" class="cell" data-execution_count="14">
+<div id="da2f64c2" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>a.item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>1</code></pre>
@@ -849,7 +843,7 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 <ol start="2" type="1">
 <li>It is type sensitive. Pytorch expect you to assign the exact data type to each tensor, and it won’t automatically guess it in most cases. You may specify data type when you create a tensor.</li>
 </ol>
-<div id="91cb594a" class="cell" data-execution_count="15">
+<div id="8ebc6cf5" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>b <span class="op">=</span> torch.tensor([<span class="dv">1</span>], dtype<span class="op">=</span>torch.float64)</span>
 <span id="cb16-2"><a href="#cb16-2"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -857,7 +851,7 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 </div>
 </div>
 <p>If you want to convert data type, you could use <code>.to()</code>.</p>
-<div id="f0ec9d1f" class="cell" data-execution_count="16">
+<div id="b53794d2" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>b <span class="op">=</span> torch.tensor([<span class="dv">1</span>], dtype<span class="op">=</span>torch.float64)</span>
 <span id="cb18-2"><a href="#cb18-2"></a>b <span class="op">=</span> b.to(torch.<span class="bu">int</span>)</span>
 <span id="cb18-3"><a href="#cb18-3"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -880,12 +874,12 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 <ol type="1">
 <li>You have to define a <code>model</code> function to indicate how to feedforward the network to get an output. Here for a lot of reasons, the typical way is to define a <code>model</code> class, which contains a <code>forward</code> method that can compute the output of the model. Let us consider the following example: the dataset is as follows:</li>
 </ol>
-<div id="76f90d8b" class="cell" data-execution_count="17">
+<div id="91845e46" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>x <span class="op">=</span> torch.tensor([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">0</span>, <span class="dv">1</span>]], dtype<span class="op">=</span>torch.<span class="bu">float</span>)</span>
 <span id="cb20-2"><a href="#cb20-2"></a>y <span class="op">=</span> torch.tensor([[<span class="dv">3</span>], [<span class="dv">7</span>], [<span class="dv">1</span>]], dtype<span class="op">=</span>torch.<span class="bu">float</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The model is defined as follows.</p>
-<div id="982b564d" class="cell" data-execution_count="18">
+<div id="85496297" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb21-2"><a href="#cb21-2"></a></span>
 <span id="cb21-3"><a href="#cb21-3"></a><span class="kw">class</span> MyModel(nn.Module):</span>
@@ -899,12 +893,12 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 <span id="cb21-11"><a href="#cb21-11"></a>        <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this example, we define a 2-input linear regression model. Pytorch doesn’t need the class to work. Actually the minimal working example of the above code is as follows. To put things into a class can make it easier in larger models.</p>
-<div id="eab3b3ab" class="cell" data-execution_count="19">
+<div id="eeac42cd" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">def</span> model(x):</span>
 <span id="cb22-2"><a href="#cb22-2"></a>    <span class="cf">return</span> nn.Linear(in_features<span class="op">=</span><span class="dv">2</span>, out_features<span class="op">=</span><span class="dv">1</span>)(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The reason the model can be written in a very simple way is because the information about computing gradients is recorded in the parameter tensors, on the level of tensors, instead of on the level of the model class. Therefore it is important to get access to the parameters of the model.</p>
-<div id="d0daeed7" class="cell" data-execution_count="20">
+<div id="aa795cd3" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>model <span class="op">=</span> MyModel()</span>
 <span id="cb23-2"><a href="#cb23-2"></a><span class="bu">list</span>(model.parameters())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
@@ -916,7 +910,7 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 </div>
 <p>Note that the parameters we get here is a iterator. So to look at it we need to convert it inot a list. In this example, there are two sets of tensors: the first is the coefficients, and the second is the bias term. This bias term can be turned on/off by setting the argument <code>bias=True</code> or <code>False</code> when using <code>nn.Linear()</code> to create fully connected layers. The default is <code>True</code>.</p>
 <p>To evaluate the model, we just directly apply the model to the input tensor.</p>
-<div id="3c8d189e" class="cell" data-execution_count="21">
+<div id="1779e054" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>y_pred <span class="op">=</span> model(x)</span>
 <span id="cb25-2"><a href="#cb25-2"></a>y_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
@@ -930,7 +924,7 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 <ol start="2" type="1">
 <li>We may define the loss function. We mannually define the MSE loss function.</li>
 </ol>
-<div id="0e1d2122" class="cell" data-execution_count="22">
+<div id="d987e196" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">def</span> loss_fn(y_true, y_pred):</span>
 <span id="cb27-2"><a href="#cb27-2"></a>    <span class="cf">return</span> ((y_true<span class="op">-</span>y_pred)<span class="op">**</span><span class="dv">2</span>).mean()</span>
 <span id="cb27-3"><a href="#cb27-3"></a></span>
@@ -943,7 +937,7 @@ epoch 100 train_time: 0.007038 loss: 0.420444 val_time: 0.001007 val_loss: 0.467
 <ol start="3" type="1">
 <li>Now we need to do gradient descent. The manual way to <code>loss.backward()</code>. What it does is to</li>
 </ol>
-<div id="1af1c833" class="cell" data-execution_count="23">
+<div id="7ac74c3c" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="bu">print</span>(<span class="bu">list</span>(model.parameters()))</span>
 <span id="cb29-2"><a href="#cb29-2"></a><span class="bu">print</span>(<span class="bu">list</span>(model.parameters())[<span class="dv">0</span>].grad)</span>
 <span id="cb29-3"><a href="#cb29-3"></a><span class="bu">print</span>(<span class="bu">list</span>(model.parameters())[<span class="dv">1</span>].grad)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -955,15 +949,15 @@ None
 None</code></pre>
 </div>
 </div>
-<div id="95e8fa90" class="cell" data-execution_count="24">
+<div id="264d4f4b" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
 <span id="cb31-2"><a href="#cb31-2"></a>optimizer <span class="op">=</span> optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">1e-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="bd2b8f69" class="cell" data-execution_count="25">
+<div id="72110b10" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>loss.backward()</span>
 <span id="cb32-2"><a href="#cb32-2"></a>optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c50b8836" class="cell" data-execution_count="26">
+<div id="4b783e4f" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
 <span id="cb33-2"><a href="#cb33-2"></a>    optimizer.zero_grad()</span>
 <span id="cb33-3"><a href="#cb33-3"></a>    <span class="co"># print(optimizer.param_groups)</span></span>
@@ -995,7 +989,7 @@ None</code></pre>
 <p>We will only talk about using packages. <code>sklearn</code> provides two methods to implement the Logistic regression. The API interface is very similar to other models. Later we will use <code>PyTorch</code> and our</p>
 <p>Note that Logistic regression is very sensitive to the scale of features. Therefore we need to normalize the features before throwing them into the model.</p>
 <p>Let’s still take <code>iris</code> as an example.</p>
-<div id="01b41729" class="cell" data-execution_count="27">
+<div id="ba62229d" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
 <span id="cb34-2"><a href="#cb34-2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb34-3"><a href="#cb34-3"></a></span>
@@ -1005,7 +999,7 @@ None</code></pre>
 <span id="cb34-7"><a href="#cb34-7"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The first method is <code>sklearn.linear_model.LogisticRegression</code>.</p>
-<div id="1e8b3aa6" class="cell" data-execution_count="28">
+<div id="f3c7f92c" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb35-2"><a href="#cb35-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb35-3"><a href="#cb35-3"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
@@ -1022,7 +1016,7 @@ None</code></pre>
 </div>
 <p>Note that this method has an option <code>solver</code> that will set the way to solve the Logistic regression problem, and there is no “stochastic gradient descent” provided. The default solver for this <code>LogsiticRegression</code> is <code>lbfgs</code> which will NOT be discussed in lectures.</p>
 <p>The second method is <code>sklearn.linear_model.SGDClassifier</code>.</p>
-<div id="dfd51551" class="cell" data-execution_count="29">
+<div id="6e4e9234" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> SGDClassifier</span>
 <span id="cb37-2"><a href="#cb37-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb37-3"><a href="#cb37-3"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
@@ -1556,9 +1550,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../contents/6/intro.html" class="pagination-link" aria-label="Netural networks">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Netural networks</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
