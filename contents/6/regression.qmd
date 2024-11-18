@@ -12,7 +12,7 @@ $$
 The logit function is used to describe the logorithm of the binary odds. The odd ratio is the ratio between the probability of success and the probability of failure. Assume the probability of success is $p$. Then 
 
 $$
-oddratio(p)=\frac{p}{1-p},\quad logit(p)=z = \log\qty(\frac{p}{1-p}).
+oddratio(p)=\frac{p}{1-p},\quad logit(p)=z = \log\left(\frac{p}{1-p}\right).
 $$
 We could solve the logit function, and get its inverse: the function is the *Sigmoid* function. Once we have the logit value, we could use it to get the probability. 
 $$

@@ -35,14 +35,14 @@ When we want to deal with classification problem, we may still use this regressi
 
 
 
-{{< include pytorch.qmd >}}
+<!-- {{< include pytorch.qmd >}} -->
 
 
 
 <!-- {{< include multi.qmd >}} -->
 
 
-{{< include sklearn.qmd >}}
+<!-- {{< include sklearn.qmd >}} -->
 
 
 

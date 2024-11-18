@@ -1,11 +1,11 @@
 ## Neural network implement of Logistic regression
 In the previous sections, we use gradient descent to run the Logistic regression model. We mentioned some important concepts, like epochs, mini-batch, etc.. We are going to use `PyTorch` to implement it. We will reuse many codes we wrote in the previous chapter.
-
+<!-- 
 ### A simple example
 
 We 
 
-$$f(x)$$
+$$f(x)$$ -->
 
 
 

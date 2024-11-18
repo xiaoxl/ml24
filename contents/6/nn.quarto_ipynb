@@ -1,0 +1,231 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Neural network implement of Logistic regression\n",
+        "In the previous sections, we use gradient descent to run the Logistic regression model. We mentioned some important concepts, like epochs, mini-batch, etc.. We are going to use `PyTorch` to implement it. We will reuse many codes we wrote in the previous chapter.\n",
+        "<!-- \n",
+        "### A simple example\n",
+        "\n",
+        "We \n",
+        "\n",
+        "$$f(x)$$ -->\n",
+        "\n",
+        "\n",
+        "\n",
+        "### Example\n",
+        "\n",
+        "We still use the horse colic dataset as an example. We first prepare the dataset.\n"
+      ],
+      "id": "ac4dbf85"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "\n",
+        "url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/horse-colic/horse-colic.data'\n",
+        "df = pd.read_csv(url, sep='\\\\s+', header=None)\n",
+        "df = df.replace(\"?\", np.NaN)\n",
+        "\n",
+        "df.fillna(0, inplace=True)\n",
+        "df = df.drop(columns=[2, 24, 25, 26, 27])\n",
+        "df[23] = df[23].replace({1: 1, 2: 0})\n",
+        "X = df.iloc[:, :-1].to_numpy().astype(float)\n",
+        "y = df[23].to_numpy().astype(int)\n",
+        "\n",
+        "SEED = 42\n",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=SEED)"
+      ],
+      "id": "e25e437a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "We need to perform normalization before throwing the data into the model. Here we use the `MinMaxScaler()` from `sklearn` package. \n"
+      ],
+      "id": "9974a3b6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from sklearn.preprocessing import MinMaxScaler\n",
+        "mms = MinMaxScaler()\n",
+        "X_train = mms.fit_transform(X_train, y_train)\n",
+        "X_test = mms.transform(X_test)"
+      ],
+      "id": "6fae695c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Then we write a `Dataset` class to build the dataset and create the dataloaders. Since the set is already split, we don't need to `random_split` here."
+      ],
+      "id": "7ad9d635"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import torch\n",
+        "from torch.utils.data import Dataset, DataLoader\n",
+        "\n",
+        "class MyData(Dataset):\n",
+        "    def __init__(self, X, y):\n",
+        "        self.X = torch.tensor(X, dtype=float)\n",
+        "        self.y = torch.tensor(y, dtype=float).reshape(-1, 1)\n",
+        "\n",
+        "    def __getitem__(self, index):\n",
+        "        return (self.X[index], self.y[index])\n",
+        "\n",
+        "    def __len__(self):\n",
+        "        return len(self.y)\n",
+        "\n",
+        "\n",
+        "train_set = MyData(X_train, y_train)\n",
+        "val_set = MyData(X_test, y_test)\n",
+        "\n",
+        "train_loader = DataLoader(train_set, batch_size=32, shuffle=True)\n",
+        "val_loader = DataLoader(val_set, batch_size=32)"
+      ],
+      "id": "b0ca80fe",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "#| output: false\n",
+        "\n",
+        "from assests.code.models import ModelTemplate"
+      ],
+      "id": "b6ae26ec",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "In the following code, we first set up the original model.\n"
+      ],
+      "id": "3985998f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import torch.nn as nn\n",
+        "from torch.nn.modules import Linear\n",
+        "\n",
+        "class LoR(nn.Module):\n",
+        "    def __init__(self, *args, **kwargs) -> None:\n",
+        "        super().__init__(*args, **kwargs)\n",
+        "        self.linear = Linear(in_features=22, out_features=1, dtype=float)\n",
+        "        self.activation = nn.Sigmoid()\n",
+        "\n",
+        "    def forward(self, X):\n",
+        "        # pred = self.activation(self.linear(X))\n",
+        "        pred = self.linear(X)\n",
+        "        # return (pred >= 0).float()\n",
+        "        return pred"
+      ],
+      "id": "273551c7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Then we derive the base `ModelTemplate` class.\n"
+      ],
+      "id": "b4d68918"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "class LoRModel(ModelTemplate):\n",
+        "    def __init__(self, model, loss_fn, optimizer):\n",
+        "        super().__init__(model, loss_fn, optimizer)\n",
+        "        self.stats['acc_train'] = []\n",
+        "        self.stats['acc_val'] = []\n",
+        "\n",
+        "    def compute_acc(self, dataloader):\n",
+        "        with torch.no_grad():\n",
+        "            acc = []\n",
+        "            for X_batch, y_batch in dataloader:\n",
+        "                yhat = torch.sigmoid(self.model(X_batch))\n",
+        "                y_pred = (yhat>=0.5).to(float)\n",
+        "                acc.append((y_pred==y_batch).sum().item())\n",
+        "            # print(acc_train)\n",
+        "        return np.sum(acc)/len(dataloader.dataset)\n",
+        "\n",
+        "    def log_update(self, train_time, loss, val_time, val_loss, train_loader, val_loader):\n",
+        "        super().log_update(train_time, loss, val_time, val_loss, train_loader, val_loader)\n",
+        "        acc_train = self.compute_acc(train_loader)\n",
+        "        acc_val = self.compute_acc(val_loader)\n",
+        "        self.stats['acc_train'].append(acc_train)\n",
+        "        self.stats['acc_val'].append(acc_val)\n",
+        "\n",
+        "\n",
+        "        # p = self.model.state_dict()\n",
+        "        # self.stats['acc'].append([p['linear.bias'].item(), p['linear.weight'].item()])\n",
+        "\n",
+        "    def log_output(self, verbose=0):\n",
+        "        s = super().log_output(verbose=0, formatstr=':.6f')\n",
+        "        s.append(f'acc_train: {self.stats['acc_train'][-1]:.6f}')\n",
+        "        s.append(f'acc_val: {self.stats['acc_val'][-1]:.6f}')\n",
+        "        # s.append(f'p: [{self.stats['p'][-1][0]:.6f}, {self.stats['p'][-1][1]:.6f}]')\n",
+        "        if verbose == 1:\n",
+        "            print(' '.join(s))\n",
+        "        return s"
+      ],
+      "id": "ba774138",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from torch.optim import SGD\n",
+        "from torch.nn import BCEWithLogitsLoss, BCELoss\n",
+        "\n",
+        "original_model = LoR()\n",
+        "model = LoRModel(model=original_model, loss_fn=BCEWithLogitsLoss(),\n",
+        "                 optimizer=SGD(original_model.parameters(), lr = 0.1))\n",
+        "\n",
+        "model.train(train_loader, val_loader, epoch_num=100, verbose=1)"
+      ],
+      "id": "9aa5b443",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\Xinli\\miniforge3\\envs\\ds25\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
