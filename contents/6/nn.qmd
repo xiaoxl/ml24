@@ -20,10 +20,10 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/horse-colic/horse-colic.data'
-df = pd.read_csv(url, sep='\\s+', header=None)
+df = pd.read_csv(url, sep=r'\s+', header=None)
 df = df.replace("?", np.NaN)
 
-df.fillna(0, inplace=True)
+df = df.fillna(0)
 df = df.drop(columns=[2, 24, 25, 26, 27])
 df[23] = df[23].replace({1: 1, 2: 0})
 X = df.iloc[:, :-1].to_numpy().astype(float)
